@@ -64,3 +64,10 @@ description='''
    versionRange="[1.20,1.21)"
    ordering="NONE"
    side="BOTH"
+[[dependencies.fallingtrees]]
+   modId="cloth-config"
+   mandatory=true
+   # This version range declares a minimum of the current minecraft version up to but not including the next major version
+   versionRange="[11.0.99,)"
+   ordering="NONE"
+   side="BOTH"

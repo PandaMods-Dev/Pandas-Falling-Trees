@@ -16,6 +16,9 @@
 		"main": [
 			"me.pandadev.fallingtrees.fabric.FallingTreesFabric"
 		],
+		"client": [
+			"me.pandadev.fallingtrees.fabric.FallingTreesFabric"
+		],
 		"modmenu": [
 			"me.pandadev.fallingtrees.fabric.ModMenuIntegration"
 		]
@@ -26,6 +29,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.14.21",
-    "minecraft": ">=1.20"
+    "minecraft": ">=1.20",
+    "cloth-config": ">=11.0.99"
   }
 }

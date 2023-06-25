@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "dynamictrees",
+  "version": "${version}",
+
+  "name": "Panda's Dynamic Trees",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "MIT",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+		"main": ["me.pandadev.dynamictrees.fabric.DynamicTreesFabric"],
+		"modmenu": ["me.pandadev.dynamictrees.fabric.ModMenuIntegration"]
+	},
+  "mixins": [
+    "dynamictrees.mixins.json",
+    "dynamictrees-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.21",
+    "minecraft": ">=1.20"
+  }
+}

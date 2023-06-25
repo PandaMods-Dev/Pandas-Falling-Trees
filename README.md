@@ -1,7 +1,5 @@
 <h2 style="text-align: center;">Panda's Falling Trees makes all Minecraft trees fall after getting chopped down</h2>
 
----
-
 #### About:
 Panda's Falling Trees makes every tree fall like trees from [Dynamic trees](https://www.curseforge.com/minecraft/mc-mods/dynamictrees), while still maintaining the original trees from Vanilla Minecraft.
 

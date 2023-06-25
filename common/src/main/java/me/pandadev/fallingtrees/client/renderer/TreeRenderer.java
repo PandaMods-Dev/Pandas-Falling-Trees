@@ -1,7 +1,7 @@
-package me.pandadev.dynamictrees.client.renderer;
+package me.pandadev.fallingtrees.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import me.pandadev.dynamictrees.entity.TreeEntity;
+import me.pandadev.fallingtrees.entity.TreeEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;

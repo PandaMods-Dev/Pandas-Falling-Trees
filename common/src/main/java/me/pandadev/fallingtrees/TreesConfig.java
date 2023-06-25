@@ -1,4 +1,4 @@
-package me.pandadev.dynamictrees;
+package me.pandadev.fallingtrees;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.Arrays;
 
 @Environment(EnvType.CLIENT)
-@Config(name = DynamicTrees.MOD_ID)
+@Config(name = FallingTrees.MOD_ID)
 public class TreesConfig implements ConfigData {
 	@ConfigEntry.Gui.Tooltip()
 	public String[] valid_logs = new String[] {

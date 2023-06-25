@@ -1,6 +1,6 @@
-package me.pandadev.dynamictrees.entity;
+package me.pandadev.fallingtrees.entity;
 
-import me.pandadev.dynamictrees.DynamicTrees;
+import me.pandadev.fallingtrees.FallingTrees;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,7 +18,7 @@ import java.util.*;
 public class TreeEntity extends Entity {
 	public static final EntityDataAccessor<Float> ROTATION = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.FLOAT);
 	public static final EntityDataAccessor<Integer> LIFE_TIME = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.INT);
-	public static final EntityDataAccessor<Map<BlockPos, BlockState>> BLOCKS = SynchedEntityData.defineId(TreeEntity.class, DynamicTrees.BLOCK_MAP);
+	public static final EntityDataAccessor<Map<BlockPos, BlockState>> BLOCKS = SynchedEntityData.defineId(TreeEntity.class, FallingTrees.BLOCK_MAP);
 
 	public ItemStack usedItem = ItemStack.EMPTY;
 	public Entity owner = null;

@@ -1,8 +1,8 @@
-package me.pandadev.dynamictrees.fabric;
+package me.pandadev.fallingtrees.fabric;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import me.pandadev.dynamictrees.TreesConfig;
+import me.pandadev.fallingtrees.TreesConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

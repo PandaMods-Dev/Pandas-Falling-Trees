@@ -1,0 +1,6 @@
+{
+	"text.autoconfig.fallingtrees.title": "Panda's Dynamic Trees Config",
+
+	"text.autoconfig.fallingtrees.option.valid_logs": "Valid log Blocks",
+	"text.autoconfig.fallingtrees.option.valid_logs.@Tooltip": "The blocks that should be treated as a tree log block"
+}

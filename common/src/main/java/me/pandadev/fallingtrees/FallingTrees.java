@@ -1,11 +1,11 @@
-package me.pandadev.dynamictrees;
+package me.pandadev.fallingtrees;
 
 import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import me.pandadev.dynamictrees.client.renderer.TreeRenderer;
-import me.pandadev.dynamictrees.entity.TreeEntity;
+import me.pandadev.fallingtrees.client.renderer.TreeRenderer;
+import me.pandadev.fallingtrees.entity.TreeEntity;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;
@@ -24,8 +24,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DynamicTrees {
-	public static final String MOD_ID = "dynamictrees";
+public class FallingTrees {
+	public static final String MOD_ID = "fallingtrees";
 
 	// Entity Registry
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(MOD_ID, Registries.ENTITY_TYPE);
@@ -36,9 +36,9 @@ public class DynamicTrees {
 
 	public static void init() {
 		AutoConfig.register(TreesConfig.class, GsonConfigSerializer::new);
-		EntityDataSerializers.registerSerializer(DynamicTrees.BLOCK_MAP);
+		EntityDataSerializers.registerSerializer(FallingTrees.BLOCK_MAP);
 
-		ClientLifecycleEvent.CLIENT_SETUP.register(DynamicTrees::clientInit);
+		ClientLifecycleEvent.CLIENT_SETUP.register(FallingTrees::clientInit);
 
 		ENTITIES.register();
 	}

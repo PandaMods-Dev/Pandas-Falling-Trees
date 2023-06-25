@@ -1,8 +1,8 @@
-package me.pandadev.dynamictrees.mixin;
+package me.pandadev.fallingtrees.mixin;
 
-import me.pandadev.dynamictrees.DynamicTrees;
-import me.pandadev.dynamictrees.TreesConfig;
-import me.pandadev.dynamictrees.entity.TreeEntity;
+import me.pandadev.fallingtrees.FallingTrees;
+import me.pandadev.fallingtrees.TreesConfig;
+import me.pandadev.fallingtrees.entity.TreeEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -37,7 +37,7 @@ public abstract class BlockMixin {
 
 			if (blocks.values().stream().anyMatch(state1 -> state1.getBlock() instanceof LeavesBlock && !state1.getValue(LeavesBlock.PERSISTENT))) {
 
-				TreeEntity treeEntity = new TreeEntity(DynamicTrees.TREE_ENTITY.get(), level).setBlocks(blocks);
+				TreeEntity treeEntity = new TreeEntity(FallingTrees.TREE_ENTITY.get(), level).setBlocks(blocks);
 				Vector3d position = new Vector3d(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 				treeEntity.setPos(position.x, position.y, position.z);
 				ItemStack usedItem = player.getMainHandItem();

@@ -1,7 +1,8 @@
 modLoader="javafml"
 loaderVersion="[46,)"
 license="MIT"
-issueTrackerURL="https://PandaDap2006/Pandas Falling Trees/issues"
+issueTrackerURL="https://github.com/PandaDap2006/Pandas-Falling-Trees/issues"
+showAsResourcePack=false
 
 [[mods]]
 modId="fallingtrees"
@@ -11,6 +12,7 @@ logoFile="assets/fallingtrees/icon.png"
 description='''
 
 '''
+updateJSONURL=""
 
 [[dependencies.fallingtrees]]
    modId="forge"

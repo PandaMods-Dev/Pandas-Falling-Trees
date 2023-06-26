@@ -2,9 +2,11 @@ package me.pandadev.fallingtrees.forge;
 
 import dev.architectury.platform.forge.EventBuses;
 import me.pandadev.fallingtrees.FallingTrees;
-import net.minecraftforge.eventbus.api.Event;
+import me.pandadev.fallingtrees.TreesConfig;
+import me.shedaniel.autoconfig.AutoConfig;
+import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(FallingTrees.MOD_ID)
@@ -12,12 +14,10 @@ public class FallingTreesForge {
     public FallingTreesForge() {
 		// Submit our event bus to let architectury register our content on the right time
         EventBuses.registerModEventBus(FallingTrees.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-		FallingTrees.init();
+            FallingTrees.init();
 
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
+		ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
+				new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) ->
+						AutoConfig.getConfigScreen(TreesConfig.class, screen).get()));
     }
-
-	private void setupClient(FMLClientSetupEvent event) {
-		FallingTrees.clientInit();
-	}
 }

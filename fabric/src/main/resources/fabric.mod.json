@@ -13,10 +13,7 @@
 
   "environment": "*",
   "entrypoints": {
-		"main": [
-			"me.pandadev.fallingtrees.fabric.FallingTreesFabric"
-		],
-		"client": [
+				"main": [
 			"me.pandadev.fallingtrees.fabric.FallingTreesFabric"
 		],
 		"modmenu": [
@@ -24,12 +21,13 @@
 		]
 	},
   "mixins": [
-		"fallingtrees.mixins.json",
+    "fallingtrees.mixins.json",
     "fallingtrees-common.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.21",
     "minecraft": ">=1.20",
-    "cloth-config": ">=11.0.99"
+		"cloth-config": ">=11.0.99",
+    "architectury": ">=9.0.8"
   }
 }

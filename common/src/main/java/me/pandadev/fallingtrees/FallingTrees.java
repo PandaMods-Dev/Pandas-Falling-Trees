@@ -1,11 +1,7 @@
 package me.pandadev.fallingtrees;
 
-import com.google.gson.Gson;
-import dev.architectury.event.events.client.ClientLifecycleEvent;
-import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.event.events.common.PlayerEvent;
-import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.injectables.targets.ArchitecturyTarget;
+import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -15,20 +11,11 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.PacketBundlePacker;
-import net.minecraft.network.PacketListener;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerPlayerConnection;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.Block;
@@ -55,12 +42,13 @@ public class FallingTrees {
 			AutoConfig.getConfigHolder(TreesConfig.class).load();
 		});
 
-		EntityDataSerializers.registerSerializer(FallingTrees.BLOCK_MAP);
-
 		ENTITIES.register();
+		if (Platform.getEnv() == EnvType.CLIENT)
+			clientInit();
+
+		EntityDataSerializers.registerSerializer(FallingTrees.BLOCK_MAP);
 	}
 
-	@Environment(EnvType.CLIENT)
 	public static void clientInit() {
 		EntityRendererRegistry.register(TREE_ENTITY, TreeRenderer::new);
 	}

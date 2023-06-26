@@ -1,9 +1,17 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
+
 architectury {
     platformSetupLoomIde()
     forge()
+}
+
+loom {
+    forge {
+        mixinConfig "fallingtrees-common.mixins.json"
+        mixinConfig "fallingtrees.mixins.json"
+    }
 }
 
 configurations {

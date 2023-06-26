@@ -10,8 +10,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import org.joml.Math;
 import org.joml.Vector3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +30,9 @@ public abstract class BlockMixin {
 			),
 			cancellable = true)
 	public void destroy(Level level, BlockPos pos, BlockState state, Player player, CallbackInfo ci) {
+		System.out.println("test1");
 		if (TreesConfig.isValidLog(state.getBlock())) {
+			System.out.println("test2");
 			Map<BlockPos, BlockState> blocks = new HashMap<>();
 
 			addTreeBlock(level, pos, pos, pos, blocks, state.getBlock());

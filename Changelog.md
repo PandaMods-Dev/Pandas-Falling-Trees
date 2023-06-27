@@ -1,4 +1,4 @@
-<h2 style="text-align: center;">Version 0.3 Changelog</h2>
+## Version 0.3 Changelog
 - Remade the Tree detection Algorithm.
 - Made automatic log detection by checking if block is part of Log BlockTag.
 - Change leaves detection to if block is part of Leaves BlockTag.

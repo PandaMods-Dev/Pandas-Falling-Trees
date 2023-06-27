@@ -3,7 +3,7 @@
 #### About:
 Panda's Falling Trees makes every tree fall like trees from [Dynamic trees](https://www.curseforge.com/minecraft/mc-mods/dynamictrees), while still maintaining the original trees from Vanilla Minecraft.
 
-The mod also have support for other mods as long as the log block's id is set as a valid log in the config
+The mod should support other mods if log and leaves blocks are a part of the log and leaves Block Tag
 
 #### Showcase:
 <img width="100%"  src="https://github.com/PandaDap2006/Pandas-Falling-Trees/blob/master/assets_for_readme/tree_falling.gif?raw=true">
@@ -14,7 +14,7 @@ The mod also have support for other mods as long as the log block's id is set as
 - Will the mod work for more than 1 block thick trees. 
   - Yes the mod works for trees that are more than 1 block thick.
 
+If you have any of your own questions, please leave them [here](https://github.com/PandaDap2006/Pandas-Falling-Trees/discussions/categories/q-a)
+
 #### Known Issues:
 - Wilder Wilds: Game crash when mining trees. I recommend blacklisting the logs and leaves in the mod config.
-
-If you have any of your own questions, please leave them [here](https://github.com/PandaDap2006/Pandas-Falling-Trees/discussions/categories/q-a)

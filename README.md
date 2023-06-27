@@ -1,5 +1,18 @@
 ## Panda's Falling Trees makes all Minecraft trees fall after getting chopped down
 
+<p align="center">
+    <a href="https://www.curseforge.com/minecraft/mc-mods/pandas-falling-trees"align="center">
+        <img src="https://cf.way2muchnoise.eu/880630.svg" alt="curseforge"/>
+    </a> 
+    <a href="https://modrinth.com/mod/pandas-falling-trees">
+        <img src="https://img.shields.io/modrinth/dt/i2kUe4lq?&logo=Modrinth&logoColor=ffffff&label=&labelColor=1BD96A&color=2D2D2D" alt="modrinth"/>
+    </a>
+    <a href="https://github.com/PandaDap2006/Pandas-Falling-Trees">
+        <img src="https://img.shields.io/github/downloads/PandaDap2006/Pandas-Falling-Trees/total?logo=github&logoColor=000000&label=&labelColor=FFFFFF&color=2D2D2D" alt="github"/>
+    </a>
+</p>
+
+
 #### About:
 Panda's Falling Trees makes every tree fall like trees from [Dynamic trees](https://www.curseforge.com/minecraft/mc-mods/dynamictrees), while still maintaining the original trees from Vanilla Minecraft.
 

@@ -10,8 +10,11 @@ The mod also have support for other mods as long as the log block's id is set as
 
 #### FAQ:
 - Is the mod safe to use on worlds originally made without the mod. 
-  - Yes the mod is 100% safe to use on worlds originally made without the mod
-- Will the mod work for more than 1 block thick trees.
-  - Yes the mod works for trees that are more than 1 block thick
+  - Yes the mod is 100% safe to use on worlds originally made without the mod.
+- Will the mod work for more than 1 block thick trees. 
+  - Yes the mod works for trees that are more than 1 block thick.
+
+#### Known Issues:
+- Wilder Wilds: Game crash when mining trees. I recommend blacklisting the logs and leaves in the mod config.
 
 If you have any of your own questions, please leave them [here](https://github.com/PandaDap2006/Pandas-Falling-Trees/discussions/categories/q-a)

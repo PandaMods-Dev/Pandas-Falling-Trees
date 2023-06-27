@@ -5,5 +5,10 @@
 	"text.autoconfig.fallingtrees.option.valid_decorative_blocks.@Tooltip": "Decorative blocks are normally blocks like Vines and Cocoa beans",
 
 	"text.autoconfig.fallingtrees.option.valid_decorative_block_tags": "Valid Decorative Block Tags",
-	"text.autoconfig.fallingtrees.option.valid_decorative_block_tags.@Tooltip": "Decorative blocks are normally blocks like Vines and Cocoa beans"
+	"text.autoconfig.fallingtrees.option.valid_decorative_block_tags.@Tooltip": "Decorative blocks are normally blocks like Vines and Cocoa beans",
+
+	"text.autoconfig.fallingtrees.option.allow_one_block_mining": "Allow one block mining when crouching",
+
+	"text.autoconfig.fallingtrees.option.blacklisted_log_blocks": "Blacklisted log blocks",
+	"text.autoconfig.fallingtrees.option.blacklisted_leaves_blocks": "Blacklisted leaves blocks"
 }

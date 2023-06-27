@@ -17,4 +17,7 @@ public class TreesConfig implements ConfigData {
 //	};
 
 	public boolean allow_one_block_mining = true;
+
+	public String[] blacklisted_log_blocks = new String[] {};
+	public String[] blacklisted_leaves_blocks = new String[] {};
 }

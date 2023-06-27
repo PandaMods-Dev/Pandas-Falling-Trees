@@ -1,7 +1,9 @@
 package me.pandadev.fallingtrees.tree;
 
+import me.pandadev.fallingtrees.FallingTrees;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
@@ -14,10 +16,14 @@ import java.util.*;
 
 public class TreeUtils {
 	public static boolean isLog(Block block) {
+		if (Arrays.stream(FallingTrees.configHolder.getConfig().blacklisted_log_blocks).anyMatch(s -> s.equals(BuiltInRegistries.BLOCK.getKey(block).toString())))
+			return false;
 		return hasTag(BlockTags.LOGS, block);
 	}
 
 	public static boolean isLeaves(Block block) {
+		if (Arrays.stream(FallingTrees.configHolder.getConfig().blacklisted_leaves_blocks).anyMatch(s -> s.equals(BuiltInRegistries.BLOCK.getKey(block).toString())))
+			return false;
 		return hasTag(BlockTags.LEAVES, block);
 	}
 

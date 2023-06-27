@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandadev.fallingtrees.entity.TreeEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -12,6 +11,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Math;
 import org.joml.Quaternionf;
@@ -30,12 +30,12 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 
 	@Override
 	public void render(TreeEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-		entity.fallTime += Minecraft.getInstance().getDeltaFrameTime()/10;
+		float falltime = getBob(entity, partialTick)/10;
 		poseStack.pushPose();
 
 		Map<BlockPos, BlockState> blocks = entity.getEntityData().get(TreeEntity.BLOCKS);
 
-		float time = (entity.fallTime*entity.fallTime)/15;
+		float time = (falltime*falltime)/15;
 		Vector3f rotation = new Vector3f(-Math.toRadians(Math.lerp(90, 0, Math.abs(Math.sin(time)/time))), 0, 0);
 		rotation.rotateY(entity.getEntityData().get(TreeEntity.ROTATION));
 		poseStack.mulPose(new Quaternionf().identity().rotateXYZ(rotation.x, rotation.y, rotation.z));
@@ -56,4 +56,8 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 	public ResourceLocation getTextureLocation(TreeEntity entity) {
 		return null;
 	}
+
+	protected float getBob(Entity livingEntity, float f) {
+        return (float)livingEntity.tickCount + f;
+    }
 }

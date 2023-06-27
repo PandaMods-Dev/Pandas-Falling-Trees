@@ -24,8 +24,6 @@ public class TreeEntity extends Entity {
 	public ItemStack usedItem = ItemStack.EMPTY;
 	public Entity owner = null;
 
-	// used by the renderer
-	public float fallTime = 0;
 
 	public TreeEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);

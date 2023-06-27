@@ -13,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,13 +29,12 @@ public class TreeEntity extends Entity {
 
 	public TreeEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);
-		this.noPhysics = true;
 		this.noCulling = true;
 	}
 
 	public TreeEntity setBlocks(Map<BlockPos, BlockState> blocks) {
 		this.getEntityData().set(BLOCKS, blocks);
-		this.getEntityData().set(LIFE_TIME, 20*6);
+		this.getEntityData().set(LIFE_TIME, 20*5);
 		return this;
 	}
 
@@ -63,6 +61,7 @@ public class TreeEntity extends Entity {
 
 	@Override
 	public void tick() {
+		super.tick();
 		if (decreesLifeTime() <= 0) {
 			this.remove(RemovalReason.DISCARDED);
 			for (BlockState state : this.getEntityData().get(BLOCKS).values()) {
@@ -82,9 +81,5 @@ public class TreeEntity extends Entity {
 
 	public int getLifeTime() {
 		return this.getEntityData().get(LIFE_TIME);
-	}
-
-	public int getTreeHeight() {
-		return this.getEntityData().get(BLOCKS).keySet().stream().max(Comparator.comparingDouble(BlockPos::getY)).orElse(new BlockPos(0, 0, 0)).getY();
 	}
 }

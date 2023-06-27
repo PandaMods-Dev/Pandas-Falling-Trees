@@ -1,6 +1,9 @@
 {
 	"text.autoconfig.fallingtrees.title": "Panda's Dynamic Trees Config",
 
-	"text.autoconfig.fallingtrees.option.valid_logs": "Valid log Blocks",
-	"text.autoconfig.fallingtrees.option.valid_logs.@Tooltip": "The blocks that should be treated as a tree log block"
+	"text.autoconfig.fallingtrees.option.valid_decorative_blocks": "Valid Decorative Blocks",
+	"text.autoconfig.fallingtrees.option.valid_decorative_blocks.@Tooltip": "Decorative blocks are normally blocks like Vines and Cocoa beans",
+
+	"text.autoconfig.fallingtrees.option.valid_decorative_block_tags": "Valid Decorative Block Tags",
+	"text.autoconfig.fallingtrees.option.valid_decorative_block_tags.@Tooltip": "Decorative blocks are normally blocks like Vines and Cocoa beans"
 }

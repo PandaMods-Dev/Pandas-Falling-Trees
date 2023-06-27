@@ -1,5 +1,6 @@
 package me.pandadev.fallingtrees;
 
+import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
@@ -11,6 +12,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
@@ -44,12 +46,12 @@ public class FallingTrees {
 
 		ENTITIES.register();
 		if (Platform.getEnv() == EnvType.CLIENT)
-			clientInit();
+			ClientLifecycleEvent.CLIENT_SETUP.register(FallingTrees::clientInit);
 
 		EntityDataSerializers.registerSerializer(FallingTrees.BLOCK_MAP);
 	}
 
-	public static void clientInit() {
+	public static void clientInit(Minecraft minecraft) {
 		EntityRendererRegistry.register(TREE_ENTITY, TreeRenderer::new);
 	}
 

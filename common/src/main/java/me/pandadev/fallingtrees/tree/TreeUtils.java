@@ -4,8 +4,7 @@ import me.pandadev.fallingtrees.FallingTrees;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -16,15 +15,37 @@ import java.util.*;
 
 public class TreeUtils {
 	public static boolean isLog(Block block) {
-		if (Arrays.stream(FallingTrees.configHolder.getConfig().blacklisted_log_blocks).anyMatch(s -> s.equals(BuiltInRegistries.BLOCK.getKey(block).toString())))
+		if (Arrays.stream(FallingTrees.configHolder.getConfig().common.blacklisted_log_blocks).anyMatch(s ->
+				s.equals(BuiltInRegistries.BLOCK.getKey(block).toString())))
 			return false;
-		return hasTag(BlockTags.LOGS, block);
+		if (Arrays.stream(FallingTrees.configHolder.getConfig().common.whitelisted_log_blocks).anyMatch(s ->
+				s.equals(BuiltInRegistries.BLOCK.getKey(block).toString())))
+			return true;
+
+		return block.defaultBlockState().getTags().anyMatch(blockTagKey ->
+				Arrays.stream(FallingTrees.configHolder.getConfig().common.whitelisted_log_block_tags).anyMatch(s -> blockTagKey.location().toString().equals(s)));
+//		return hasTag(BlockTags.LOGS, block);
 	}
 
 	public static boolean isLeaves(Block block) {
-		if (Arrays.stream(FallingTrees.configHolder.getConfig().blacklisted_leaves_blocks).anyMatch(s -> s.equals(BuiltInRegistries.BLOCK.getKey(block).toString())))
+		if (Arrays.stream(FallingTrees.configHolder.getConfig().common.blacklisted_leaves_blocks).anyMatch(s ->
+				s.equals(BuiltInRegistries.BLOCK.getKey(block).toString())))
 			return false;
-		return hasTag(BlockTags.LEAVES, block);
+		if (Arrays.stream(FallingTrees.configHolder.getConfig().common.whitelisted_leaves_blocks).anyMatch(s ->
+				s.equals(BuiltInRegistries.BLOCK.getKey(block).toString())))
+			return true;
+
+		return block.defaultBlockState().getTags().anyMatch(blockTagKey ->
+				Arrays.stream(FallingTrees.configHolder.getConfig().common.whitelisted_leaves_block_tags).anyMatch(s -> blockTagKey.location().toString().equals(s)));
+//		return hasTag(BlockTags.LEAVES, block);
+	}
+
+	public static boolean isMiningOneBlock(Entity entity) {
+		return switch (FallingTrees.configHolder.getConfig().client.one_block_mining_method) {
+			case CROUCH -> entity.isCrouching();
+			case KEYBIND_TOGGLE -> entity.isCrouching();
+			default -> false;
+		};
 	}
 
 //	public static boolean isDecorative(Block block) {
@@ -37,9 +58,9 @@ public class TreeUtils {
 //		return Arrays.stream(FallingTrees.configHolder.getConfig().valid_decorative_blocks).anyMatch(s -> s.equals(BuiltInRegistries.BLOCK.getKey(block).toString()));
 //	}
 
-	public static boolean hasTag(TagKey<Block> tag, Block block) {
-		return block.defaultBlockState().getTags().anyMatch(blockTagKey -> blockTagKey.equals(tag));
-	}
+//	public static boolean hasTag(TagKey<Block> tag, Block block) {
+//		return block.defaultBlockState().getTags().anyMatch(blockTagKey -> blockTagKey.equals(tag));
+//	}
 
 	public static List<BlockPos> getTreeBlocks(BlockPos startPos, Level level) {
         List<BlockPos> logBlocks = new ArrayList<>();

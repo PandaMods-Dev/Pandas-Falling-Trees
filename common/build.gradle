@@ -12,7 +12,7 @@ dependencies {
 }
 
 architectury {
-    common()
+    common(rootProject.platforms.split(","))
 }
 
 publishing {

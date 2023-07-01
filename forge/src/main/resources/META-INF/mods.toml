@@ -12,7 +12,6 @@ logoFile="assets/fallingtrees/icon.png"
 description='''
 
 '''
-updateJSONURL=""
 
 [[dependencies.fallingtrees]]
    modId="forge"

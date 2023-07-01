@@ -31,7 +31,7 @@ public abstract class BlockMixin {
 			),
 			cancellable = true)
 	public void blockMine(Level level, BlockPos blockPos, BlockState blockState, Player player, CallbackInfo ci) {
-		if (FallingTrees.configHolder.getConfig().common.allow_one_block_mining && player.isCrouching())
+		if (FallingTrees.serverConfig.allow_one_block_mining && TreeUtils.isMiningOneBlock(player))
 			return;
 
 		if (TreeUtils.isLog(blockState.getBlock())) {

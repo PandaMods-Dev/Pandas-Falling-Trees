@@ -1,22 +1,17 @@
 {
+	"key.fallingtrees.single_block_toggle_key": "Single Toggle Block",
+
+
 	"text.autoconfig.fallingtrees.title": "Panda's Dynamic Trees Config",
 
-	"text.autoconfig.fallingtrees.option.common.valid_decorative_blocks": "Valid Decorative Blocks",
-	"text.autoconfig.fallingtrees.option.common.valid_decorative_blocks.@Tooltip": "Decorative blocks are normally blocks like Vines and Cocoa beans",
+	"text.autoconfig.fallingtrees.option.allow_one_block_mining": "Allow single block mining",
 
-	"text.autoconfig.fallingtrees.option.common.valid_decorative_block_tags": "Valid Decorative Block Tags",
-	"text.autoconfig.fallingtrees.option.common.valid_decorative_block_tags.@Tooltip": "Decorative blocks are normally blocks like Vines and Cocoa beans",
+	"text.autoconfig.fallingtrees.option.whitelisted_log_blocks": "Whitelisted log Blocks",
+	"text.autoconfig.fallingtrees.option.whitelisted_log_block_tags": "Whitelisted log Block Tags",
 
-	"text.autoconfig.fallingtrees.option.common.allow_one_block_mining": "Allow one block mining",
+	"text.autoconfig.fallingtrees.option.whitelisted_leaves_blocks": "Whitelisted leaves Blocks",
+	"text.autoconfig.fallingtrees.option.whitelisted_leaves_block_tags": "Whitelisted leaves Block Tags",
 
-	"text.autoconfig.fallingtrees.option.common.whitelisted_log_blocks": "Whitelisted log Blocks",
-	"text.autoconfig.fallingtrees.option.common.whitelisted_log_block_tags": "Whitelisted log Block Tags",
-
-	"text.autoconfig.fallingtrees.option.common.whitelisted_leaves_blocks": "Whitelisted leaves Blocks",
-	"text.autoconfig.fallingtrees.option.common.whitelisted_leaves_block_tags": "Whitelisted leaves Block Tags",
-
-	"text.autoconfig.fallingtrees.option.common.blacklisted_log_blocks": "Blacklisted log blocks",
-	"text.autoconfig.fallingtrees.option.common.blacklisted_leaves_blocks": "Blacklisted leaves blocks",
-
-	"text.autoconfig.fallingtrees.option.client.one_block_mining_method": "One block mining Method"
+	"text.autoconfig.fallingtrees.option.blacklisted_log_blocks": "Blacklisted log blocks",
+	"text.autoconfig.fallingtrees.option.blacklisted_leaves_blocks": "Blacklisted leaves blocks"
 }

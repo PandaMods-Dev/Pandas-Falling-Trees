@@ -1,7 +1,4 @@
-## Version 0.3 Changelog
-- Remade the Tree detection Algorithm.
-- Made automatic log detection by checking if block is part of Log BlockTag.
-- Change leaves detection to if block is part of Leaves BlockTag.
-- Added Food Exhaustion for each log of the tree.
-- Added Block mined stat for each block of the tree.
-- Added one block mining when shifting.
+## Version 0.4 Changelog
+- Added back log and leaves block whitelist in config.
+- Added block tag whitelist for log and leaves in config.
+- Fixed server config Sync (Requires Server/World to restart if you wish to configure the config)

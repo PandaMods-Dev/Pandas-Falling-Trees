@@ -2,7 +2,7 @@ package me.pandadev.fallingtrees.forge;
 
 import dev.architectury.platform.forge.EventBuses;
 import me.pandadev.fallingtrees.FallingTrees;
-import me.pandadev.fallingtrees.TreesConfig;
+import me.pandadev.fallingtrees.FallingTreesConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -18,6 +18,6 @@ public class FallingTreesForge {
 
 		ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
 				new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) ->
-						AutoConfig.getConfigScreen(TreesConfig.class, screen).get()));
+						AutoConfig.getConfigScreen(FallingTreesConfig.class, screen).get()));
     }
 }

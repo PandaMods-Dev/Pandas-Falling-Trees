@@ -10,7 +10,7 @@ Panda's Falling Trees makes every tree fall like trees from [Dynamic trees](http
 The mod should support other mods if log and leaves blocks are a part of the log and leaves Block Tag
 
 ## Showcase:
-![](https://github.com/PandaDap2006/Pandas-Falling-Trees/blob/master/assets_for_readme/showcase_falling_tree.gif?raw=true)
+![](https://github.com/PandaDap2006/Pandas-Falling-Trees/blob/master/assets_for_readme/showcase_falling_tree_large.gif?raw=true)
 
 ## FAQ:
 - [Q] Is the mod safe to use on worlds originally made without the mod. 

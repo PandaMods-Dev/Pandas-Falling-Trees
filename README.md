@@ -1,8 +1,8 @@
 ![](https://github.com/PandaDap2006/Pandas-Falling-Trees/blob/master/assets_for_readme/banner.png?raw=true)
 
 [![Discord](https://img.shields.io/discord/1021703635178115122?style=for-the-badge&logo=discord&label=Discord&labelColor=black&color=lightblue)](https://discord.gg/wjPt4vEfXb)
-[![Modrinth](https://img.shields.io/modrinth/dt/RQ7OrTFx?style=for-the-badge&logo=modrinth&label=Modrinth&labelColor=black&color=green)](https://modrinth.com/mod/pandas-extra-details)
-[![GitHub](https://img.shields.io/github/license/PandaDap2006/Pandas-Extra-Details?style=for-the-badge&logo=github&label=Github&labelColor=black&color=white)](https://github.com/PandaDap2006/Pandas-Extra-Details/tree/master)
+[![Modrinth](https://img.shields.io/modrinth/dt/i2kUe4lq?style=for-the-badge&logo=modrinth&label=Modrinth&labelColor=black&color=green)](https://modrinth.com/mod/pandas-falling-trees)
+[![GitHub](https://img.shields.io/github/license/PandaDap2006/Pandas-Falling-Trees?style=for-the-badge&logo=github&label=Github&labelColor=black&color=white)](https://github.com/PandaDap2006/Pandas-Falling-Trees)
 
 ## About:
 Panda's Falling Trees makes every tree fall like trees from [Dynamic trees](https://www.curseforge.com/minecraft/mc-mods/dynamictrees), while still maintaining the original trees from Vanilla Minecraft.

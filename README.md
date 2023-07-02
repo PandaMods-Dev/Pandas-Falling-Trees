@@ -9,10 +9,10 @@ The mod should support other mods if log and leaves blocks are a part of the log
 <img src="https://github.com/PandaDap2006/Pandas-Falling-Trees/blob/master/assets_for_readme/tree_falling.gif?raw=true" alt="The showcase gif should be here somewhere" width="100%"/>
 
 #### FAQ:
-- Is the mod safe to use on worlds originally made without the mod. 
-  - Yes the mod is 100% safe to use on worlds originally made without the mod.
-- Will the mod work for more than 1 block thick trees. 
-  - Yes the mod works for trees that are more than 1 block thick.
+- [Q] Is the mod safe to use on worlds originally made without the mod. 
+  - [A] Yes the mod is 100% safe to use on worlds originally made without the mod.
+- [Q] Will the mod work for more than 1 block thick trees. 
+  - [A] Yes the mod works for trees that are more than 1 block thick.
 
 If you have any of your own questions, please leave them [here](https://github.com/PandaDap2006/Pandas-Falling-Trees/discussions/categories/q-a)
 
@@ -21,4 +21,4 @@ If you have any of your own questions, please leave them [here](https://github.c
 
 ---
 ### Do you need a cheap Minecraft server and want to support me, click the banner below and use my code to get 15% off you first month at Kinetic Hosting.
-[<img src="https://raw.githubusercontent.com/PandaDap2006/Pandas-Falling-Trees/master/assets_for_readme/Kinetic%20Hosting%20Banner.png" alt="Why is my Discount code not here?" width="100%"/>](https://billing.kinetichosting.net/aff.php?aff=476)
+[![](https://github.com/PandaDap2006/PandaDap2006/blob/main/assets_for_readme/kinetic_hosting_banner.png?raw=true)](https://billing.kinetichosting.net/aff.php?aff=476)

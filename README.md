@@ -18,3 +18,7 @@ If you have any of your own questions, please leave them [here](https://github.c
 
 #### Known Issues:
 - Wilder Wilds: Game crash when mining trees. I recommend blacklisting the logs and leaves in the mod config.
+
+---
+### Do you need a cheap Minecraft server and want to support me, click the banner below and use my code to get 15% off you first month at Kinetic Hosting.
+[<img src="https://raw.githubusercontent.com/PandaDap2006/Pandas-Falling-Trees/master/assets_for_readme/Kinetic%20Hosting%20Banner.png" alt="Why is my Discount code not here?" width="100%"/>](https://billing.kinetichosting.net/aff.php?aff=476)

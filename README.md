@@ -2,6 +2,7 @@
 
 [![Discord](https://img.shields.io/discord/1021703635178115122?style=for-the-badge&logo=discord&label=Discord&labelColor=black&color=lightblue)](https://discord.gg/wjPt4vEfXb)
 [![Modrinth](https://img.shields.io/modrinth/dt/i2kUe4lq?style=for-the-badge&logo=modrinth&label=Modrinth&labelColor=black&color=green)](https://modrinth.com/mod/pandas-falling-trees)
+[![Curseforge](https://cf.way2muchnoise.eu/880630.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/pandas-falling-trees)
 [![GitHub](https://img.shields.io/github/license/PandaDap2006/Pandas-Falling-Trees?style=for-the-badge&logo=github&label=Github&labelColor=black&color=white)](https://github.com/PandaDap2006/Pandas-Falling-Trees)
 
 [![Architecury API](https://img.shields.io/badge/Architectury%20API-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)

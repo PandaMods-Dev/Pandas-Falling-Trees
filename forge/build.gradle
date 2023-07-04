@@ -31,7 +31,6 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     modApi("me.shedaniel.cloth:cloth-config-forge:${project.cloth_config_version}")
-    modApi("maven.modrinth:midnightlib:${project.midnightlib_version}-forge")
 }
 
 processResources {

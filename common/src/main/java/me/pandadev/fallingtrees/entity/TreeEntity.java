@@ -63,7 +63,7 @@ public class TreeEntity extends Entity {
 		if (decreesLifeTime() <= 0) {
 			this.remove(RemovalReason.DISCARDED);
 			for (BlockState state : this.getEntityData().get(BLOCKS).values()) {
-				Block.dropResources(state, this.level(), new BlockPos(this.getBlockX(), this.getBlockY(), this.getBlockZ()), null, owner, usedItem);
+				Block.dropResources(state, this.getLevel(), new BlockPos(this.getBlockX(), this.getBlockY(), this.getBlockZ()), null, owner, usedItem);
 			}
 		}
 	}

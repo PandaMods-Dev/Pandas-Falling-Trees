@@ -36,8 +36,9 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		Map<BlockPos, BlockState> blocks = entity.getEntityData().get(TreeEntity.BLOCKS);
 
 		float time = (falltime*falltime)/15;
+		float fallDirection = entity.getEntityData().get(TreeEntity.ROTATION);
 		Vector3f rotation = new Vector3f(-Math.toRadians(Math.lerp(90, 0, Math.abs(Math.sin(time)/time))), 0, 0);
-		rotation.rotateY(entity.getEntityData().get(TreeEntity.ROTATION));
+		rotation.rotateY(fallDirection);
 		poseStack.mulPose(new Quaternionf().identity().rotateXYZ(rotation.x, rotation.y, rotation.z));
 
 		poseStack.pushPose();

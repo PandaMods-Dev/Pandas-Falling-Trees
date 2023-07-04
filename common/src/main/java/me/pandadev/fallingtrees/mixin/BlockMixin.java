@@ -44,13 +44,15 @@ public abstract class BlockMixin {
 				treeBlocks.put(pos.subtract(blockPos), state);
 			}
 
-			if (treeBlocks.values().stream().anyMatch(state -> TreeUtils.isLeaves(state.getBlock()) && !state.getValue(LeavesBlock.PERSISTENT))) {
+			if (treeBlocks.values().stream().anyMatch(state -> TreeUtils.isLeaves(state.getBlock()) &&
+					(!(state.getBlock() instanceof LeavesBlock) || !state.getValue(LeavesBlock.PERSISTENT)))) {
 				ci.cancel();
 				TreeEntity treeEntity = new TreeEntity(FallingTrees.TREE_ENTITY.get(), level).setBlocks(treeBlocks);
 				Vector3d position = new Vector3d(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
 				treeEntity.setPos(position.x, position.y, position.z);
 				ItemStack usedItem = player.getMainHandItem();
 				treeEntity.usedItem = usedItem;
+
 				treeEntity.setRotationY((float) Math.atan2(player.getX() - position.x, player.getZ() - position.z));
 				level.addFreshEntity(treeEntity);
 

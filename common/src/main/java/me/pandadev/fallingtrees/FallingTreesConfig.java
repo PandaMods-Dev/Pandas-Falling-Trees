@@ -1,6 +1,5 @@
 package me.pandadev.fallingtrees;
 
-import com.google.common.collect.Lists;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 
@@ -13,14 +12,14 @@ public class FallingTreesConfig implements ConfigData {
 	public boolean allow_one_block_mining = true;
 
 //	@ConfigEntry.Category("common")
-	public List<String> whitelisted_log_blocks = new ArrayList<>();
+	public List<String> whitelisted_log_blocks = List.of("minecraft:mushroom_stem");
 //	@ConfigEntry.Category("common")
-	public List<String> whitelisted_log_block_tags = Lists.newArrayList("minecraft:logs");
+	public List<String> whitelisted_log_block_tags = List.of("minecraft:logs");
 
 //	@ConfigEntry.Category("common")
-	public List<String> whitelisted_leaves_blocks = new ArrayList<>();
+	public List<String> whitelisted_leaves_blocks = List.of("minecraft:red_mushroom_block", "minecraft:brown_mushroom_block");
 //	@ConfigEntry.Category("common")
-	public List<String> whitelisted_leaves_block_tags = Lists.newArrayList("minecraft:leaves");
+	public List<String> whitelisted_leaves_block_tags = List.of("minecraft:leaves", "minecraft:wart_blocks");
 
 //	@ConfigEntry.Category("common")
 	public List<String> blacklisted_log_blocks = new ArrayList<>();

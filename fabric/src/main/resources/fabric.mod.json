@@ -9,7 +9,7 @@
   "contact": {},
 
   "license": "MIT",
-  "icon": "assets/fallingtrees/icon.png",
+  "icon": "icon.png",
 
   "environment": "*",
   "entrypoints": {

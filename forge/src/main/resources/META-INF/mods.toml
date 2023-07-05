@@ -8,7 +8,7 @@ showAsResourcePack=false
 modId="fallingtrees"
 version="${version}"
 displayName="Panda's Falling Trees"
-logoFile="assets/fallingtrees/icon.png"
+logoFile="icon.png"
 description='''
 
 '''

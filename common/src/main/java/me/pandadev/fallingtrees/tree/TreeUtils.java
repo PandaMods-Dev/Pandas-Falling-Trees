@@ -1,15 +1,21 @@
 package me.pandadev.fallingtrees.tree;
 
 import me.pandadev.fallingtrees.FallingTrees;
+import me.pandadev.fallingtrees.entity.TreeEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.joml.Vector3d;
 
 import java.util.*;
 
@@ -149,5 +155,56 @@ public class TreeUtils {
 			return isLogConnectedToGround(level, pos.below());
 		}
 		return true;
+	}
+
+	public static int getAmountOfLogs(Map<BlockPos, BlockState> blocks) {
+		return (int) blocks.values().stream().filter(state1 -> TreeUtils.isLog(state1.getBlock())).count();
+	}
+
+	public static void breakTree(Player player, Level level, BlockPos blockPos) {
+		BlockState blockState = level.getBlockState(blockPos);
+		if (TreeUtils.isLog(blockState.getBlock())) {
+			List<BlockPos> tree = TreeUtils.getTreeBlocks(blockPos, level);
+
+			Map<BlockPos, BlockState> treeBlocks = new HashMap<>();
+			for (BlockPos pos : tree) {
+				BlockState state = level.getBlockState(pos);
+				treeBlocks.put(pos.subtract(blockPos), state);
+			}
+
+			if (treeBlocks.values().stream().anyMatch(state -> TreeUtils.isLeaves(state.getBlock()) &&
+					(!(state.getBlock() instanceof LeavesBlock) || !state.getValue(LeavesBlock.PERSISTENT)))) {
+				TreeEntity treeEntity = new TreeEntity(FallingTrees.TREE_ENTITY.get(), level).setBlocks(treeBlocks);
+				Vector3d position = new Vector3d(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5);
+				treeEntity.setPos(position.x, position.y, position.z);
+				ItemStack usedItem = player.getMainHandItem();
+				treeEntity.usedItem = usedItem;
+
+				treeEntity.setRotationY((float) Math.atan2(player.getX() - position.x, player.getZ() - position.z));
+				level.addFreshEntity(treeEntity);
+
+				int LogAmount = TreeUtils.getAmountOfLogs(treeBlocks);
+				if (usedItem.isDamageableItem()) {
+					usedItem.hurtAndBreak((int) (LogAmount * FallingTrees.serverConfig.item_damage_multiplier), player, player1 -> {});
+				}
+
+				player.causeFoodExhaustion(0.005F * LogAmount * FallingTrees.serverConfig.item_damage_multiplier);
+
+				for (Map.Entry<BlockPos, BlockState> entry : treeBlocks.entrySet()) {
+					player.awardStat(Stats.BLOCK_MINED.get(entry.getValue().getBlock()));
+					level.setBlockAndUpdate(entry.getKey().offset(blockPos), Blocks.AIR.defaultBlockState());
+				}
+			}
+		}
+	}
+
+	public static boolean shouldTreeFall(BlockPos pos, Level level, Player player) {
+		if (TreeCache.getOrCreateCache(pos, level).isTreeSizeToBig()) {
+			return false;
+		}
+		if (FallingTrees.serverConfig.tree_limit.only_fall_on_tool_use) {
+			return player.getMainHandItem().getItem() instanceof AxeItem && !(FallingTrees.serverConfig.allow_one_block_mining && TreeUtils.isMiningOneBlock(player));
+		}
+		return !(FallingTrees.serverConfig.allow_one_block_mining && TreeUtils.isMiningOneBlock(player));
 	}
 }

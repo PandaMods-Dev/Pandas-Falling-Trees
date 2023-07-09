@@ -1,8 +1,11 @@
 {
-	"key.fallingtrees.single_block_toggle_key": "Single Toggle Block",
+	"key.fallingtrees.single_block_toggle_key": "Single Block Mining Toggle",
 
 
 	"text.autoconfig.fallingtrees.title": "Panda's Dynamic Trees Config",
+
+	"text.autoconfig.fallingtrees.category.client": "Client",
+	"text.autoconfig.fallingtrees.category.common": "Common",
 
 	"text.autoconfig.fallingtrees.option.allow_one_block_mining": "Allow single block mining",
 
@@ -13,5 +16,16 @@
 	"text.autoconfig.fallingtrees.option.whitelisted_leaves_block_tags": "Whitelisted leaves Block Tags",
 
 	"text.autoconfig.fallingtrees.option.blacklisted_log_blocks": "Blacklisted log blocks",
-	"text.autoconfig.fallingtrees.option.blacklisted_leaves_blocks": "Blacklisted leaves blocks"
+	"text.autoconfig.fallingtrees.option.blacklisted_leaves_blocks": "Blacklisted leaves blocks",
+
+
+	"text.autoconfig.fallingtrees.option.tree_limit": "Tree limit",
+
+	"text.autoconfig.fallingtrees.option.tree_limit.tree_size_limit": "Max Tree block amount",
+	"text.autoconfig.fallingtrees.option.tree_limit.tree_size_limit.@Tooltip": "The Maximum amount of blocks allowed for trees",
+
+	"text.autoconfig.fallingtrees.option.tree_limit.tree_limit_method": "Tree limit Method",
+	"text.autoconfig.fallingtrees.option.tree_limit.tree_limit_method.@Tooltip": "If the limiter should check for the amount of Logs or the amount of Blocks in total",
+
+	"text.autoconfig.fallingtrees.option.tree_limit.only_fall_on_tool_use": "Only fall when tool is used"
 }

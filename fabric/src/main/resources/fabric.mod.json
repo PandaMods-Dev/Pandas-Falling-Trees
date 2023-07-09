@@ -18,7 +18,12 @@
 		],
 		"modmenu": [
 			"me.pandadev.fallingtrees.fabric.ModMenuIntegration"
-		]
+		],
+		"jade": [
+      "me.pandadev.fallingtrees.compat.JadeCompat",
+      "snownee.jade.addon.vanilla.VanillaPlugin",
+      "snownee.jade.addon.universal.UniversalPlugin"
+    ]
 	},
   "mixins": [
     "fallingtrees.mixins.json",

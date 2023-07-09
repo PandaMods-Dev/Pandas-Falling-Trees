@@ -10,6 +10,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import io.netty.buffer.Unpooled;
 import me.pandadev.fallingtrees.client.renderer.TreeRenderer;
 import me.pandadev.fallingtrees.entity.TreeEntity;
+import me.pandadev.fallingtrees.network.PacketHandler;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -19,7 +20,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -33,8 +33,6 @@ public class FallingTrees {
 	public static final String MOD_ID = "fallingtrees";
 	public static ConfigHolder<FallingTreesConfig> configHolder;
 	public static FallingTreesConfig serverConfig;
-
-	public static final ResourceLocation CONFIG_PACKET_ID = new ResourceLocation(FallingTrees.MOD_ID, "config_packet");
 
 	// Entity Registry
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(MOD_ID, Registries.ENTITY_TYPE);
@@ -51,13 +49,11 @@ public class FallingTrees {
 		ENTITIES.register();
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			clientInit();
-			NetworkManager.registerReceiver(NetworkManager.Side.S2C, CONFIG_PACKET_ID, (buf, context) -> {
-				serverConfig = new Gson().fromJson(new String(buf.readByteArray()), FallingTreesConfig.class);
-//				System.out.println("[" + Platform.getEnv() + "] received config packet");
-			});
 		}
 
 		PlayerEvent.PLAYER_JOIN.register(FallingTrees::onPlayerJoin);
+
+		PacketHandler.init();
 
 		EntityDataSerializers.registerSerializer(FallingTrees.BLOCK_MAP);
 	}
@@ -65,7 +61,7 @@ public class FallingTrees {
 	private static void onPlayerJoin(ServerPlayer serverPlayer) {
 		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 		buf.writeByteArray(new Gson().toJson(configHolder.getConfig()).getBytes());
-		NetworkManager.sendToPlayer(serverPlayer, CONFIG_PACKET_ID, buf);
+		NetworkManager.sendToPlayer(serverPlayer, PacketHandler.CONFIG_PACKET_ID, buf);
 //		System.out.println("[" + Platform.getEnv() + "] send config packet");
 	}
 

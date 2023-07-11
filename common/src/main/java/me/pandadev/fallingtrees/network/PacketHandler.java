@@ -28,7 +28,7 @@ public class PacketHandler {
 			if (buf.readBoolean()) {
 				TreeUtils.breakTree(context.getPlayer(), context.getPlayer().level, pos);
 			} else {
-				BlockState state = context.getPlayer().level.getBlockState(pos);
+				BlockState state = context.getPlayer().getLevel().getBlockState(pos);
 				context.getPlayer().level.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(context.getPlayer(), state));
 			}
 		});

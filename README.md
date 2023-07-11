@@ -24,7 +24,7 @@ If the log or leaves block is not part of these tags, then you can add the block
 - [Q] Will the mod work for more than 1 block thick trees. 
   - [A] Yes the mod works for trees that are more than 1 block thick.
 
-If you have any of your own questions, please leave them on my [discord](https://discord.gg/wjPt4vEfXb)
+If you have any of your own questions or suggestions, please leave them on my [discord](https://discord.gg/wjPt4vEfXb)
 
 ## Known Issues:
 - Wilder Wilds: Game crash when mining trees. I recommend blacklisting the logs and leaves in the mod config.

@@ -3,6 +3,7 @@ package me.pandadev.fallingtrees.compat.jade;
 import me.pandadev.fallingtrees.FallingTrees;
 import me.pandadev.fallingtrees.tree.TreeCache;
 import me.pandadev.fallingtrees.tree.TreeUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import snownee.jade.api.BlockAccessor;
@@ -17,7 +18,7 @@ public enum TreeDropComponentProvider implements IBlockComponentProvider {
 	public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
 		if (TreeUtils.isLog(blockAccessor.getBlock())) {
 			iTooltip.add(iTooltip.getElementHelper().item(new ItemStack(blockAccessor.getBlock().asItem(),
-					TreeCache.getOrCreateCache(blockAccessor.getPosition(), blockAccessor.getLevel()).getLogAmount())));
+					TreeCache.getOrCreateCache("jade", blockAccessor.getPosition(), blockAccessor.getLevel(), Minecraft.getInstance().player).getLogAmount())));
 		}
 	}
 

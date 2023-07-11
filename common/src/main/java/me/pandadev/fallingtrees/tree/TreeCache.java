@@ -3,12 +3,23 @@ package me.pandadev.fallingtrees.tree;
 import me.pandadev.fallingtrees.FallingTrees;
 import me.pandadev.fallingtrees.FallingTreesConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.joml.Vector3i;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public record TreeCache(List<BlockPos> treeBlocks, Level level) {
-	public static TreeCache cache = null;
+public record TreeCache(Vector3i pos, List<BlockPos> treeBlocks, Level level, boolean shouldTreeFall) {
+	public static Map<String, Map<Integer, TreeCache>> CACHES = new HashMap<>();
+
+	public static Map<Integer, TreeCache> getCaches(String name) {
+		if (!CACHES.containsKey(name)) {
+			CACHES.put(name, new HashMap<>());
+		}
+		return CACHES.get(name);
+	}
 
 	public int getLogAmount() {
 		int amount = 0;
@@ -26,14 +37,17 @@ public record TreeCache(List<BlockPos> treeBlocks, Level level) {
 				TreeUtils.isLog(level.getBlockState(blockPos).getBlock())).count() > FallingTrees.serverConfig.tree_limit.tree_size_limit;
 	}
 
-	public static TreeCache getOrCreateCache(BlockPos pos, Level level) {
-		if (TreeCache.cache == null || TreeCache.cache.treeBlocks().get(0) != pos) {
-			return TreeCache.createCache(pos, level);
+	public static TreeCache getOrCreateCache(String cacheName, BlockPos pos, Level level, Player player) {
+		if (getCaches(cacheName).containsKey(player.getId()) && getCaches(cacheName).get(player.getId()).pos.equals(pos.getX(), pos.getY(), pos.getZ())) {
+			return getCaches(cacheName).get(player.getId());
 		}
-		return cache;
+		return TreeCache.createCache(cacheName, pos, level, player);
 	}
 
-	public static TreeCache createCache(BlockPos pos, Level level) {
-		return TreeCache.cache = new TreeCache(TreeUtils.getTreeBlocks(pos, level), level);
+	public static TreeCache createCache(String cacheName, BlockPos pos, Level level, Player player) {
+		TreeCache cache = new TreeCache(new Vector3i(pos.getX(), pos.getY(), pos.getZ()), TreeUtils.getTreeBlocks(pos, level), level,
+				TreeUtils.shouldTreeFall(pos, level, player));
+		getCaches(cacheName).put(player.getId(), cache);
+		return cache;
 	}
 }

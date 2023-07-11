@@ -30,7 +30,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 
 	@Override
 	public void render(TreeEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-		float falltime = getBob(entity, partialTick)/10;
+		float falltime = getBob(entity, partialTick)/12;
 		poseStack.pushPose();
 
 		Map<BlockPos, BlockState> blocks = entity.getEntityData().get(TreeEntity.BLOCKS);

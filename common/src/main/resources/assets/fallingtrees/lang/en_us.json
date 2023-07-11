@@ -5,9 +5,17 @@
 	"text.autoconfig.fallingtrees.title": "Panda's Dynamic Trees Config",
 
 	"text.autoconfig.fallingtrees.category.client": "Client",
+
+	"text.autoconfig.fallingtrees.option.one_block_mining_method": "Single block mining method",
+	"text.autoconfig.fallingtrees.option.is_mining_one_block": "Should mine a single block",
+	"text.autoconfig.fallingtrees.option.is_mining_one_block.@Tooltip": "This only counts if single block mining method is set not set to Crouch",
+
+	"text.autoconfig.fallingtrees.option.sound_effect": "Tree fall sound effect",
+
 	"text.autoconfig.fallingtrees.category.common": "Common",
 
 	"text.autoconfig.fallingtrees.option.allow_one_block_mining": "Allow single block mining",
+
 
 	"text.autoconfig.fallingtrees.option.whitelisted_log_blocks": "Whitelisted log Blocks",
 	"text.autoconfig.fallingtrees.option.whitelisted_log_block_tags": "Whitelisted log Block Tags",
@@ -17,6 +25,11 @@
 
 	"text.autoconfig.fallingtrees.option.blacklisted_log_blocks": "Blacklisted log blocks",
 	"text.autoconfig.fallingtrees.option.blacklisted_leaves_blocks": "Blacklisted leaves blocks",
+
+
+	"text.autoconfig.fallingtrees.option.item_damage_multiplier": "Item damage multiplier",
+	"text.autoconfig.fallingtrees.option.food_exhaustion_multiplier": "Food exhaustion multiplier",
+	"text.autoconfig.fallingtrees.option.tree_mining_speed_multiplier": "Tree mining speed multiplier",
 
 
 	"text.autoconfig.fallingtrees.option.tree_limit": "Tree limit",

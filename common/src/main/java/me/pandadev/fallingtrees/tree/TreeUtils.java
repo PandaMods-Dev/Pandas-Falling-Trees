@@ -1,10 +1,14 @@
 package me.pandadev.fallingtrees.tree;
 
 import me.pandadev.fallingtrees.FallingTrees;
+import me.pandadev.fallingtrees.FallingTreesConfig;
 import me.pandadev.fallingtrees.entity.TreeEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
@@ -40,8 +44,12 @@ public class TreeUtils {
 				FallingTrees.serverConfig.whitelisted_leaves_block_tags.contains(blockTagKey.location().toString()));
 	}
 
+	@Environment(EnvType.CLIENT)
 	public static boolean isMiningOneBlock(Player player) {
-		return player.isCrouching();
+		if (FallingTrees.configHolder.getConfig().one_block_mining_method.equals(FallingTreesConfig.OneBlockMiningEnum.CROUCH)) {
+			return player.isCrouching();
+		}
+		return FallingTrees.configHolder.getConfig().is_mining_one_block;
 	}
 
 //	public static boolean isDecorative(Block block) {
@@ -182,13 +190,15 @@ public class TreeUtils {
 
 				treeEntity.setRotationY((float) Math.atan2(player.getX() - position.x, player.getZ() - position.z));
 				level.addFreshEntity(treeEntity);
+				if (FallingTrees.configHolder.getConfig().sound_effect)
+					level.playSound(treeEntity, blockPos, FallingTrees.TREE_FALL.get(), SoundSource.BLOCKS, 0.5f, 1);
 
 				int LogAmount = TreeUtils.getAmountOfLogs(treeBlocks);
 				if (usedItem.isDamageableItem()) {
 					usedItem.hurtAndBreak((int) (LogAmount * FallingTrees.serverConfig.item_damage_multiplier), player, player1 -> {});
 				}
 
-				player.causeFoodExhaustion(0.005F * LogAmount * FallingTrees.serverConfig.item_damage_multiplier);
+				player.causeFoodExhaustion(0.005F * LogAmount * FallingTrees.serverConfig.food_exhaustion_multiplier);
 
 				for (Map.Entry<BlockPos, BlockState> entry : treeBlocks.entrySet()) {
 					player.awardStat(Stats.BLOCK_MINED.get(entry.getValue().getBlock()));
@@ -198,10 +208,8 @@ public class TreeUtils {
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public static boolean shouldTreeFall(BlockPos pos, Level level, Player player) {
-		if (TreeCache.getOrCreateCache(pos, level).isTreeSizeToBig()) {
-			return false;
-		}
 		if (FallingTrees.serverConfig.tree_limit.only_fall_on_tool_use) {
 			return player.getMainHandItem().getItem() instanceof AxeItem && !(FallingTrees.serverConfig.allow_one_block_mining && TreeUtils.isMiningOneBlock(player));
 		}

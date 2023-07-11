@@ -1,9 +1,12 @@
 package me.pandadev.fallingtrees;
 
 import com.google.gson.Gson;
+import com.mojang.blaze3d.platform.InputConstants;
+import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.platform.Platform;
+import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -15,12 +18,15 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.EnvType;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.block.Block;
@@ -34,6 +40,11 @@ public class FallingTrees {
 	public static ConfigHolder<FallingTreesConfig> configHolder;
 	public static FallingTreesConfig serverConfig;
 
+	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(MOD_ID, Registries.SOUND_EVENT);
+
+	public static final RegistrySupplier<SoundEvent> TREE_FALL = SOUNDS.register("tree_fall", () ->
+			SoundEvent.createFixedRangeEvent(new ResourceLocation(MOD_ID, "tree_fall"), 16));
+
 	// Entity Registry
 	public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(MOD_ID, Registries.ENTITY_TYPE);
 
@@ -41,14 +52,32 @@ public class FallingTrees {
 			EntityType.Builder.of(TreeEntity::new, MobCategory.MISC).sized(1f, 1f)
 					.fireImmune().build("tree"));
 
+	public static final KeyMapping SINGLE_BLOCK_MINING_TOGGLE = new KeyMapping(
+		"key.fallingtrees.single_block_toggle_key",
+		InputConstants.Type.KEYSYM,
+		InputConstants.KEY_N,
+		KeyMapping.CATEGORY_GAMEPLAY
+	);
+
 	public static void init() {
 		AutoConfig.register(FallingTreesConfig.class, GsonConfigSerializer::new);
 		configHolder = AutoConfig.getConfigHolder(FallingTreesConfig.class);
 		serverConfig = configHolder.getConfig();
 
+		KeyMappingRegistry.register(SINGLE_BLOCK_MINING_TOGGLE);
+
+		SOUNDS.register();
 		ENTITIES.register();
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			clientInit();
+
+			ClientTickEvent.CLIENT_POST.register(minecraft -> {
+				while (configHolder.getConfig().one_block_mining_method.equals(FallingTreesConfig.OneBlockMiningEnum.KEYBIND_TOGGLE) &&
+						SINGLE_BLOCK_MINING_TOGGLE.consumeClick()) {
+					configHolder.getConfig().is_mining_one_block = !configHolder.getConfig().is_mining_one_block;
+					configHolder.save();
+				}
+			});
 		}
 
 		PlayerEvent.PLAYER_JOIN.register(FallingTrees::onPlayerJoin);
@@ -62,7 +91,6 @@ public class FallingTrees {
 		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 		buf.writeByteArray(new Gson().toJson(configHolder.getConfig()).getBytes());
 		NetworkManager.sendToPlayer(serverPlayer, PacketHandler.CONFIG_PACKET_ID, buf);
-//		System.out.println("[" + Platform.getEnv() + "] send config packet");
 	}
 
 	public static void clientInit() {

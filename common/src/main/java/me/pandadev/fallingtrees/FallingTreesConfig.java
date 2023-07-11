@@ -29,9 +29,13 @@ public class FallingTreesConfig implements ConfigData {
 
 	@ConfigEntry.Category("common")
 	public float food_exhaustion_multiplier = 1f;
-
 	@ConfigEntry.Category("common")
 	public float item_damage_multiplier = 1f;
+
+	@ConfigEntry.Category("common")
+	public boolean tree_mining_speed_by_log_amount = true;
+	@ConfigEntry.Category("common")
+	public float tree_mining_speed_multiplier = 1f;
 
 	@ConfigEntry.Category("common")
 	@ConfigEntry.Gui.CollapsibleObject
@@ -39,6 +43,13 @@ public class FallingTreesConfig implements ConfigData {
 
 	@ConfigEntry.Category("client")
 	public OneBlockMiningEnum one_block_mining_method = OneBlockMiningEnum.CROUCH;
+
+	@ConfigEntry.Category("client")
+	@ConfigEntry.Gui.Tooltip
+	public boolean is_mining_one_block = false;
+
+	@ConfigEntry.Category("client")
+	public boolean sound_effect = true;
 
 	public enum OneBlockMiningEnum {
 		CROUCH,

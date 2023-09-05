@@ -26,10 +26,10 @@ public class PacketHandler {
 		NetworkManager.registerReceiver(NetworkManager.Side.C2S, BREAK_TREE_PACKET_ID, (buf, context) -> {
 			BlockPos pos = buf.readBlockPos();
 			if (buf.readBoolean()) {
-				TreeUtils.breakTree(context.getPlayer(), context.getPlayer().level, pos);
+				TreeUtils.breakTree(context.getPlayer(), context.getPlayer().getLevel(), pos);
 			} else {
 				BlockState state = context.getPlayer().getLevel().getBlockState(pos);
-				context.getPlayer().level.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(context.getPlayer(), state));
+				context.getPlayer().getLevel().gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(context.getPlayer(), state));
 			}
 		});
 	}

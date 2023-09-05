@@ -11,6 +11,7 @@
 	"text.autoconfig.fallingtrees.option.is_mining_one_block.@Tooltip": "This only counts if single block mining method is set not set to Crouch",
 
 	"text.autoconfig.fallingtrees.option.sound_effect": "Tree fall sound effect",
+	"text.autoconfig.fallingtrees.option.sound_effect_volume": "Tree fall sound effect volume",
 
 	"text.autoconfig.fallingtrees.category.common": "Common",
 
@@ -29,6 +30,8 @@
 
 	"text.autoconfig.fallingtrees.option.item_damage_multiplier": "Item damage multiplier",
 	"text.autoconfig.fallingtrees.option.food_exhaustion_multiplier": "Food exhaustion multiplier",
+
+	"text.autoconfig.fallingtrees.option.tree_mining_speed_by_log_amount": "Change tree mining speed by size of tree",
 	"text.autoconfig.fallingtrees.option.tree_mining_speed_multiplier": "Tree mining speed multiplier",
 
 

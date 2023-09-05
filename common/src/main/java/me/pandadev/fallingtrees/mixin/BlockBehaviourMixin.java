@@ -22,7 +22,7 @@ public abstract class BlockBehaviourMixin {
 	public void getDestroyProgress(Player player, BlockGetter level, BlockPos pos, CallbackInfoReturnable<Float> cir) {
 		if (TreeUtils.isLog(this.asState().getBlock())) {
 			TreeCache cache = TreeCache.getOrCreateCache("tree_breaking", pos, player.getLevel(), player);
-			if (!FallingTrees.serverConfig.tree_mining_speed_by_log_amount)
+			if (!FallingTrees.serverConfig.tree_mining_speed_by_log_amount || cache.isTreeSizeToBig())
 				return;
 			cir.setReturnValue((cir.getReturnValue() / cache.getLogAmount()) *
 					FallingTrees.serverConfig.tree_mining_speed_multiplier);

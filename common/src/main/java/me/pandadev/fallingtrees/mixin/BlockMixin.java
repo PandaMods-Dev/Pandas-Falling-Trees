@@ -39,7 +39,7 @@ public abstract class BlockMixin extends BlockBehaviour {
 				FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
 				buf.writeBlockPos(blockPos);
 
-				buf.writeBoolean(cache.shouldTreeFall());
+				buf.writeBoolean(TreeUtils.shouldTreeFall(player));
 
 				NetworkManager.sendToServer(PacketHandler.BREAK_TREE_PACKET_ID, buf);
 			}

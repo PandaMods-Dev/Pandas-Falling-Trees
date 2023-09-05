@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public record TreeCache(Vector3i pos, List<BlockPos> treeBlocks, Level level, boolean shouldTreeFall) {
+public record TreeCache(Vector3i pos, List<BlockPos> treeBlocks, Level level) {
 	public static Map<String, Map<Integer, TreeCache>> CACHES = new HashMap<>();
 
 	public static Map<Integer, TreeCache> getCaches(String name) {
@@ -45,8 +45,7 @@ public record TreeCache(Vector3i pos, List<BlockPos> treeBlocks, Level level, bo
 	}
 
 	public static TreeCache createCache(String cacheName, BlockPos pos, Level level, Player player) {
-		TreeCache cache = new TreeCache(new Vector3i(pos.getX(), pos.getY(), pos.getZ()), TreeUtils.getTreeBlocks(pos, level), level,
-				TreeUtils.shouldTreeFall(pos, level, player));
+		TreeCache cache = new TreeCache(new Vector3i(pos.getX(), pos.getY(), pos.getZ()), TreeUtils.getTreeBlocks(pos, level), level);
 		getCaches(cacheName).put(player.getId(), cache);
 		return cache;
 	}

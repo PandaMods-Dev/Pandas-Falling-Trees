@@ -190,8 +190,9 @@ public class TreeUtils {
 
 				treeEntity.setRotationY((float) Math.atan2(player.getX() - position.x, player.getZ() - position.z));
 				level.addFreshEntity(treeEntity);
-				if (FallingTrees.configHolder.getConfig().sound_effect)
-					level.playSound(treeEntity, blockPos, FallingTrees.TREE_FALL.get(), SoundSource.BLOCKS, 0.5f, 1);
+				if (FallingTrees.serverConfig.sound_effect)
+					level.playSound(null, blockPos, FallingTrees.TREE_FALL.get(), SoundSource.BLOCKS,
+							0.25f*FallingTrees.serverConfig.sound_effect_volume, 1);
 
 				int LogAmount = TreeUtils.getAmountOfLogs(treeBlocks);
 				if (usedItem.isDamageableItem()) {
@@ -209,7 +210,7 @@ public class TreeUtils {
 	}
 
 	@Environment(EnvType.CLIENT)
-	public static boolean shouldTreeFall(BlockPos pos, Level level, Player player) {
+	public static boolean shouldTreeFall(Player player) {
 		if (FallingTrees.serverConfig.tree_limit.only_fall_on_tool_use) {
 			return player.getMainHandItem().getItem() instanceof AxeItem && !(FallingTrees.serverConfig.allow_one_block_mining && TreeUtils.isMiningOneBlock(player));
 		}

@@ -41,15 +41,17 @@ public class FallingTreesConfig implements ConfigData {
 	@ConfigEntry.Gui.CollapsibleObject
 	public TreeLimit tree_limit = new TreeLimit();
 
+	@ConfigEntry.Category("common")
+	public boolean sound_effect = true;
+	@ConfigEntry.Category("common")
+	public float sound_effect_volume = 1;
+
 	@ConfigEntry.Category("client")
 	public OneBlockMiningEnum one_block_mining_method = OneBlockMiningEnum.CROUCH;
 
 	@ConfigEntry.Category("client")
 	@ConfigEntry.Gui.Tooltip
 	public boolean is_mining_one_block = false;
-
-	@ConfigEntry.Category("client")
-	public boolean sound_effect = true;
 
 	public enum OneBlockMiningEnum {
 		CROUCH,
@@ -59,7 +61,7 @@ public class FallingTreesConfig implements ConfigData {
 
 	public static class TreeLimit {
 		@ConfigEntry.Gui.Tooltip
-		public int tree_size_limit = 64;
+		public int tree_size_limit = 200;
 
 		@ConfigEntry.Gui.Tooltip
 		public LimitMethodEnum tree_limit_method = LimitMethodEnum.LOGS;

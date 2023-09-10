@@ -37,6 +37,7 @@ dependencies {
 
     modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
     modImplementation("curse.maven:jade-324717:${rootProject.jade_id_forge}")
+    modImplementation "curse.maven:treechop-421377:${rootProject.ht_treechop_id_forge}"
 }
 
 processResources {

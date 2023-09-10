@@ -24,7 +24,6 @@ public class TreeEntity extends Entity {
 	public ItemStack usedItem = ItemStack.EMPTY;
 	public Entity owner = null;
 
-
 	public TreeEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.noCulling = true;

@@ -1,7 +1,7 @@
 package me.pandadev.fallingtrees.tree;
 
 import me.pandadev.fallingtrees.FallingTrees;
-import me.pandadev.fallingtrees.FallingTreesConfig;
+import me.pandadev.fallingtrees.config.ServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -30,11 +30,11 @@ public record TreeCache(Vector3i pos, List<BlockPos> treeBlocks, Level level) {
 	}
 
 	public boolean isTreeSizeToBig() {
-		if (FallingTrees.serverConfig.tree_limit.tree_limit_method.equals(FallingTreesConfig.TreeLimit.LimitMethodEnum.BLOCKS)) {
-			return treeBlocks.size() > FallingTrees.serverConfig.tree_limit.tree_size_limit;
+		if (FallingTrees.getServerConfig().tree_limit.tree_limit_method.equals(ServerConfig.TreeLimit.LimitMethodEnum.BLOCKS)) {
+			return treeBlocks.size() > FallingTrees.getServerConfig().tree_limit.tree_size_limit;
 		}
 		return treeBlocks.stream().filter(blockPos ->
-				TreeUtils.isLog(level.getBlockState(blockPos).getBlock())).count() > FallingTrees.serverConfig.tree_limit.tree_size_limit;
+				TreeUtils.isLog(level.getBlockState(blockPos).getBlock())).count() > FallingTrees.getServerConfig().tree_limit.tree_size_limit;
 	}
 
 	public static TreeCache getOrCreateCache(String cacheName, BlockPos pos, Level level, Player player) {

@@ -4,9 +4,10 @@
 	"package": "me.pandadev.fallingtrees.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"BlockMixin"
 	],
 	"client": [
+		"MultiPlayerGameModeMixin",
+		"renderer.BlockRenderDispatcherAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1

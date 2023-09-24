@@ -9,7 +9,6 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     modImplementation("curse.maven:jade-324717:${rootProject.jade_id_fabric}")
-    modImplementation "curse.maven:treechop-421377:${rootProject.ht_treechop_id_fabric}"
 }
 
 loom {

@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[44,)"
+loaderVersion="[46,)"
 license="MIT"
 issueTrackerURL="https://github.com/PandaDap2006/Pandas-Falling-Trees/issues"
 showAsResourcePack=false
@@ -16,24 +16,24 @@ description='''
 [[dependencies.fallingtrees]]
    modId="forge"
    mandatory=true
-   versionRange="[44,)"
+   versionRange="[46,)"
    ordering="NONE"
    side="BOTH"
 [[dependencies.fallingtrees]]
    modId="minecraft"
    mandatory=true
-   versionRange="[1.19.3,1.21)"
+   versionRange="[1.20,1.21)"
    ordering="NONE"
    side="BOTH"
 [[dependencies.fallingtrees]]
    modId="cloth_config"
    mandatory=true
-   versionRange="[9.0.94,)"
+   versionRange="[11.1.106,)"
    ordering="NONE"
    side="BOTH"
 [[dependencies.fallingtrees]]
    modId="architectury"
    mandatory=true
-   versionRange="[7.1.86,)"
+   versionRange="[9.1.12,)"
    ordering="NONE"
    side="BOTH"

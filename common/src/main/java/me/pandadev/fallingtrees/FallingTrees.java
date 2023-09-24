@@ -1,14 +1,13 @@
 package me.pandadev.fallingtrees;
 
-import com.google.gson.Gson;
-import dev.architectury.event.events.common.PlayerEvent;
-import dev.architectury.networking.NetworkManager;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import io.netty.buffer.Unpooled;
 import me.pandadev.fallingtrees.client.renderer.TreeRenderer;
+import me.pandadev.fallingtrees.config.ClientConfig;
+import me.pandadev.fallingtrees.config.ModConfig;
+import me.pandadev.fallingtrees.config.ServerConfig;
 import me.pandadev.fallingtrees.entity.TreeEntity;
 import me.pandadev.fallingtrees.network.PacketHandler;
 import me.pandadev.fallingtrees.registries.Keybindings;
@@ -22,7 +21,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -34,8 +32,8 @@ import java.util.Map;
 
 public class FallingTrees {
 	public static final String MOD_ID = "fallingtrees";
-	public static ConfigHolder<FallingTreesConfig> configHolder;
-	public static FallingTreesConfig serverConfig;
+	private static ConfigHolder<ModConfig> configHolder;
+	private static ServerConfig serverConfig;
 
 	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(MOD_ID, Registries.SOUND_EVENT);
 
@@ -50,9 +48,8 @@ public class FallingTrees {
 					.fireImmune().build("tree"));
 
 	public static void init() {
-		AutoConfig.register(FallingTreesConfig.class, GsonConfigSerializer::new);
-		configHolder = AutoConfig.getConfigHolder(FallingTreesConfig.class);
-		serverConfig = configHolder.getConfig();
+		AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
+		configHolder = AutoConfig.getConfigHolder(ModConfig.class);
 
 		SOUNDS.register();
 		ENTITIES.register();
@@ -61,21 +58,34 @@ public class FallingTrees {
 			Keybindings.init();
 		}
 
-		PlayerEvent.PLAYER_JOIN.register(FallingTrees::onPlayerJoin);
-
+		EventHandler.init();
 		PacketHandler.init();
 
 		EntityDataSerializers.registerSerializer(FallingTrees.BLOCK_MAP);
 	}
 
-	private static void onPlayerJoin(ServerPlayer serverPlayer) {
-		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-		buf.writeByteArray(new Gson().toJson(configHolder.getConfig()).getBytes());
-		NetworkManager.sendToPlayer(serverPlayer, PacketHandler.CONFIG_PACKET_ID, buf);
-	}
-
 	public static void clientInit() {
 		EntityRendererRegistry.register(TREE_ENTITY, TreeRenderer::new);
+
+		EventHandler.clientInit();
+	}
+
+	public static ServerConfig getServerConfig() {
+		if (FallingTrees.serverConfig != null)
+			return FallingTrees.serverConfig;
+		return configHolder.getConfig().server;
+	}
+
+	public static void setServerConfig(ServerConfig serverConfig) {
+		FallingTrees.serverConfig = serverConfig;
+	}
+
+	public static ClientConfig getClientConfig() {
+		return configHolder.getConfig().client;
+	}
+
+	public static ConfigHolder<ModConfig> getConfigHolder() {
+		return configHolder;
 	}
 
 	public static final EntityDataSerializer<Map<BlockPos, BlockState>> BLOCK_MAP = new EntityDataSerializer<>() {

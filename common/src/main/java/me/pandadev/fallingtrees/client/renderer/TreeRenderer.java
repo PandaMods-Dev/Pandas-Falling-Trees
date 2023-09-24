@@ -2,6 +2,7 @@ package me.pandadev.fallingtrees.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.pandadev.fallingtrees.entity.TreeEntity;
+import me.pandadev.fallingtrees.utils.RenderUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -46,7 +47,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		for (Map.Entry<BlockPos, BlockState> entry : blocks.entrySet()) {
 			poseStack.pushPose();
 			poseStack.translate(entry.getKey().getX(), entry.getKey().getY(), entry.getKey().getZ());
-			this.blockRenderer.renderSingleBlock(entry.getValue(), poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY);
+			RenderUtils.renderBlock(poseStack, entry.getValue(), buffer, packedLight, OverlayTexture.NO_OVERLAY);
 			poseStack.popPose();
 		}
 		poseStack.popPose();

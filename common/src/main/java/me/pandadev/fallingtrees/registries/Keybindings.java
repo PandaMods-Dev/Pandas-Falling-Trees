@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import me.pandadev.fallingtrees.FallingTrees;
-import me.pandadev.fallingtrees.FallingTreesConfig;
+import me.pandadev.fallingtrees.config.ClientConfig;
 import net.minecraft.client.KeyMapping;
 
 public class Keybindings {
@@ -18,10 +18,10 @@ public class Keybindings {
 	public static void init() {
 		KeyMappingRegistry.register(SINGLE_BLOCK_MINING_TOGGLE);
 		ClientTickEvent.CLIENT_POST.register(minecraft -> {
-				while (FallingTrees.configHolder.getConfig().one_block_mining_method.equals(FallingTreesConfig.OneBlockMiningEnum.KEYBIND_TOGGLE) &&
+				while (FallingTrees.getClientConfig().one_block_mining_method.equals(ClientConfig.OneBlockMiningEnum.KEYBIND_TOGGLE) &&
 						SINGLE_BLOCK_MINING_TOGGLE.consumeClick()) {
-					FallingTrees.configHolder.getConfig().is_mining_one_block = !FallingTrees.configHolder.getConfig().is_mining_one_block;
-					FallingTrees.configHolder.save();
+					FallingTrees.getClientConfig().is_mining_one_block = !FallingTrees.getClientConfig().is_mining_one_block;
+					FallingTrees.getConfigHolder().save();
 				}
 			});
 	}

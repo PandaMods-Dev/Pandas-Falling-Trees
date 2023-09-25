@@ -1,17 +1,13 @@
 package me.pandadev.fallingtrees;
 
-import com.google.gson.Gson;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.common.PlayerEvent;
-import dev.architectury.networking.NetworkManager;
-import io.netty.buffer.Unpooled;
 import me.pandadev.fallingtrees.config.ClientConfig;
-import me.pandadev.fallingtrees.network.PacketHandler;
+import me.pandadev.fallingtrees.network.ConfigPacket;
 import me.pandadev.fallingtrees.tree.TreeUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.joml.Vector2f;
@@ -27,9 +23,7 @@ public class EventHandler {
 	}
 
 	private static void onPlayerJoin(ServerPlayer serverPlayer) {
-		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-		buf.writeByteArray(new Gson().toJson(FallingTrees.getServerConfig()).getBytes());
-		NetworkManager.sendToPlayer(serverPlayer, PacketHandler.CONFIG_PACKET_ID, buf);
+		ConfigPacket.sendToPlayer(serverPlayer);
 	}
 
 	public static void HudRender(GuiGraphics guiGraphics, float v) {

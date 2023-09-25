@@ -5,4 +5,5 @@
   * One block mining indicator
   * Food exhaustion limit
 * **Changes**
-  * Updated Networking to fix crashes when breaking logs.
+  * Updated Networking to try and fix crashes when breaking logs.
+  * Improved block rendering so blocks keep tint and hopefully fix more crashes.

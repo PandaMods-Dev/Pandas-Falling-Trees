@@ -1,14 +1,11 @@
 package me.pandadev.fallingtrees.mixin;
 
-import dev.architectury.networking.NetworkManager;
-import io.netty.buffer.Unpooled;
-import me.pandadev.fallingtrees.network.PacketHandler;
+import me.pandadev.fallingtrees.network.BreakTreePacket;
 import me.pandadev.fallingtrees.tree.TreeCache;
 import me.pandadev.fallingtrees.tree.TreeUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,11 +30,7 @@ public class MultiPlayerGameModeMixin {
 				return;
 			BlockState state = level.getBlockState(pos);
 			if (TreeUtils.isLog(state.getBlock())) {
-				FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-				buf.writeBlockPos(pos);
-
-				buf.writeBoolean(TreeUtils.shouldTreeFall(this.minecraft.player));
-				NetworkManager.sendToServer(PacketHandler.BREAK_TREE_PACKET_ID, buf);
+				BreakTreePacket.sendToServer(pos, player);
 			}
 		}
 	}

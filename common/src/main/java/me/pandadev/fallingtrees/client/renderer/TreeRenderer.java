@@ -47,7 +47,8 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		for (Map.Entry<BlockPos, BlockState> entry : blocks.entrySet()) {
 			poseStack.pushPose();
 			poseStack.translate(entry.getKey().getX(), entry.getKey().getY(), entry.getKey().getZ());
-			RenderUtils.renderBlock(poseStack, entry.getValue(), buffer, packedLight, OverlayTexture.NO_OVERLAY);
+			RenderUtils.renderBlock(poseStack, entry.getValue(), entity.level(), entry.getKey(), buffer, packedLight, OverlayTexture.NO_OVERLAY);
+
 			poseStack.popPose();
 		}
 		poseStack.popPose();

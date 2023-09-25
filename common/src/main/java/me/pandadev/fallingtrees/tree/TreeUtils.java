@@ -12,6 +12,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -66,7 +67,7 @@ public class TreeUtils {
 //		return block.defaultBlockState().getTags().anyMatch(blockTagKey -> blockTagKey.equals(tag));
 //	}
 
-	public static List<BlockPos> getTreeBlocks(BlockPos startPos, Level level) {
+	public static List<BlockPos> getTreeBlocks(BlockPos startPos, BlockGetter level) {
         List<BlockPos> logBlocks = new ArrayList<>();
 		List<BlockPos> leafBlocks = new ArrayList<>();
 		List<BlockPos> decorativeBlocks = new ArrayList<>();
@@ -100,7 +101,7 @@ public class TreeUtils {
         return treeBlocks;
     }
 
-	private static void getLogBlocksRecursive(BlockPos pos, Level level, List<BlockPos> treeBlocks, Set<BlockPos> visited) {
+	private static void getLogBlocksRecursive(BlockPos pos, BlockGetter level, List<BlockPos> treeBlocks, Set<BlockPos> visited) {
         if (visited.contains(pos)) {
             return;
         }
@@ -119,7 +120,7 @@ public class TreeUtils {
         }
     }
 
-	private static void getLeavesBlocksRecursive(BlockPos pos, BlockPos logPos, Level level, List<BlockPos> leavesBlock, Map<BlockPos, Set<BlockPos>> visited) {
+	private static void getLeavesBlocksRecursive(BlockPos pos, BlockPos logPos, BlockGetter level, List<BlockPos> leavesBlock, Map<BlockPos, Set<BlockPos>> visited) {
 		BlockState state = level.getBlockState(pos);
         Block block = state.getBlock();
         if (!isLeaves(block) || (block instanceof LeavesBlock && state.getValue(LeavesBlock.DISTANCE) != logPos.distManhattan(pos)) ||

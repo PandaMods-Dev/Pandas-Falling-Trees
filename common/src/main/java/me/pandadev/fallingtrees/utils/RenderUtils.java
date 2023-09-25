@@ -14,10 +14,10 @@ import net.minecraft.world.level.block.state.BlockState;
 public class RenderUtils {
 	public static final BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 
-	public static void renderBlock(PoseStack poseStack, BlockState state, BlockAndTintGetter blockAndTintGetter, BlockPos pos,
+	public static void renderBlock(PoseStack poseStack, BlockState state, BlockAndTintGetter level, BlockPos pos,
 								   MultiBufferSource multiBufferSource, int overlay, int light) {
 		BakedModel bakedModel = blockRenderer.getBlockModel(state);
-		int k = ((BlockRenderDispatcherAccessor)blockRenderer).getBlockColors().getColor(state, blockAndTintGetter, pos, 0);
+		int k = ((BlockRenderDispatcherAccessor)blockRenderer).getBlockColors().getColor(state, level, pos, 0);
 		float r = (float)(k >> 16 & 0xFF) / 255.0f;
 		float g = (float)(k >> 8 & 0xFF) / 255.0f;
 		float b = (float)(k & 0xFF) / 255.0f;

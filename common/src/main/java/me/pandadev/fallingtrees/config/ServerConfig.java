@@ -24,9 +24,9 @@ public class ServerConfig implements ConfigData {
 
 	public float item_damage_multiplier = 1f;
 
-//	public boolean tree_mining_speed_by_log_amount = true;
-//	public float tree_mining_speed_multiplier = 1f;
-
+	public boolean tree_mining_speed_by_log_amount = true;
+	public int tree_mining_speed_max_log_limit = 10;
+	public float tree_mining_speed_multiplier = 1f;
 	@ConfigEntry.Gui.CollapsibleObject
 	public TreeLimit tree_limit = new TreeLimit();
 

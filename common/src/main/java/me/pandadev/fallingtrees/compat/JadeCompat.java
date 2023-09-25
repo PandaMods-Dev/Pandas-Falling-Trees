@@ -12,7 +12,6 @@ import snownee.jade.api.WailaPlugin;
 public class JadeCompat implements IWailaPlugin {
 	@Override
 	public void register(IWailaCommonRegistration registration) {
-
 	}
 
 	@Override

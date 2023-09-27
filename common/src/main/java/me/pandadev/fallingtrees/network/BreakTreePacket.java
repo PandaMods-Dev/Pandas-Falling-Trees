@@ -22,9 +22,9 @@ public class BreakTreePacket {
 
 	public static void sendToServer(BlockPos pos, Player player) {
 		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-				buf.writeBlockPos(pos);
+		buf.writeBlockPos(pos);
 
-				buf.writeBoolean(TreeUtils.shouldTreeFall(player));
-				NetworkManager.sendToServer(PacketHandler.BREAK_TREE_PACKET_ID, buf);
+		buf.writeBoolean(TreeUtils.shouldTreeFall(player));
+		NetworkManager.sendToServer(PacketHandler.BREAK_TREE_PACKET_ID, buf);
 	}
 }

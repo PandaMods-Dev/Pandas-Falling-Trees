@@ -11,6 +11,7 @@ import me.pandadev.fallingtrees.config.ServerConfig;
 import me.pandadev.fallingtrees.entity.TreeEntity;
 import me.pandadev.fallingtrees.network.PacketHandler;
 import me.pandadev.fallingtrees.registries.Keybindings;
+import me.pandadev.fallingtrees.registries.TreeTypes;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -58,6 +59,7 @@ public class FallingTrees {
 			Keybindings.init();
 		}
 
+		TreeTypes.init();
 		EventHandler.init();
 		PacketHandler.init();
 

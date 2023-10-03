@@ -1,5 +1,6 @@
 {
 	"key.fallingtrees.single_block_toggle_key": "Single Block Mining Toggle",
+	"config.jade.plugin_fallingtrees.tree_drops": "Amount of base blocks",
 
 
 	"text.autoconfig.fallingtrees.title": "Panda's Dynamic Trees Config",

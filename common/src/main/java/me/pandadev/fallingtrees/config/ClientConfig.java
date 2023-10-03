@@ -9,7 +9,7 @@ public class ClientConfig implements ConfigData {
 	public boolean sound_effect = true;
 	public float sound_effect_volume = 1;
 
-	public OneBlockMiningEnum one_block_mining_method = OneBlockMiningEnum.CROUCH;
+	public OneBlockMiningEnum one_block_mining_method = OneBlockMiningEnum.SHIFT;
 
 	@ConfigEntry.Gui.Tooltip
 	public boolean is_mining_one_block = false;
@@ -17,10 +17,13 @@ public class ClientConfig implements ConfigData {
 	@ConfigEntry.Gui.CollapsibleObject
 	public TreeFallIndicator tree_fall_indicator = new TreeFallIndicator();
 
+	@ConfigEntry.Gui.Tooltip
+	public boolean jade_support = true;
+
 	public enum OneBlockMiningEnum {
-		CROUCH,
+		SHIFT,
 		KEYBIND_TOGGLE,
-		OFF
+		KEYBIND_HOLD
 	}
 
 	public static class TreeFallIndicator {

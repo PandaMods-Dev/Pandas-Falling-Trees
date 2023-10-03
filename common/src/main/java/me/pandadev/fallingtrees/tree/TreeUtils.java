@@ -24,7 +24,7 @@ public class TreeUtils {
 
 	@Environment(EnvType.CLIENT)
 	public static boolean isMiningOneBlock(Player player) {
-		if (FallingTrees.getClientConfig().one_block_mining_method.equals(ClientConfig.OneBlockMiningEnum.CROUCH)) {
+		if (FallingTrees.getClientConfig().one_block_mining_method.equals(ClientConfig.OneBlockMiningEnum.SHIFT)) {
 			return player.isCrouching();
 		}
 		return FallingTrees.getClientConfig().is_mining_one_block;
@@ -73,7 +73,6 @@ public class TreeUtils {
 		}
 	}
 
-	@Environment(EnvType.CLIENT)
 	public static boolean shouldTreeFall(Player player) {
 		if (FallingTrees.getServerConfig().tree_limit.only_fall_on_tool_use) {
 			return player.getMainHandItem().getItem() instanceof AxeItem && !(FallingTrees.getServerConfig().allow_one_block_mining && TreeUtils.isMiningOneBlock(player));

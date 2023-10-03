@@ -2,7 +2,7 @@ package me.pandadev.fallingtrees.mixin;
 
 import me.pandadev.fallingtrees.FallingTrees;
 import me.pandadev.fallingtrees.tree.TreeCache;
-import me.pandadev.fallingtrees.tree.TreeUtils;
+import me.pandadev.fallingtrees.utils.PlayerExtension;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -21,7 +21,7 @@ public abstract class BlockStateBaseMixin {
 	@Inject(method = "getDestroyProgress", at = @At("RETURN"), cancellable = true)
 	public void getDestroyProgress(Player player, BlockGetter level, BlockPos pos, CallbackInfoReturnable<Float> cir) {
 		TreeCache cache = TreeCache.getOrCreateCache("tree_breaking", pos, level, player);
-		if (cache != null && FallingTrees.getServerConfig().tree_mining_speed_by_log_amount && TreeUtils.shouldTreeFall(player) && !cache.isTreeSizeToBig())
+		if (cache != null && FallingTrees.getServerConfig().tree_mining_speed_by_log_amount && ((PlayerExtension) player).shouldTreesFall() && !cache.isTreeSizeToBig())
 			cir.setReturnValue(cir.getReturnValue() / ((Math.min(FallingTrees.getServerConfig().tree_mining_speed_max_log_limit, cache.getLogAmount())-1) *
 					FallingTrees.getServerConfig().tree_mining_speed_multiplier + 1));
 	}

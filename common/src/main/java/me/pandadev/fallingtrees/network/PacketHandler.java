@@ -14,7 +14,7 @@ public class PacketHandler {
 	public static void init() {
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			NetworkManager.registerReceiver(NetworkManager.serverToClient(), CONFIG_PACKET_ID, ConfigPacket::clientReceiver);
-			NetworkManager.registerReceiver(NetworkManager.clientToServer(), BREAK_TREE_PACKET_ID, BreakTreePacket::clientReceiver);
+			NetworkManager.registerReceiver(NetworkManager.serverToClient(), BREAK_TREE_PACKET_ID, BreakTreePacket::clientReceiver);
 		}
 
 		NetworkManager.registerReceiver(NetworkManager.clientToServer(), BREAK_TREE_PACKET_ID, BreakTreePacket::serverReceiver);

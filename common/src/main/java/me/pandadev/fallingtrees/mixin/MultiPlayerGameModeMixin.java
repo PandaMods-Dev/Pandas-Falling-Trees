@@ -45,28 +45,23 @@ public abstract class MultiPlayerGameModeMixin {
 
 	@Unique
 	boolean miningOneBlock = false;
-	@Inject(method = "startDestroyBlock", at = @At("RETURN"))
+	@Inject(method = "startDestroyBlock", at = @At("HEAD"))
 	public void startDestroyBlock(BlockPos pos, Direction face, CallbackInfoReturnable<Boolean> cir) {
-		Level level = this.minecraft.level;
 		Player player = this.minecraft.player;
-		if (cir.getReturnValue() && level != null && player != null) {
-			TreeCache cache = TreeCache.getOrCreateCache("tree_breaking", pos, level, player);
-			if (cache != null && !cache.isTreeSizeToBig() && ((PlayerExtension) player).isMiningOneBlock() != miningOneBlock) {
+		if (player != null) {
+			if (((PlayerExtension) player).isMiningOneBlock() != miningOneBlock) {
 				miningOneBlock = ((PlayerExtension) player).isMiningOneBlock();
 			}
 		}
 	}
 
-	@Inject(method = "continueDestroyBlock", at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/world/level/block/state/BlockState;getDestroyProgress(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)F",
-			shift = At.Shift.AFTER))
+	@Inject(method = "continueDestroyBlock", at = @At(value = "HEAD"))
 	public void continueDestroyBlock(BlockPos pos, Direction directionFacing, CallbackInfoReturnable<Boolean> cir) {
 		Player player = this.minecraft.player;
 		Level level = this.minecraft.level;
 		if (level != null && player != null) {
 			TreeCache cache = TreeCache.getOrCreateCache("tree_breaking", pos, level, player);
-			if (cache != null && !cache.isTreeSizeToBig() && miningOneBlock != ((PlayerExtension) player).isMiningOneBlock()) {
+			if (cache != null && miningOneBlock != ((PlayerExtension) player).isMiningOneBlock()) {
 				miningOneBlock = ((PlayerExtension) player).isMiningOneBlock();
 				this.destroyProgress = 0;
 			}

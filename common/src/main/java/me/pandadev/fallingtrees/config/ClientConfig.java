@@ -7,7 +7,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 @Config(name = "client")
 public class ClientConfig implements ConfigData {
 	public boolean sound_effect = true;
-	public float sound_effect_volume = 1;
+	public float sound_effect_volume = 0.25f;
 
 	public OneBlockMiningEnum one_block_mining_method = OneBlockMiningEnum.SHIFT;
 

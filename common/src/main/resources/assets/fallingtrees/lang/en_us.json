@@ -22,19 +22,24 @@
 	"text.autoconfig.fallingtrees.option.client.sound_effect": "Tree fall sound effect",
 	"text.autoconfig.fallingtrees.option.client.sound_effect_volume": "Tree fall sound effect volume",
 
+	"text.autoconfig.fallingtrees.option.client.jade_support": "Jade Compatibility",
+	"text.autoconfig.fallingtrees.option.client.jade_support.@Tooltip": "Disable this if you get fps drops",
+
 	"text.autoconfig.fallingtrees.category.server": "Server",
 
 	"text.autoconfig.fallingtrees.option.server.allow_one_block_mining": "Allow single block mining",
 
 
-	"text.autoconfig.fallingtrees.option.server.whitelisted_log_blocks": "Whitelisted log Blocks",
-	"text.autoconfig.fallingtrees.option.server.whitelisted_log_block_tags": "Whitelisted log Block Tags",
+	"text.autoconfig.fallingtrees.option.server.block_acceptance": "Block acceptance",
 
-	"text.autoconfig.fallingtrees.option.server.whitelisted_leaves_blocks": "Whitelisted leaves Blocks",
-	"text.autoconfig.fallingtrees.option.server.whitelisted_leaves_block_tags": "Whitelisted leaves Block Tags",
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.whitelisted_log_blocks": "Whitelisted log Blocks",
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.whitelisted_log_block_tags": "Whitelisted log Block Tags",
 
-	"text.autoconfig.fallingtrees.option.server.blacklisted_log_blocks": "Blacklisted log blocks",
-	"text.autoconfig.fallingtrees.option.server.blacklisted_leaves_blocks": "Blacklisted leaves blocks",
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.whitelisted_leaves_blocks": "Whitelisted leaves Blocks",
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.whitelisted_leaves_block_tags": "Whitelisted leaves Block Tags",
+
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.blacklisted_log_blocks": "Blacklisted log blocks",
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.blacklisted_leaves_blocks": "Blacklisted leaves blocks",
 
 
 	"text.autoconfig.fallingtrees.option.server.item_damage_multiplier": "Item damage multiplier",
@@ -42,6 +47,7 @@
 	"text.autoconfig.fallingtrees.option.server.food_exhaustion_limit": "Food exhaustion limit",
 
 	"text.autoconfig.fallingtrees.option.server.tree_mining_speed_by_log_amount": "Change tree mining speed by size of tree",
+	"text.autoconfig.fallingtrees.option.server.tree_mining_speed_max_log_limit": "Max log limit for mining speed",
 	"text.autoconfig.fallingtrees.option.server.tree_mining_speed_multiplier": "Tree mining speed multiplier",
 
 	"text.autoconfig.fallingtrees.option.server.tree_limit": "Tree limit",
@@ -54,3 +60,29 @@
 
 	"text.autoconfig.fallingtrees.option.server.tree_limit.only_fall_on_tool_use": "Only fall when tool is used"
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

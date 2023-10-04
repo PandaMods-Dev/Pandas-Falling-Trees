@@ -8,7 +8,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -49,9 +48,6 @@ public class TreeUtils {
 
 				treeEntity.setRotationY((float) Math.atan2(player.getX() - position.x, player.getZ() - position.z));
 				level.addFreshEntity(treeEntity);
-//				if (FallingTrees.serverConfig.sound_effect)
-//					level.playSound(null, pos, FallingTrees.TREE_FALL.get(), SoundSource.BLOCKS,
-//							0.25f*FallingTrees.serverConfig.sound_effect_volume, 1);
 
 				int LogAmount = cache.getLogAmount();
 				if (usedItem.isDamageableItem()) {
@@ -71,12 +67,5 @@ public class TreeUtils {
 				}
 			}
 		}
-	}
-
-	public static boolean shouldTreeFall(Player player) {
-		if (FallingTrees.getServerConfig().tree_limit.only_fall_on_tool_use) {
-			return player.getMainHandItem().getItem() instanceof AxeItem && !(FallingTrees.getServerConfig().allow_one_block_mining && TreeUtils.isMiningOneBlock(player));
-		}
-		return !(FallingTrees.getServerConfig().allow_one_block_mining && TreeUtils.isMiningOneBlock(player));
 	}
 }

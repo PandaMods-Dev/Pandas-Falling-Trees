@@ -87,22 +87,22 @@ public class DefaultTreeType extends TreeType {
     }
 
 	public static boolean isLog(Block block) {
-		if (FallingTrees.getServerConfig().blacklisted_log_blocks.contains(BuiltInRegistries.BLOCK.getKey(block).toString()))
+		if (FallingTrees.getServerConfig().block_acceptance.blacklisted_log_blocks.contains(BuiltInRegistries.BLOCK.getKey(block).toString()))
 			return false;
-		if (FallingTrees.getServerConfig().whitelisted_log_blocks.contains(BuiltInRegistries.BLOCK.getKey(block).toString()))
+		if (FallingTrees.getServerConfig().block_acceptance.whitelisted_log_blocks.contains(BuiltInRegistries.BLOCK.getKey(block).toString()))
 			return true;
 
 		return block.defaultBlockState().getTags().anyMatch(blockTagKey ->
-				FallingTrees.getServerConfig().whitelisted_log_block_tags.contains(blockTagKey.location().toString()));
+				FallingTrees.getServerConfig().block_acceptance.whitelisted_log_block_tags.contains(blockTagKey.location().toString()));
 	}
 
 	public static boolean isLeaves(Block block) {
-		if (FallingTrees.getServerConfig().blacklisted_leaves_blocks.contains(BuiltInRegistries.BLOCK.getKey(block).toString()))
+		if (FallingTrees.getServerConfig().block_acceptance.blacklisted_leaves_blocks.contains(BuiltInRegistries.BLOCK.getKey(block).toString()))
 			return false;
-		if (FallingTrees.getServerConfig().whitelisted_leaves_blocks.contains(BuiltInRegistries.BLOCK.getKey(block).toString()))
+		if (FallingTrees.getServerConfig().block_acceptance.whitelisted_leaves_blocks.contains(BuiltInRegistries.BLOCK.getKey(block).toString()))
 			return true;
 
 		return block.defaultBlockState().getTags().anyMatch(blockTagKey ->
-				FallingTrees.getServerConfig().whitelisted_leaves_block_tags.contains(blockTagKey.location().toString()));
+				FallingTrees.getServerConfig().block_acceptance.whitelisted_leaves_block_tags.contains(blockTagKey.location().toString()));
 	}
 }

@@ -39,7 +39,7 @@ public abstract class MultiPlayerGameModeMixin {
 			TreeCache cache = TreeCache.getOrCreateCache("tree_breaking", pos, level, player);
 			if (cache == null || cache.isTreeSizeToBig())
 				return;
-			BreakTreePacket.sendToServer(pos, player);
+			BreakTreePacket.sendToServer(pos, cache.treeType(), player);
 		}
 	}
 

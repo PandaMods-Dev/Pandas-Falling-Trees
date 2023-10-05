@@ -5,7 +5,10 @@ import me.pandadev.fallingtrees.tree.TreeType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,6 +25,13 @@ public class DefaultTreeType extends TreeType {
 	@Override
 	public boolean extraBlockRequirement(Map<BlockPos, BlockState> blocks, BlockGetter level) {
 		return blocks.entrySet().stream().anyMatch(entry -> DefaultTreeType.isLeaves(entry.getValue().getBlock()));
+	}
+
+	@Override
+	public void onFall(Player player, BlockPos pos, Level level) {
+		if (FallingTrees.getClientConfig().sound_effect) {
+			level.playSound(player, pos, FallingTrees.TREE_FALL.get(), SoundSource.BLOCKS, FallingTrees.getClientConfig().sound_effect_volume, 1);
+		}
 	}
 
 	@Override

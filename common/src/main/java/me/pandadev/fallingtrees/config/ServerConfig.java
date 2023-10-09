@@ -40,6 +40,7 @@ public class ServerConfig implements ConfigData {
 		public int tree_size_limit = 200;
 
 		@ConfigEntry.Gui.Tooltip
+		@ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
 		public LimitMethodEnum tree_limit_method = LimitMethodEnum.LOGS;
 
 		public boolean only_fall_on_tool_use = false;

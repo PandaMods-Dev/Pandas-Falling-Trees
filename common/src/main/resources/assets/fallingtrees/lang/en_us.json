@@ -1,9 +1,9 @@
 {
 	"key.fallingtrees.single_block_toggle_key": "Single Block Mining Toggle",
-	"config.jade.plugin_fallingtrees.tree_drops": "Amount of base blocks",
+	"config.jade.plugin_fallingtrees.tree_drops": "Amount of block drops",
 
 
-	"text.autoconfig.fallingtrees.title": "Panda's Dynamic Trees Config",
+	"text.autoconfig.fallingtrees.title": "Panda's Falling Trees Config",
 
 	"text.autoconfig.fallingtrees.category.client": "Client",
 
@@ -60,29 +60,3 @@
 
 	"text.autoconfig.fallingtrees.option.server.tree_limit.only_fall_on_tool_use": "Only fall when tool is used"
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

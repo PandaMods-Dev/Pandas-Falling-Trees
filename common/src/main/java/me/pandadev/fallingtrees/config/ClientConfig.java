@@ -9,6 +9,7 @@ public class ClientConfig implements ConfigData {
 	public boolean sound_effect = true;
 	public float sound_effect_volume = 0.25f;
 
+	@ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
 	public OneBlockMiningEnum one_block_mining_method = OneBlockMiningEnum.SHIFT;
 
 	@ConfigEntry.Gui.Tooltip

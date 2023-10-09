@@ -1,0 +1,62 @@
+{
+	"key.fallingtrees.single_block_toggle_key": "Включение ломания только одного блока",
+	"config.jade.plugin_fallingtrees.tree_drops": "Количество выпадаемых блоков",
+
+
+	"text.autoconfig.fallingtrees.title": "Настройки Panda's Falling Trees",
+
+	"text.autoconfig.fallingtrees.category.client": "Клиент",
+
+	"text.autoconfig.fallingtrees.option.client.one_block_mining_method": "Способ ломания только одного блока",
+	"text.autoconfig.fallingtrees.option.client.is_mining_one_block": "Должен ломать только один блок",
+	"text.autoconfig.fallingtrees.option.client.is_mining_one_block.@Tooltip": "Работает только если способ ломания только одного блока не стоит на CROUCH",
+
+	"text.autoconfig.fallingtrees.option.client.tree_fall_indicator": "Индикатор падения дерева в интерфейсе",
+	"text.autoconfig.fallingtrees.option.client.tree_fall_indicator.indicator_visible": "Видимый индикатор",
+	"text.autoconfig.fallingtrees.option.client.tree_fall_indicator.hud_position_x": "Позиция по X",
+	"text.autoconfig.fallingtrees.option.client.tree_fall_indicator.hud_position_y": "Позиция по Y",
+	"text.autoconfig.fallingtrees.option.client.tree_fall_indicator.hud_anchor_x": "Позиция якорной точки по X",
+	"text.autoconfig.fallingtrees.option.client.tree_fall_indicator.hud_anchor_y": "Позиция якорной точки по Y",
+	"text.autoconfig.fallingtrees.option.client.tree_fall_indicator.size": "Размер",
+
+	"text.autoconfig.fallingtrees.option.client.sound_effect": "Звуковой эффект падения дерева",
+	"text.autoconfig.fallingtrees.option.client.sound_effect_volume": "Громкость звукового эффекта падения дерева",
+
+	"text.autoconfig.fallingtrees.option.client.jade_support": "Совместимость с Jade",
+	"text.autoconfig.fallingtrees.option.client.jade_support.@Tooltip": "Выключите это если у вас проседает fps",
+
+	"text.autoconfig.fallingtrees.category.server": "Сервер",
+
+	"text.autoconfig.fallingtrees.option.server.allow_one_block_mining": "Разрешить ломание только одного блока",
+
+
+	"text.autoconfig.fallingtrees.option.server.block_acceptance": "Принятие блока",
+
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.whitelisted_log_blocks": "Разрешённые блоки бревна",
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.whitelisted_log_block_tags": "Теги разрешённых блоков бревна",
+
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.whitelisted_leaves_blocks": "Разрешённые блоки листвы",
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.whitelisted_leaves_block_tags": "Теги разрешённых блоков листвы",
+
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.blacklisted_log_blocks": "Запрещённые блоки бревна",
+	"text.autoconfig.fallingtrees.option.server.block_acceptance.blacklisted_leaves_blocks": "Запрещённые блоки листвы",
+
+
+	"text.autoconfig.fallingtrees.option.server.item_damage_multiplier": "Множитель урона предметам",
+	"text.autoconfig.fallingtrees.option.server.food_exhaustion_multiplier": "Множитель истощения полоски голода",
+	"text.autoconfig.fallingtrees.option.server.food_exhaustion_limit": "Лиимит истощения полоски голода",
+
+	"text.autoconfig.fallingtrees.option.server.tree_mining_speed_by_log_amount": "Изменять скорость ломания дерева в зависимости от его размера",
+	"text.autoconfig.fallingtrees.option.server.tree_mining_speed_max_log_limit": "Максимальный лимит брёвен для скорости ломания",
+	"text.autoconfig.fallingtrees.option.server.tree_mining_speed_multiplier": "Множитель скорости ломания дерева",
+
+	"text.autoconfig.fallingtrees.option.server.tree_limit": "Лимит дерева",
+
+	"text.autoconfig.fallingtrees.option.server.tree_limit.tree_size_limit": "Максимальное количество блоков дерева",
+	"text.autoconfig.fallingtrees.option.server.tree_limit.tree_size_limit.@Tooltip": "Максимум блоков в дереве",
+
+	"text.autoconfig.fallingtrees.option.server.tree_limit.tree_limit_method": "Метод ограничения дерева",
+	"text.autoconfig.fallingtrees.option.server.tree_limit.tree_limit_method.@Tooltip": "Ограничитель должен проверять только количство брёвен или количесво блоков в дереве в целом",
+
+	"text.autoconfig.fallingtrees.option.server.tree_limit.only_fall_on_tool_use": "Падать только если был использован инструмент"
+}

@@ -31,15 +31,23 @@ public abstract class MultiPlayerGameModeMixin {
 
 	@Shadow protected abstract void startPrediction(ClientLevel level, PredictiveAction action);
 
-	@Inject(method = "destroyBlock", at = @At("HEAD"))
+	@Inject(
+			method = "destroyBlock",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/level/block/Block;playerWillDestroy(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/entity/player/Player;)V",
+					shift = At.Shift.AFTER
+			),
+			cancellable = true)
 	public void destroyBlock(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
 		Level level = this.minecraft.level;
 		Player player = this.minecraft.player;
 		if (level != null && player != null) {
 			TreeCache cache = TreeCache.getOrCreateCache("tree_breaking", pos, level, player);
-			if (cache == null || cache.isTreeSizeToBig())
+			if (cache == null || cache.isTreeSizeToBig() || !cache.treeType().extraBlockRequirement(cache.getBlocksMap(pos), level))
 				return;
 			BreakTreePacket.sendToServer(pos, cache.treeType(), player);
+			cir.setReturnValue(false);
 		}
 	}
 

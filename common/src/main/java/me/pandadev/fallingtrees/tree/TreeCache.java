@@ -5,6 +5,7 @@ import me.pandadev.fallingtrees.config.ServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
@@ -56,5 +57,14 @@ public record TreeCache(Vector3i pos, List<BlockPos> blocks, BlockGetter level, 
 		TreeCache cache = new TreeCache(new Vector3i(pos.getX(), pos.getY(), pos.getZ()), blocks, level, treeType.get());
 		getCaches(cacheName).put(player.getId(), cache);
 		return cache;
+	}
+
+	public Map<BlockPos, BlockState> getBlocksMap(BlockPos pos) {
+		Map<BlockPos, BlockState> treeBlocks = new HashMap<>();
+		for (BlockPos treePos : this.blocks()) {
+			BlockState state = level.getBlockState(treePos);
+			treeBlocks.put(treePos.subtract(pos), state);
+		}
+		return treeBlocks;
 	}
 }

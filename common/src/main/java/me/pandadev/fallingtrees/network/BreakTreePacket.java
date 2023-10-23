@@ -23,8 +23,9 @@ public class BreakTreePacket {
 		Player player = context.getPlayer();
 		MinecraftServer server = player.getServer();
 		if (buf.readBoolean() && server != null) {
-			sendToClients(pos, buf.readUtf(), server);
-			TreeUtils.breakTree(context.getPlayer(), context.getPlayer().level(), pos);
+			if (TreeUtils.breakTree(context.getPlayer(), context.getPlayer().level(), pos)) {
+				sendToClients(pos, buf.readUtf(), server);
+			}
 		} else {
 			BlockState state = context.getPlayer().level().getBlockState(pos);
 			context.getPlayer().level().gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(context.getPlayer(), state));

@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Math;
 import org.joml.Vector3d;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,15 +28,11 @@ public class TreeUtils {
 		return FallingTrees.getClientConfig().is_mining_one_block;
 	}
 
-	public static void breakTree(Player player, Level level, BlockPos pos) {
+	public static boolean breakTree(Player player, Level level, BlockPos pos) {
 		TreeCache cache = TreeCache.getOrCreateCache("tree_breaking", pos, level, player);
 		if (cache != null) {
 			List<BlockPos> tree = cache.blocks();
-			Map<BlockPos, BlockState> treeBlocks = new HashMap<>();
-			for (BlockPos treePos : tree) {
-				BlockState state = level.getBlockState(treePos);
-				treeBlocks.put(treePos.subtract(pos), state);
-			}
+			Map<BlockPos, BlockState> treeBlocks = cache.getBlocksMap(pos);
 
 			if (cache.treeType().extraBlockRequirement(treeBlocks, level)) {
 				TreeEntity treeEntity = new TreeEntity(FallingTrees.TREE_ENTITY.get(), level).setBlocks(treeBlocks);
@@ -65,7 +60,9 @@ public class TreeUtils {
 				for (Map.Entry<BlockPos, BlockState> entry : treeBlocks.entrySet()) {
 					level.sendBlockUpdated(entry.getKey().offset(pos), entry.getValue(), Blocks.AIR.defaultBlockState(), 3);
 				}
+				return true;
 			}
 		}
+		return false;
 	}
 }

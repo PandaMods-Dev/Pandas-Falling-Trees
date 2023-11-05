@@ -1,0 +1,40 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+showAsResourcePack=false
+issueTrackerURL="https://github.com/PandaDap2006/Pandas-Falling-Trees/issues"
+
+[[mods]]
+	modId="fallingtrees"
+	version="${version}"
+	displayName="Falling Tree's"
+	logoFile="icon.png"
+	authors="The Panda Oliver/PandaMods"
+	description='''
+		Makes trees fall realistically.
+	'''
+
+[[dependencies.fallingtrees]]
+   modId="forge"
+   mandatory=true
+   versionRange="[47,)"
+   ordering="NONE"
+   side="BOTH"
+[[dependencies.fallingtrees]]
+   modId="minecraft"
+   mandatory=true
+   versionRange="[1.20.1,1.21)"
+   ordering="NONE"
+   side="BOTH"
+[[dependencies.fallingtrees]]
+    modId="cloth_config"
+    mandatory=true
+    versionRange="[11.1.106,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.fallingtrees]]
+    modId="architectury"
+    mandatory=true
+    versionRange="[9.1.12,)"
+    ordering="NONE"
+    side="BOTH"

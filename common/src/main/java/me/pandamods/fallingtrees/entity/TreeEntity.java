@@ -10,12 +10,16 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,25 +28,28 @@ public class TreeEntity extends Entity {
 	public static final EntityDataAccessor<Integer> HEIGHT = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Integer> LIFETIME = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<BlockPos> ORIGIN_POS = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.BLOCK_POS);
+	public static final EntityDataAccessor<ItemStack> USED_TOOL = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.ITEM_STACK);
 
 	public TreeType treeType;
+	public Entity owner = null;
 
 	public TreeEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.noCulling = true;
 	}
 
-	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, TreeType treeType) {
+	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, TreeType treeType, Player player) {
 		if (levelAccessor instanceof Level level) {
 			TreeEntity treeEntity = new TreeEntity(EntityRegistry.TREE.get(), level);
 			treeEntity.setPos(blockPos.getCenter().add(0, -.5, 0));
-			treeEntity.setData(blockPosList, blockPos, treeType);
+			treeEntity.setData(blockPosList, blockPos, treeType, player, player.getItemBySlot(EquipmentSlot.MAINHAND));
 			level.addFreshEntity(treeEntity);
 		}
 	}
 
-	public void setData(Set<BlockPos> blockPosList, BlockPos originBlock, TreeType treeType) {
+	public void setData(Set<BlockPos> blockPosList, BlockPos originBlock, TreeType treeType, Entity owner, ItemStack itemStack) {
 		this.treeType = treeType;
+		this.owner = owner;
 
 		int height = 0;
 
@@ -55,9 +62,7 @@ public class TreeEntity extends Entity {
 		this.getEntityData().set(ORIGIN_POS, originBlock);
 		this.getEntityData().set(BLOCKS, blockPosMap);
 		this.getEntityData().set(HEIGHT, height);
-//		if (this.getHeight() > 10) {
-//			this.getEntityData().set(LIFETIME, (int) (180 * 1.5));
-//		}
+		this.getEntityData().set(USED_TOOL, itemStack);
 	}
 
 	@Override
@@ -66,6 +71,7 @@ public class TreeEntity extends Entity {
 		this.getEntityData().define(HEIGHT, 0);
 		this.getEntityData().define(LIFETIME, 180);
 		this.getEntityData().define(ORIGIN_POS, new BlockPos(0, 0, 0));
+		this.getEntityData().define(USED_TOOL, ItemStack.EMPTY);
 	}
 
 	@Override
@@ -83,8 +89,16 @@ public class TreeEntity extends Entity {
 		super.tick();
 
 		if (this.tickCount >= getLifeTime()) {
+			ItemStack usedItem = getUsedTool();
+			for (Map.Entry<BlockPos, BlockState> entry : this.getBlocks().entrySet()) {
+				BlockEntity blockEntity = null;
+				if (entry.getValue().hasBlockEntity()) blockEntity = level().getBlockEntity(entry.getKey().offset(this.getOriginPos()));
+				Block.dropResources(entry.getValue(), level(), getOriginPos(), blockEntity, owner, usedItem);
+			}
+
 			this.remove(RemovalReason.DISCARDED);
 		}
+
 		if (this.tickCount >= getLifeTime() / 2) {
 
 		}
@@ -105,4 +119,9 @@ public class TreeEntity extends Entity {
 	public BlockPos getOriginPos() {
 		return this.getEntityData().get(ORIGIN_POS);
 	}
+
+	public ItemStack getUsedTool() {
+		return this.getEntityData().get(USED_TOOL);
+	}
+
 }

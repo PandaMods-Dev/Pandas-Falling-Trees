@@ -9,6 +9,8 @@
 
 	"text.autoconfig.fallingtrees.category.common": "Common",
 
+	"text.autoconfig.fallingtrees.option.common.damageUsedTool": "Damage used tool",
+
 	"text.autoconfig.fallingtrees.option.common.limit": "Limit",
 	"text.autoconfig.fallingtrees.option.common.limit.limitType": "Limit type",
 	"text.autoconfig.fallingtrees.option.common.limit.blockAmountLimit": "block amount",

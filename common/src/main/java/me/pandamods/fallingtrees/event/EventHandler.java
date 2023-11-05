@@ -84,7 +84,11 @@ public class EventHandler {
 			}
 		}
 
-		TreeEntity.destroyTree(treeBlockPos, blockPos, level, treeType);
+		if (!mainItem.isEmpty()) {
+			mainItem.hurtAndBreak(commonConfig.damageUsedTool ? (int) baseAmount : 1, player, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+		}
+
+		TreeEntity.destroyTree(treeBlockPos, blockPos, level, treeType, player);
 		return true;
 	}
 }

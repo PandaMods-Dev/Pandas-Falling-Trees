@@ -9,6 +9,8 @@ public class CommonConfig implements ConfigData {
 	@ConfigEntry.Gui.CollapsibleObject
 	public Limit limit = new Limit();
 
+	public boolean damageUsedTool = true;
+
 	public static class Limit {
 		@ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
 		public LimitType limitType = LimitType.BASE_BLOCK_AMOUNT;

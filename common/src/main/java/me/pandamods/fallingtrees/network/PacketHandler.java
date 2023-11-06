@@ -13,5 +13,6 @@ public class PacketHandler {
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			NetworkManager.registerReceiver(NetworkManager.serverToClient(), CONFIG_PACKET_ID, ConfigPacket::clientReceiver);
 		}
+		NetworkManager.registerReceiver(NetworkManager.clientToServer(), CONFIG_PACKET_ID, ConfigPacket::serverReceiver);
 	}
 }

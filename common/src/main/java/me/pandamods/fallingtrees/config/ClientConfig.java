@@ -5,4 +5,5 @@ import me.shedaniel.autoconfig.annotation.Config;
 
 @Config(name = "client")
 public class ClientConfig implements ConfigData {
+	public boolean invertCrouchMining = false;
 }

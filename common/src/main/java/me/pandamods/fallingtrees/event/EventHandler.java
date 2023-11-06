@@ -2,6 +2,7 @@ package me.pandamods.fallingtrees.event;
 
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.client.ClientLifecycleEvent;
+import dev.architectury.event.events.client.ClientPlayerEvent;
 import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.platform.Platform;
@@ -17,6 +18,7 @@ import me.pandamods.fallingtrees.network.ConfigPacket;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -43,6 +45,8 @@ public class EventHandler {
 	}
 
 	private static void onClientSetup(Minecraft minecraft) {
+		ClientPlayerEvent.CLIENT_PLAYER_JOIN.register(EventHandler::onClientPlayerJoin);
+
 		EntityRendererRegistry.register(EntityRegistry.TREE, TreeRenderer::new);
 	}
 
@@ -59,6 +63,9 @@ public class EventHandler {
 	private static void onPlayerJoin(ServerPlayer serverPlayer) {
 		ConfigPacket.sendToPlayer(serverPlayer);
 	}
+	private static void onClientPlayerJoin(LocalPlayer localPlayer) {
+		ConfigPacket.sendToServer();
+	}
 
 	public static boolean makeTreeFall(BlockPos blockPos, LevelAccessor level, Player player) {
 		Optional<TreeType> treeTypeOptional = TreeRegistry.getTreeType(level.getBlockState(blockPos));
@@ -70,6 +77,8 @@ public class EventHandler {
 		BlockState blockState = level.getBlockState(blockPos);
 		CommonConfig commonConfig = FallingTrees.getCommonConfig();
 
+		if (commonConfig.isCrouchMiningAllowed &&
+				player.isCrouching() != ConfigPacket.getClientConfig(player).getBoolean("invertCrouchMining")) return false;
 		if (commonConfig.limit.onlyRequiredTool && !treeType.allowedTool(mainItem, blockState)) return false;
 
 		Set<BlockPos> treeBlockPos = treeType.blockGatheringAlgorithm(blockPos, level);

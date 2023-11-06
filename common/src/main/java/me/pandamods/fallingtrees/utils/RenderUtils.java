@@ -13,8 +13,9 @@ public class RenderUtils {
 		return Minecraft.getInstance().getBlockRenderer();
 	}
 
-	public static void renderBlock(PoseStack poseStack, BlockState blockState, BlockPos blockPos, Level level, VertexConsumer vertexConsumer) {
-		getBlockRenderDispatcher().renderBatched(blockState, blockPos, level, poseStack, vertexConsumer, true, level.getRandom());
+	public static void renderBlock(PoseStack poseStack, BlockState blockState, BlockPos blockPos,
+								   Level level, VertexConsumer vertexConsumer, boolean checkSides) {
+		getBlockRenderDispatcher().renderBatched(blockState, blockPos, level, poseStack, vertexConsumer, checkSides, level.getRandom());
 	}
 
 	public static float getDeltaTime() {

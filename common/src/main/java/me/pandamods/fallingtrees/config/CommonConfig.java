@@ -10,6 +10,7 @@ public class CommonConfig implements ConfigData {
 	public Limit limit = new Limit();
 
 	public boolean damageUsedTool = true;
+	public boolean causeFoodExhaustion = true;
 
 	public static class Limit {
 		@ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)

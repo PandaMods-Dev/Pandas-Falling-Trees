@@ -19,4 +19,15 @@ public class TreeRegistry {
 	public static Optional<TreeType> getTreeType(BlockState blockState) {
 		return REGISTRIES.values().stream().filter(treeType -> treeType.mineableBlock(blockState)).findFirst();
 	}
+
+	public static Optional<TreeType> getTreeType(ResourceLocation resourceLocation) {
+		return Optional.ofNullable(REGISTRIES.get(resourceLocation));
+	}
+
+	public static ResourceLocation getTreeTypeLocation(TreeType treeType) {
+		for (Map.Entry<ResourceLocation, TreeType> entry : REGISTRIES.entrySet()) {
+			if (entry.getValue() == treeType) return entry.getKey();
+		}
+		return null;
+	}
 }

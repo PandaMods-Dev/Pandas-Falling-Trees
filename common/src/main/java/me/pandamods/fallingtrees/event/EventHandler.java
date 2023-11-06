@@ -19,6 +19,7 @@ import net.fabricmc.api.EnvType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -87,6 +88,8 @@ public class EventHandler {
 		if (!mainItem.isEmpty()) {
 			mainItem.hurtAndBreak(commonConfig.damageUsedTool ? (int) baseAmount : 1, player, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 		}
+		player.causeFoodExhaustion(0.005f * (commonConfig.causeFoodExhaustion ? (int) baseAmount : 1));
+		player.awardStat(Stats.BLOCK_MINED.get(blockState.getBlock()), (int) baseAmount);
 
 		TreeEntity.destroyTree(treeBlockPos, blockPos, level, treeType, player);
 		return true;

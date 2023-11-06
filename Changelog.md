@@ -4,8 +4,9 @@
 * **What has been recoded**
   * Block detection algorithm.
   * Tree rendering.
-  * API.
   * Tree animation.
+  * Tree entity.
+  * API.
   * Config.
 
 
@@ -17,7 +18,11 @@
 * **What has been changed**
   * The tree detection algorithm now ignore persistent leaves.
   * The tree fall SFX packet will now only be sent to players in a radius of 32 blocks of the tree.
-  * "One block mining" will now be referred to as "Crouch mining"
+  * "One block mining" will now be named "Crouch mining"
+
+
+* **What has been added**
+  * Gravity to tree entities
 
 
 * **What has been removed**

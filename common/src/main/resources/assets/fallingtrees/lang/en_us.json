@@ -6,10 +6,14 @@
 	"text.autoconfig.fallingtrees.title": "Panda's Falling Trees Config",
 	"text.autoconfig.fallingtrees.category.client": "Client",
 
+	"text.autoconfig.fallingtrees.option.client.invertCrouchMining": "Invert Crouch mining",
+
 
 	"text.autoconfig.fallingtrees.category.common": "Common",
 
-	"text.autoconfig.fallingtrees.option.common.damageUsedTool": "Damage used tool",
+	"text.autoconfig.fallingtrees.option.common.isCrouchMiningAllowed": "Is Crouch mining allowed",
+	"text.autoconfig.fallingtrees.option.common.multiplyToolDamage": "Multiply tool damage",
+	"text.autoconfig.fallingtrees.option.common.multiplyFoodExhaustion": "Multiply food exhaustion",
 
 	"text.autoconfig.fallingtrees.option.common.limit": "Limit",
 	"text.autoconfig.fallingtrees.option.common.limit.limitType": "Limit type",

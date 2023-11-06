@@ -13,15 +13,18 @@ import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.api.TreeType;
 import me.pandamods.fallingtrees.client.render.TreeRenderer;
 import me.pandamods.fallingtrees.config.CommonConfig;
+import me.pandamods.fallingtrees.config.ModConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.network.ConfigPacket;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
+import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -46,8 +49,16 @@ public class EventHandler {
 
 	private static void onClientSetup(Minecraft minecraft) {
 		ClientPlayerEvent.CLIENT_PLAYER_JOIN.register(EventHandler::onClientPlayerJoin);
+		FallingTrees.getConfigHolder().registerSaveListener(EventHandler::saveConfig);
 
 		EntityRendererRegistry.register(EntityRegistry.TREE, TreeRenderer::new);
+	}
+
+	private static InteractionResult saveConfig(ConfigHolder<ModConfig> modConfigConfigHolder, ModConfig modConfig) {
+		if (Minecraft.getInstance().level != null) {
+			ConfigPacket.sendToServer();
+		}
+		return InteractionResult.PASS;
 	}
 
 	private static EventResult onBlockBreak(Level level, BlockPos blockPos, BlockState blockState, ServerPlayer serverPlayer, IntValue intValue) {
@@ -95,9 +106,9 @@ public class EventHandler {
 		}
 
 		if (!mainItem.isEmpty()) {
-			mainItem.hurtAndBreak(commonConfig.damageUsedTool ? (int) baseAmount : 1, player, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+			mainItem.hurtAndBreak(commonConfig.multiplyToolDamage ? (int) baseAmount : 1, player, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 		}
-		player.causeFoodExhaustion(0.005f * (commonConfig.causeFoodExhaustion ? (int) baseAmount : 1));
+		player.causeFoodExhaustion(0.005f * (commonConfig.multiplyFoodExhaustion ? (int) baseAmount : 1));
 		player.awardStat(Stats.BLOCK_MINED.get(blockState.getBlock()), (int) baseAmount);
 
 		TreeEntity.destroyTree(treeBlockPos, blockPos, level, treeType, player);

@@ -10,8 +10,8 @@ public class CommonConfig implements ConfigData {
 	public Limit limit = new Limit();
 
 	public boolean isCrouchMiningAllowed = true;
-	public boolean damageUsedTool = true;
-	public boolean causeFoodExhaustion = true;
+	public boolean multiplyToolDamage = true;
+	public boolean multiplyFoodExhaustion = true;
 
 	public static class Limit {
 		@ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)

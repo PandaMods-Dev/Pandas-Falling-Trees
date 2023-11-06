@@ -14,12 +14,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
@@ -39,6 +39,7 @@ public class TreeEntity extends Entity {
 	public static final EntityDataAccessor<String> TREE_TYPE_LOCATION = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.STRING);
 
 	public Entity owner = null;
+	public TreeType treeType = null;
 
 	public TreeEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);
@@ -51,11 +52,19 @@ public class TreeEntity extends Entity {
 			treeEntity.setPos(blockPos.getCenter().add(0, -.5, 0));
 			treeEntity.setData(blockPosList, blockPos, treeType, player, player.getItemBySlot(EquipmentSlot.MAINHAND));
 			level.addFreshEntity(treeEntity);
+
+			for (BlockPos pos : blockPosList) {
+				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 0);
+			}
+			for (Map.Entry<BlockPos, BlockState> entry : treeEntity.getBlocks().entrySet()) {
+				level.sendBlockUpdated(entry.getKey().offset(blockPos), entry.getValue(), Blocks.AIR.defaultBlockState(), 3);
+			}
 		}
 	}
 
 	public void setData(Set<BlockPos> blockPosList, BlockPos originBlock, TreeType treeType, Entity owner, ItemStack itemStack) {
 		this.owner = owner;
+		this.treeType = treeType;
 
 		int height = 0;
 
@@ -81,7 +90,7 @@ public class TreeEntity extends Entity {
 	protected void defineSynchedData() {
 		this.getEntityData().define(BLOCKS, new HashMap<>());
 		this.getEntityData().define(HEIGHT, 0);
-		this.getEntityData().define(LIFETIME, 180);
+		this.getEntityData().define(LIFETIME, 120);
 		this.getEntityData().define(ORIGIN_POS, new BlockPos(0, 0, 0));
 		this.getEntityData().define(USED_TOOL, ItemStack.EMPTY);
 		this.getEntityData().define(FALL_DIRECTION, Direction.NORTH);
@@ -102,20 +111,15 @@ public class TreeEntity extends Entity {
 	public void tick() {
 		super.tick();
 
-		if (this.tickCount >= getLifeTime()) {
-//			ItemStack usedItem = getUsedTool();
-//			for (Map.Entry<BlockPos, BlockState> entry : this.getBlocks().entrySet()) {
-//				BlockEntity blockEntity = null;
-//				if (entry.getValue().hasBlockEntity()) blockEntity = level().getBlockEntity(entry.getKey().offset(this.getOriginPos()));
-//				Block.dropResources(entry.getValue(), level(), getOriginPos(), blockEntity, owner, usedItem);
-//			}
-
-			this.remove(RemovalReason.DISCARDED);
+		if (!this.isNoGravity()) {
+			this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.04, 0.0));
+		}
+		this.move(MoverType.SELF, this.getDeltaMovement());
+		if (this.onGround()) {
+			this.setDeltaMovement(this.getDeltaMovement().multiply(1, -0.5, 1));
 		}
 
-		if (this.tickCount >= getLifeTime() / 2) {
-
-		}
+		this.getTreeType().entityTick(this);
 	}
 
 	public Map<BlockPos, BlockState> getBlocks() {

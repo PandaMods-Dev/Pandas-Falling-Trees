@@ -34,7 +34,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		poseStack.pushPose();
 
 		Map<BlockPos, BlockState> blocks = entity.getBlocks();
-		float time = this.getBob(entity, partialTick) / 30;
+		float time = this.getBob(entity, partialTick) / 20;
 		float animationTime = (float) Math.min(Math.PI*3, time * (time / 3));
 		float animation = (-Math.abs(Math.sin(animationTime) / animationTime) + 1) * -90;
 

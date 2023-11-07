@@ -8,6 +8,10 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}")
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/fallingtrees.accesswidener")
+}
+
 architectury {
     common("fabric", "forge")
 }

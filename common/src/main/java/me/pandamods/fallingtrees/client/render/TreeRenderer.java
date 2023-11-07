@@ -14,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Math;
 import org.joml.Quaternionf;
@@ -57,7 +58,14 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		blocks.forEach((blockPos, blockState) -> {
 			poseStack.pushPose();
 			poseStack.translate(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-			RenderUtils.renderBlock(poseStack, blockState, blockPos.offset(entity.getOriginPos()), entity.level(), consumer, false);
+			RenderUtils.renderBlock(poseStack, blockState, blockPos.offset(entity.getOriginPos()), entity.level(), consumer,
+					(state, level, offset, face, pos) -> {
+						if (Block.shouldRenderFace(state, level, offset, face, pos)) {
+							return true;
+						}
+
+						return !blocks.containsKey(blockPos.offset(face.getNormal()));
+					});
 			poseStack.popPose();
 		});
 		poseStack.popPose();

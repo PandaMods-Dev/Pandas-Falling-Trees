@@ -62,11 +62,8 @@ public class EventHandler {
 	}
 
 	private static EventResult onBlockBreak(Level level, BlockPos blockPos, BlockState blockState, ServerPlayer serverPlayer, IntValue intValue) {
-		Optional<TreeType> treeTypeOptional = TreeRegistry.getTreeType(blockState);
-		if (treeTypeOptional.isPresent()) {
-			if (makeTreeFall(treeTypeOptional.get(), blockPos, level, serverPlayer)) {
-				return EventResult.interruptFalse();
-			}
+		if (serverPlayer != null && makeTreeFall(blockPos, level, serverPlayer)) {
+			return EventResult.interruptFalse();
 		}
 		return EventResult.pass();
 	}

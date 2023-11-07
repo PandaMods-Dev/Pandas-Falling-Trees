@@ -4,6 +4,7 @@ import me.pandamods.fallingtrees.entity.TreeEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -30,12 +31,13 @@ public interface TreeType {
 	}
 
 	default void entityTick(TreeEntity entity) {
+		Level level = entity.level();
 		if (entity.tickCount >= entity.getLifeTime()) {
 			ItemStack usedItem = entity.getUsedTool();
 			for (Map.Entry<BlockPos, BlockState> entry : entity.getBlocks().entrySet()) {
 				BlockEntity blockEntity = null;
-				if (entry.getValue().hasBlockEntity()) blockEntity = entity.level().getBlockEntity(entry.getKey().offset(entity.getOriginPos()));
-				Block.dropResources(entry.getValue(), entity.level(), entity.getOriginPos(), blockEntity, entity.owner, usedItem);
+				if (entry.getValue().hasBlockEntity()) blockEntity = level.getBlockEntity(entry.getKey().offset(entity.getOriginPos()));
+				Block.dropResources(entry.getValue(), level, entity.getOriginPos(), blockEntity, entity.owner, usedItem);
 			}
 
 			entity.remove(Entity.RemovalReason.DISCARDED);

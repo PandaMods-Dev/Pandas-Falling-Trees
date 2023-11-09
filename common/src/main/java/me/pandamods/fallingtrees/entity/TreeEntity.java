@@ -133,7 +133,7 @@ public class TreeEntity extends Entity {
 	}
 
 	public boolean isLarge() {
-		return this.getHeight() > 20;
+		return this.getHeight() > 15;
 	}
 
 	public float getHeight() {

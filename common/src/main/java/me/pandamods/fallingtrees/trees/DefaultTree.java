@@ -4,6 +4,7 @@ import dev.architectury.platform.Platform;
 import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.api.TreeType;
 import me.pandamods.fallingtrees.entity.TreeEntity;
+import me.pandamods.fallingtrees.network.ConfigPacket;
 import me.pandamods.fallingtrees.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;
 import net.minecraft.core.BlockPos;
@@ -11,6 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -72,6 +74,12 @@ public class DefaultTree implements TreeType {
 		blocks.addAll(logBlocks);
 		blocks.addAll(leavesBlocks);
 		return blocks;
+	}
+
+	@Override
+	public boolean allowedToFall(Player player) {
+		return !(FallingTrees.getCommonConfig().isCrouchMiningAllowed &&
+				player.isCrouching() != ConfigPacket.getClientConfig(player).getBoolean("invertCrouchMining"));
 	}
 
 	public void loopLogs(LevelAccessor level, BlockPos originPos, Set<BlockPos> logBlocks, Set<BlockPos> loopedLogBlocks, Set<BlockPos> leavesBlocks) {

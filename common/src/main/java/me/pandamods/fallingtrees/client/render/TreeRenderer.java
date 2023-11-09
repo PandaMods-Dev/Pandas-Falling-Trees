@@ -35,9 +35,9 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		float animation = (-animationFormula + 1) * -90;
 
 		Direction direction = entity.getDirection().getOpposite();
-		int distance = getDistance(entity.getTreeType(), blocks, 0, direction);
+		int distance = getDistance(entity.getTreeType(), blocks, 0, direction.getOpposite());
 
-		Vector3f pivot =  new Vector3f(0, 0, (float) (.5 + distance));
+		Vector3f pivot =  new Vector3f(0, 0, (.5f + distance) * entity.getTreeType().fallAnimationEdgeDistance());
 		pivot.rotateY(Math.toRadians(-direction.toYRot()));
 		poseStack.translate(-pivot.x, 0, -pivot.z);
 
@@ -49,7 +49,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		poseStack.translate(pivot.x, 0, pivot.z);
 
 		poseStack.translate(-.5, 0, -.5);
-		VertexConsumer consumer = buffer.getBuffer(RenderType.translucent());
+		VertexConsumer consumer = buffer.getBuffer(RenderType.cutout());
 		blocks.forEach((blockPos, blockState) -> {
 			poseStack.pushPose();
 			poseStack.translate(blockPos.getX(), blockPos.getY(), blockPos.getZ());

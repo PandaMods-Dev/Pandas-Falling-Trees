@@ -26,4 +26,5 @@
 
 
 * **What has been removed**
-  * One block mining toggle keybind (Might get re added later in development)
+  * One block mining toggle keybind (Might get added back later in development)
+  * Dynamic mining speed (Will be added back later)

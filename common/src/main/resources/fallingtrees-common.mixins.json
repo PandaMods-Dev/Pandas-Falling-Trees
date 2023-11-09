@@ -4,6 +4,7 @@
 	"package": "me.pandamods.fallingtrees.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"BlockstateMixin",
 		"PlayerMixin"
 	],
 	"client": [

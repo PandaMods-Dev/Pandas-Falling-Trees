@@ -2,8 +2,6 @@ package me.pandamods.fallingtrees.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
-import it.unimi.dsi.fastutil.objects.Object2ByteLinkedOpenHashMap;
 import me.pandamods.fallingtrees.api.TreeType;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.utils.RenderUtils;
@@ -13,21 +11,13 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Math;
 import org.joml.Quaternionf;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class TreeRenderer extends EntityRenderer<TreeEntity> {
 	public TreeRenderer(EntityRendererProvider.Context context) {
@@ -39,7 +29,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		poseStack.pushPose();
 
 		Map<BlockPos, BlockState> blocks = entity.getBlocks();
-		float time = this.getBob(entity, partialTick) / 20;
+		float time = entity.getLifetime(partialTick);
 		float animationTime = (float) Math.min(Math.PI*3, time * (time / 3));
 		float animationFormula = Math.abs(Math.sin(animationTime) / animationTime);
 		float animation = (-animationFormula + 1) * -90;
@@ -77,10 +67,6 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 			poseStack.popPose();
 		});
 		poseStack.popPose();
-	}
-
-	protected float getBob(TreeEntity entity, float partialTick) {
-		return entity.tickCount + partialTick;
 	}
 
 	@Override

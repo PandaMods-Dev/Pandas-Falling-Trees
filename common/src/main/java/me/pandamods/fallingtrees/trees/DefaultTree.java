@@ -1,8 +1,14 @@
 package me.pandamods.fallingtrees.trees;
 
+import dev.architectury.platform.Platform;
+import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.entity.TreeEntity;
+import me.pandamods.fallingtrees.registry.SoundRegistry;
+import net.fabricmc.api.EnvType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
@@ -29,6 +35,27 @@ public class DefaultTree implements TreeType {
 	@Override
 	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
 		return itemStack.is(ItemTags.AXES);
+	}
+
+	@Override
+	public void entityTick(TreeEntity entity) {
+		TreeType.super.entityTick(entity);
+
+		if (Platform.getEnv() == EnvType.CLIENT) {
+			if (entity.tickCount == 1) {
+				if (FallingTrees.getClientConfig().soundSettings.enabled) {
+					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
+							SoundSource.BLOCKS, FallingTrees.getClientConfig().soundSettings.startVolume, 1f, true);
+				}
+			}
+
+			if (entity.tickCount == entity.getMaxLifeTimeTick() / 2 - 10) {
+				if (FallingTrees.getClientConfig().soundSettings.enabled) {
+					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
+							SoundSource.BLOCKS, FallingTrees.getClientConfig().soundSettings.endVolume, 1f, true);
+				}
+			}
+		}
 	}
 
 	@Override

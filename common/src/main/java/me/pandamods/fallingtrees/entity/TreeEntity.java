@@ -6,7 +6,6 @@ import me.pandamods.fallingtrees.registry.EntityRegistry;
 import me.pandamods.fallingtrees.utils.BlockMapEntityData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -22,11 +21,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
-import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +32,6 @@ import java.util.Set;
 public class TreeEntity extends Entity {
 	public static final EntityDataAccessor<Map<BlockPos, BlockState>> BLOCKS = SynchedEntityData.defineId(TreeEntity.class, BlockMapEntityData.BLOCK_MAP);
 	public static final EntityDataAccessor<Integer> HEIGHT = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.INT);
-	public static final EntityDataAccessor<Integer> LIFETIME = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<BlockPos> ORIGIN_POS = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.BLOCK_POS);
 	public static final EntityDataAccessor<ItemStack> USED_TOOL = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.ITEM_STACK);
 	public static final EntityDataAccessor<Direction> FALL_DIRECTION = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.DIRECTION);
@@ -94,7 +89,6 @@ public class TreeEntity extends Entity {
 	protected void defineSynchedData() {
 		this.getEntityData().define(BLOCKS, new HashMap<>());
 		this.getEntityData().define(HEIGHT, 0);
-		this.getEntityData().define(LIFETIME, 120);
 		this.getEntityData().define(ORIGIN_POS, new BlockPos(0, 0, 0));
 		this.getEntityData().define(USED_TOOL, ItemStack.EMPTY);
 		this.getEntityData().define(FALL_DIRECTION, Direction.NORTH);
@@ -130,8 +124,16 @@ public class TreeEntity extends Entity {
 		return this.getEntityData().get(BLOCKS);
 	}
 
-	public int getLifeTime() {
-		return this.getEntityData().get(LIFETIME);
+	public int getMaxLifeTimeTick() {
+		return isLarge() ? 180 : 120;
+	}
+
+	public float getLifetime(float partialTick) {
+		return (this.tickCount + partialTick) / (isLarge() ? 30 : 20);
+	}
+
+	public boolean isLarge() {
+		return this.getHeight() > 20;
 	}
 
 	public float getHeight() {

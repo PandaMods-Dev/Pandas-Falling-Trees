@@ -1,12 +1,13 @@
 {
-	"key.fallingtrees.single_block_toggle_key": "Single Block Mining Toggle",
-	"config.jade.plugin_fallingtrees.tree_drops": "Amount of block drops",
-
-
 	"text.autoconfig.fallingtrees.title": "Panda's Falling Trees Config",
 	"text.autoconfig.fallingtrees.category.client": "Client",
 
 	"text.autoconfig.fallingtrees.option.client.invertCrouchMining": "Invert Crouch mining",
+	
+	"text.autoconfig.fallingtrees.option.client.soundSettings": "Sound Effect",
+	"text.autoconfig.fallingtrees.option.client.soundSettings.enabled": "Enabled",
+	"text.autoconfig.fallingtrees.option.client.soundSettings.startVolume": "Start volume",
+	"text.autoconfig.fallingtrees.option.client.soundSettings.endVolume": "End volume",
 
 
 	"text.autoconfig.fallingtrees.category.common": "Common",

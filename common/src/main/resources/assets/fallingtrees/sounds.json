@@ -3,5 +3,10 @@
 		"sounds": [
 			"fallingtrees:tree_fall"
 		]
+	},
+	"tree_impact": {
+		"sounds": [
+			"fallingtrees:tree_impact"
+		]
 	}
 }

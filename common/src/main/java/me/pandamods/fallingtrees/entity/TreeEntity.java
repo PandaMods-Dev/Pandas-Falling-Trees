@@ -6,6 +6,7 @@ import me.pandamods.fallingtrees.registry.EntityRegistry;
 import me.pandamods.fallingtrees.utils.BlockMapEntityData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -21,8 +22,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
+import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -82,7 +86,7 @@ public class TreeEntity extends Entity {
 		if (treeTypeLocation != null)
 			this.getEntityData().set(TREE_TYPE_LOCATION, treeTypeLocation.toString());
 		this.getEntityData().set(FALL_DIRECTION, Direction.fromYRot(
-				Math.toDegrees(Math.atan2(originBlock.getX() - owner.getX(), originBlock.getZ() - owner.getZ()))
+				-Math.toDegrees(Math.atan2(owner.getX() - originBlock.getX(), owner.getZ() - originBlock.getZ()))
 		).getOpposite());
 	}
 

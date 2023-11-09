@@ -3,6 +3,7 @@ package me.pandamods.fallingtrees.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import it.unimi.dsi.fastutil.objects.Object2ByteLinkedOpenHashMap;
 import me.pandamods.fallingtrees.api.TreeType;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.utils.RenderUtils;
@@ -16,6 +17,9 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.joml.Math;
 import org.joml.Quaternionf;
 import org.joml.Vector2f;
@@ -37,17 +41,18 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		Map<BlockPos, BlockState> blocks = entity.getBlocks();
 		float time = this.getBob(entity, partialTick) / 20;
 		float animationTime = (float) Math.min(Math.PI*3, time * (time / 3));
-		float animation = (-Math.abs(Math.sin(animationTime) / animationTime) + 1) * -90;
+		float animationFormula = Math.abs(Math.sin(animationTime) / animationTime);
+		float animation = (-animationFormula + 1) * -90;
 
-		Direction direction = entity.getDirection();
+		Direction direction = entity.getDirection().getOpposite();
 		int distance = getDistance(entity.getTreeType(), blocks, 0, direction);
 
 		Vector3f pivot =  new Vector3f(0, 0, (float) (.5 + distance));
-		pivot.rotateY(Math.toRadians(direction.toYRot()));
+		pivot.rotateY(Math.toRadians(-direction.toYRot()));
 		poseStack.translate(-pivot.x, 0, -pivot.z);
 
 		Vector3f vector = new Vector3f(Math.toRadians(animation), 0, 0);
-		vector.rotateY(Math.toRadians(direction.toYRot()));
+		vector.rotateY(Math.toRadians(-direction.toYRot()));
 		Quaternionf quaternion = new Quaternionf().identity().rotateX(vector.x).rotateZ(vector.z);
 		poseStack.mulPose(quaternion);
 
@@ -60,11 +65,14 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 			poseStack.translate(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 			RenderUtils.renderBlock(poseStack, blockState, blockPos.offset(entity.getOriginPos()), entity.level(), consumer,
 					(state, level, offset, face, pos) -> {
-						if (Block.shouldRenderFace(state, level, offset, face, pos)) {
+						if (state.canOcclude()) {
+							BlockPos facePos = blockPos.offset(face.getNormal());
+							if (blocks.containsKey(facePos)) {
+								return !state.is(blocks.get(facePos).getBlock());
+							}
 							return true;
 						}
-
-						return !blocks.containsKey(blockPos.offset(face.getNormal()));
+						return true;
 					});
 			poseStack.popPose();
 		});
@@ -81,7 +89,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 	}
 
 	private int getDistance(TreeType treeType, Map<BlockPos, BlockState> blocks, int distance, Direction direction) {
-		BlockPos nextBlockPos = new BlockPos(direction.getOpposite().getNormal().multiply(distance + 1));
+		BlockPos nextBlockPos = new BlockPos(direction.getNormal().multiply(distance + 1));
 		if (blocks.containsKey(nextBlockPos) && treeType.baseBlockCheck(blocks.get(nextBlockPos)))
 			return getDistance(treeType, blocks, distance + 1, direction);
 		return distance;

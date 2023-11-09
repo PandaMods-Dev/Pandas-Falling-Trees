@@ -13,14 +13,24 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.EnderDragonPart;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.util.BitSet;
 import java.util.List;
@@ -33,8 +43,6 @@ public class RenderUtils {
 
 	public static void renderBlock(PoseStack poseStack, BlockState blockState, BlockPos blockPos,
 								   Level level, VertexConsumer vertexConsumer, FaceRenderCondition faceRenderCondition) {
-//		getBlockRenderDispatcher().renderBatched(blockState, blockPos, level, poseStack, vertexConsumer, checkSides, level.getRandom());
-
 		ModelBlockRenderer blockRenderer = getBlockRenderDispatcher().getModelRenderer();
 		RandomSource random = level.getRandom();
 		long seed = blockState.getSeed(blockPos);
@@ -49,9 +57,8 @@ public class RenderUtils {
 			if (list.isEmpty()) continue;
 			mutableBlockPos.setWithOffset(blockPos, direction);
 			if (!faceRenderCondition.shouldRenderFace(blockState, level, blockPos, direction, mutableBlockPos)) continue;
-			int i = LevelRenderer.getLightColor(level, blockState, mutableBlockPos);
-			blockRenderer.renderModelFaceFlat(level, blockState, blockPos, i, packedOverlay, false,
-					poseStack, vertexConsumer, list, bitSet);
+			int i = LevelRenderer.getLightColor(level, blockState, blockPos);
+			blockRenderer.renderModelFaceFlat(level, blockState, blockPos, i, packedOverlay, false, poseStack, vertexConsumer, list, bitSet);
 		}
 		random.setSeed(seed);
 		List<BakedQuad> list2 = model.getQuads(blockState, null, random);
@@ -59,6 +66,10 @@ public class RenderUtils {
 			blockRenderer.renderModelFaceFlat(level, blockState, blockPos, -1, packedOverlay, true,
 					poseStack, vertexConsumer, list2, bitSet);
 		}
+	}
+
+	public static void renderBoundingBox(PoseStack poseStack, AABB boundingBox, VertexConsumer buffer) {
+		LevelRenderer.renderLineBox(poseStack, buffer, boundingBox, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	public interface FaceRenderCondition {

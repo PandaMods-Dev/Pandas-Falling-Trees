@@ -6,6 +6,7 @@ import me.pandamods.fallingtrees.config.ModConfig;
 import me.pandamods.fallingtrees.event.EventHandler;
 import me.pandamods.fallingtrees.network.PacketHandler;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
+import me.pandamods.fallingtrees.registry.SoundRegistry;
 import me.pandamods.fallingtrees.registry.TreeTypeRegistry;
 import me.pandamods.fallingtrees.utils.BlockMapEntityData;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -26,6 +27,7 @@ public class FallingTrees {
 		configHolder = AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
 
 		TreeTypeRegistry.register();
+		SoundRegistry.SOUNDS.register();
 		EntityRegistry.ENTITIES.register();
 		PacketHandler.register();
 		EventHandler.register();

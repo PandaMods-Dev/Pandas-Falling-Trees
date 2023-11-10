@@ -36,9 +36,12 @@ public interface TreeType {
 		if (entity.tickCount >= entity.getMaxLifeTimeTick()) {
 			ItemStack usedItem = entity.getUsedTool();
 			for (Map.Entry<BlockPos, BlockState> entry : entity.getBlocks().entrySet()) {
-				BlockEntity blockEntity = null;
-				if (entry.getValue().hasBlockEntity()) blockEntity = level.getBlockEntity(entry.getKey().offset(entity.getOriginPos()));
-				Block.dropResources(entry.getValue(), level, entity.getOriginPos(), blockEntity, entity.owner, usedItem);
+				if (shouldDropItems(entry.getValue())) {
+					BlockEntity blockEntity = null;
+					if (entry.getValue().hasBlockEntity())
+						blockEntity = level.getBlockEntity(entry.getKey().offset(entity.getOriginPos()));
+					Block.dropResources(entry.getValue(), level, entity.getOriginPos(), blockEntity, entity.owner, usedItem);
+				}
 			}
 
 			entity.remove(Entity.RemovalReason.DISCARDED);
@@ -46,6 +49,10 @@ public interface TreeType {
 	}
 
 	default boolean allowedToFall(Player player) {
+		return true;
+	}
+
+	default boolean shouldDropItems(BlockState blockState) {
 		return true;
 	}
 

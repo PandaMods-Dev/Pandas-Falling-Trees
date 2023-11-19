@@ -9,7 +9,8 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 public class ClientConfig implements ConfigData {
 	public boolean invertCrouchMining = false;
 
-	@ConfigEntry.Gui.CollapsibleObject
+	@ConfigEntry.Category("sound_settings")
+	@ConfigEntry.Gui.TransitiveObject
 	public SoundSettings soundSettings = new SoundSettings();
 
 	public static class SoundSettings {

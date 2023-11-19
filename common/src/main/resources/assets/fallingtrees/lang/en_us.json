@@ -1,23 +1,43 @@
 {
-	"text.autoconfig.fallingtrees.title": "Panda's Falling Trees Config",
-	"text.autoconfig.fallingtrees.category.client": "Client",
+	"config.fallingtrees.title": "Panda's Falling Tree's Config",
+	"config.fallingtrees.client": "Client",
+	"config.fallingtrees.common": "Common",
+	"config.fallingtrees.common.tooltip": "Can not be changed in game",
 
-	"text.autoconfig.fallingtrees.option.client.invertCrouchMining": "Invert Crouch mining",
-	
-	"text.autoconfig.fallingtrees.option.client.soundSettings": "Sound Effect",
-	"text.autoconfig.fallingtrees.option.client.soundSettings.enabled": "Enabled",
-	"text.autoconfig.fallingtrees.option.client.soundSettings.startVolume": "Start volume",
-	"text.autoconfig.fallingtrees.option.client.soundSettings.endVolume": "End volume",
+	"text.autoconfig.fallingtrees_client.title": "Panda's Falling Tree's Client Config",
+
+	"text.autoconfig.fallingtrees_client.category.default": "Default",
+	"text.autoconfig.fallingtrees_client.option.invertCrouchMining": "Invert Crouch mining",
+
+	"text.autoconfig.fallingtrees_client.category.sound_settings": "Sound Effect",
+	"text.autoconfig.fallingtrees_client.option.soundSettings.enabled": "Enabled",
+	"text.autoconfig.fallingtrees_client.option.soundSettings.startVolume": "Start volume",
+	"text.autoconfig.fallingtrees_client.option.soundSettings.endVolume": "End volume",
 
 
-	"text.autoconfig.fallingtrees.category.common": "Common",
+	"text.autoconfig.fallingtrees_common.title": "Panda's Falling Tree's Common Config",
 
-	"text.autoconfig.fallingtrees.option.common.isCrouchMiningAllowed": "Is Crouch mining allowed",
-	"text.autoconfig.fallingtrees.option.common.multiplyToolDamage": "Multiply tool damage",
-	"text.autoconfig.fallingtrees.option.common.multiplyFoodExhaustion": "Multiply food exhaustion",
+	"text.autoconfig.fallingtrees_common.category.default": "Default",
+	"text.autoconfig.fallingtrees_common.option.isCrouchMiningAllowed": "Is Crouch mining allowed",
+	"text.autoconfig.fallingtrees_common.option.multiplyToolDamage": "Multiply tool damage",
+	"text.autoconfig.fallingtrees_common.option.multiplyFoodExhaustion": "Multiply food exhaustion",
 
-	"text.autoconfig.fallingtrees.option.common.limit": "Limit",
-	"text.autoconfig.fallingtrees.option.common.limit.limitType": "Limit type",
-	"text.autoconfig.fallingtrees.option.common.limit.blockAmountLimit": "block amount",
-	"text.autoconfig.fallingtrees.option.common.limit.onlyRequiredTool": "Only fall when required tool is used"
+	"text.autoconfig.fallingtrees_common.category.limit": "Limit",
+	"text.autoconfig.fallingtrees_common.option.limit.limitType": "Limit type",
+	"text.autoconfig.fallingtrees_common.option.limit.blockAmountLimit": "block amount",
+	"text.autoconfig.fallingtrees_common.option.limit.onlyRequiredTool": "Only fall when required tool is used",
+
+	"text.autoconfig.fallingtrees_common.category.filter": "Filter",
+
+	"text.autoconfig.fallingtrees_common.option.filter.log": "Log",
+	"text.autoconfig.fallingtrees_common.option.filter.log.whitelistedBlockTags": "Whitelisted Block tags",
+	"text.autoconfig.fallingtrees_common.option.filter.log.whitelistedBlocks": "Whitelisted Blocks",
+	"text.autoconfig.fallingtrees_common.option.filter.log.blacklistedBlocks": "Blacklisted Blocks",
+
+	"text.autoconfig.fallingtrees_common.option.filter.leaves": "Leaves",
+	"text.autoconfig.fallingtrees_common.option.filter.leaves.whitelistedBlockTags": "Whitelisted Block tags",
+	"text.autoconfig.fallingtrees_common.option.filter.leaves.whitelistedBlocks": "Whitelisted Blocks",
+	"text.autoconfig.fallingtrees_common.option.filter.leaves.blacklistedBlocks": "Blacklisted Blocks",
+
+	"text.autoconfig.fallingtrees_common.category.algorithm": "Algorithm"
 }

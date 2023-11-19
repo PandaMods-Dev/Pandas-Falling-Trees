@@ -13,18 +13,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionResult;
 
 public class FallingTreesConfig {
-	public final ConfigHolder<ModConfig> configHolder;
+	public final ConfigHolder<ClientConfig> clientConfigHolder;
+	public final ConfigHolder<CommonConfig> commonConfigHolder;
 	private CommonConfig commonConfig;
 
 	public FallingTreesConfig() {
-		configHolder = AutoConfig.register(ModConfig.class, PartitioningSerializer.wrap(GsonConfigSerializer::new));
+		clientConfigHolder = AutoConfig.register(ClientConfig.class, GsonConfigSerializer::new);
+		commonConfigHolder = AutoConfig.register(CommonConfig.class, GsonConfigSerializer::new);
 
 		if (Platform.getEnv().equals(EnvType.CLIENT)) {
-			configHolder.registerSaveListener(this::saveConfig);
+			clientConfigHolder.registerSaveListener(this::saveConfig);
 		}
 	}
 
-	private InteractionResult saveConfig(ConfigHolder<ModConfig> modConfigConfigHolder, ModConfig modConfig) {
+	private InteractionResult saveConfig(ConfigHolder<ClientConfig> configHolder, ClientConfig config) {
 		if (Minecraft.getInstance().level != null) {
 			ConfigPacket.sendToServer();
 		}
@@ -33,13 +35,13 @@ public class FallingTreesConfig {
 	}
 
 	public static ClientConfig getClientConfig() {
-		return FallingTrees.CONFIG.configHolder.getConfig().client;
+		return FallingTrees.CONFIG.clientConfigHolder.getConfig();
 	}
 
 	public static CommonConfig getCommonConfig() {
 		if (FallingTrees.CONFIG.commonConfig != null)
 			return FallingTrees.CONFIG.commonConfig;
-		return FallingTrees.CONFIG.configHolder.getConfig().common;
+		return FallingTrees.CONFIG.commonConfigHolder.getConfig();
 	}
 
 	public void setCommonConfig(CommonConfig commonConfig) {

@@ -15,7 +15,6 @@ import me.pandamods.fallingtrees.client.render.TreeRenderer;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.CommonConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
-import me.pandamods.fallingtrees.config.ModConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.network.ConfigPacket;
 import me.pandamods.fallingtrees.registry.EntityRegistry;

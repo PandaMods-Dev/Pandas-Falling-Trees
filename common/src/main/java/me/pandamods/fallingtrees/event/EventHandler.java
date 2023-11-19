@@ -12,11 +12,14 @@ import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.api.TreeType;
 import me.pandamods.fallingtrees.client.render.TreeRenderer;
+import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.CommonConfig;
+import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.config.ModConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.network.ConfigPacket;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
+import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.Minecraft;
@@ -47,16 +50,8 @@ public class EventHandler {
 
 	private static void onClientSetup(Minecraft minecraft) {
 		ClientPlayerEvent.CLIENT_PLAYER_JOIN.register(EventHandler::onClientPlayerJoin);
-		FallingTrees.getConfigHolder().registerSaveListener(EventHandler::saveConfig);
 
 		EntityRendererRegistry.register(EntityRegistry.TREE, TreeRenderer::new);
-	}
-
-	private static InteractionResult saveConfig(ConfigHolder<ModConfig> modConfigConfigHolder, ModConfig modConfig) {
-		if (Minecraft.getInstance().level != null) {
-			ConfigPacket.sendToServer();
-		}
-		return InteractionResult.PASS;
 	}
 
 	private static EventResult onBlockBreak(Level level, BlockPos blockPos, BlockState blockState, ServerPlayer serverPlayer, IntValue intValue) {
@@ -81,7 +76,7 @@ public class EventHandler {
 	public static boolean makeTreeFall(TreeType treeType, BlockPos blockPos, LevelAccessor level, Player player) {
 		ItemStack mainItem = player.getItemBySlot(EquipmentSlot.MAINHAND);
 		BlockState blockState = level.getBlockState(blockPos);
-		CommonConfig commonConfig = FallingTrees.getCommonConfig();
+		CommonConfig commonConfig = FallingTreesConfig.getCommonConfig();
 
 		if (!treeType.allowedToFall(player)) return false;
 		if (commonConfig.limit.onlyRequiredTool && !treeType.allowedTool(mainItem, blockState)) return false;

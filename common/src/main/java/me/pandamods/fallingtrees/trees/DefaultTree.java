@@ -3,6 +3,7 @@ package me.pandamods.fallingtrees.trees;
 import dev.architectury.platform.Platform;
 import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.network.ConfigPacket;
 import me.pandamods.fallingtrees.registry.SoundRegistry;
@@ -45,16 +46,16 @@ public class DefaultTree implements TreeType {
 
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			if (entity.tickCount == 1) {
-				if (FallingTrees.getClientConfig().soundSettings.enabled) {
+				if (FallingTreesConfig.getClientConfig().soundSettings.enabled) {
 					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
-							SoundSource.BLOCKS, FallingTrees.getClientConfig().soundSettings.startVolume, 1f, true);
+							SoundSource.BLOCKS, FallingTreesConfig.getClientConfig().soundSettings.startVolume, 1f, true);
 				}
 			}
 
 			if (entity.tickCount == entity.getMaxLifeTimeTick() / 2 - 10) {
-				if (FallingTrees.getClientConfig().soundSettings.enabled) {
+				if (FallingTreesConfig.getClientConfig().soundSettings.enabled) {
 					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
-							SoundSource.BLOCKS, FallingTrees.getClientConfig().soundSettings.endVolume, 1f, true);
+							SoundSource.BLOCKS, FallingTreesConfig.getClientConfig().soundSettings.endVolume, 1f, true);
 				}
 			}
 		}
@@ -78,7 +79,7 @@ public class DefaultTree implements TreeType {
 
 	@Override
 	public boolean allowedToFall(Player player) {
-		return !(FallingTrees.getCommonConfig().isCrouchMiningAllowed &&
+		return !(FallingTreesConfig.getCommonConfig().isCrouchMiningAllowed &&
 				player.isCrouching() != ConfigPacket.getClientConfig(player).getBoolean("invertCrouchMining"));
 	}
 

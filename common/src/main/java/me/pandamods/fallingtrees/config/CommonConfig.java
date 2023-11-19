@@ -1,10 +1,11 @@
 package me.pandamods.fallingtrees.config;
 
+import me.pandamods.fallingtrees.FallingTrees;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
-@Config(name = "common")
+@Config(name = FallingTrees.MOD_ID + "_common")
 public class CommonConfig implements ConfigData {
 	@ConfigEntry.Gui.CollapsibleObject
 	public Limit limit = new Limit();

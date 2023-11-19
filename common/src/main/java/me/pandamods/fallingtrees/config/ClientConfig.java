@@ -1,10 +1,11 @@
 package me.pandamods.fallingtrees.config;
 
+import me.pandamods.fallingtrees.FallingTrees;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
-@Config(name = "client")
+@Config(name = FallingTrees.MOD_ID + "_client")
 public class ClientConfig implements ConfigData {
 	public boolean invertCrouchMining = false;
 

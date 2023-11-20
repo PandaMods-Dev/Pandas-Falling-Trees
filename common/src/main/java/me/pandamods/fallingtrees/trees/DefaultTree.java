@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,14 +26,14 @@ import java.util.Set;
 public class DefaultTree implements TreeType {
 	@Override
 	public boolean baseBlockCheck(BlockState blockState) {
-		return blockState.is(BlockTags.LOGS);
+		return FallingTreesConfig.getCommonConfig().filter.log.isValid(blockState.getBlock());
 	}
 
 	@Override
 	public boolean extraRequiredBlockCheck(BlockState blockState) {
-		if (blockState.hasProperty(LeavesBlock.PERSISTENT) && blockState.getValue(LeavesBlock.PERSISTENT))
+		if (blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
 			return false;
-		return blockState.getBlock() instanceof LeavesBlock;
+		return FallingTreesConfig.getCommonConfig().filter.leaves.isValid(blockState.getBlock());
 	}
 
 	@Override
@@ -109,7 +110,7 @@ public class DefaultTree implements TreeType {
 
 	public void loopLeaves(LevelAccessor level, BlockPos originPos, int distance, Set<BlockPos> leavesBlocks, Set<BlockPos> loopedLeavesBlocks) {
 		BlockState blockState = level.getBlockState(originPos);
-		if ((blockState.hasProperty(LeavesBlock.DISTANCE) && blockState.getValue(LeavesBlock.DISTANCE) != distance) ||
+		if ((blockState.hasProperty(BlockStateProperties.DISTANCE) && blockState.getValue(BlockStateProperties.DISTANCE) != distance) ||
 				distance >= 7 || loopedLeavesBlocks.contains(originPos))
 			return;
 
@@ -120,7 +121,8 @@ public class DefaultTree implements TreeType {
 
 			for (Direction direction : Direction.values()) {
 				BlockPos neighborPos = originPos.offset(direction.getNormal());
-				loopLeaves(level, neighborPos, distance + 1, leavesBlocks, loopedLeavesBlocks);
+				if (distance < FallingTreesConfig.getCommonConfig().algorithm.maxLeavesDistance)
+					loopLeaves(level, neighborPos, distance + 1, leavesBlocks, loopedLeavesBlocks);
 			}
 		}
 	}

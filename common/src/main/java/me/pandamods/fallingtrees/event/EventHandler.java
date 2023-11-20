@@ -8,25 +8,20 @@ import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.utils.value.IntValue;
-import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.api.TreeType;
 import me.pandamods.fallingtrees.client.render.TreeRenderer;
-import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.CommonConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.network.ConfigPacket;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigHolder;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -78,18 +73,18 @@ public class EventHandler {
 		CommonConfig commonConfig = FallingTreesConfig.getCommonConfig();
 
 		if (!treeType.allowedToFall(player)) return false;
-		if (commonConfig.limit.onlyRequiredTool && !treeType.allowedTool(mainItem, blockState)) return false;
+		if (commonConfig.algorithm.treeFallRequirements.onlyRequiredTool && !treeType.allowedTool(mainItem, blockState)) return false;
 
 		Set<BlockPos> treeBlockPos = treeType.blockGatheringAlgorithm(blockPos, level);
 		if (treeBlockPos.stream().noneMatch(blockPos1 -> treeType.extraRequiredBlockCheck(level.getBlockState(blockPos1)))) return false;
 
 		long baseAmount = treeBlockPos.stream().filter(blockPos1 -> treeType.baseBlockCheck(level.getBlockState(blockPos1))).count();
-		switch (commonConfig.limit.limitType) {
+		switch (commonConfig.algorithm.treeFallRequirements.maxAmountType) {
 			case BLOCK_AMOUNT -> {
-				if (treeBlockPos.size() > commonConfig.limit.blockAmountLimit) return false;
+				if (treeBlockPos.size() > commonConfig.algorithm.treeFallRequirements.maxAmount) return false;
 			}
 			case BASE_BLOCK_AMOUNT -> {
-				if (baseAmount > commonConfig.limit.blockAmountLimit) return false;
+				if (baseAmount > commonConfig.algorithm.treeFallRequirements.maxAmount) return false;
 			}
 		}
 

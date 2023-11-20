@@ -22,11 +22,6 @@
 	"text.autoconfig.fallingtrees_common.option.multiplyToolDamage": "Multiply tool damage",
 	"text.autoconfig.fallingtrees_common.option.multiplyFoodExhaustion": "Multiply food exhaustion",
 
-	"text.autoconfig.fallingtrees_common.category.limit": "Limit",
-	"text.autoconfig.fallingtrees_common.option.limit.limitType": "Limit type",
-	"text.autoconfig.fallingtrees_common.option.limit.blockAmountLimit": "block amount",
-	"text.autoconfig.fallingtrees_common.option.limit.onlyRequiredTool": "Only fall when required tool is used",
-
 	"text.autoconfig.fallingtrees_common.category.filter": "Filter",
 
 	"text.autoconfig.fallingtrees_common.option.filter.log": "Log",
@@ -39,5 +34,11 @@
 	"text.autoconfig.fallingtrees_common.option.filter.leaves.whitelistedBlocks": "Whitelisted Blocks",
 	"text.autoconfig.fallingtrees_common.option.filter.leaves.blacklistedBlocks": "Blacklisted Blocks",
 
-	"text.autoconfig.fallingtrees_common.category.algorithm": "Algorithm"
+	"text.autoconfig.fallingtrees_common.category.algorithm": "Algorithm",
+	"text.autoconfig.fallingtrees_common.option.algorithm.maxLeavesDistance": "Max leaves distance",
+
+	"text.autoconfig.fallingtrees_common.option.algorithm.treeFallRequirements": "Tree Fall Requirements",
+	"text.autoconfig.fallingtrees_common.option.algorithm.treeFallRequirements.maxAmountType": "Max Amount type",
+	"text.autoconfig.fallingtrees_common.option.algorithm.treeFallRequirements.maxAmount": "Max amount",
+	"text.autoconfig.fallingtrees_common.option.algorithm.treeFallRequirements.onlyRequiredTool": "Only fall when required tool is used"
 }

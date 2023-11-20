@@ -18,10 +18,6 @@ public class CommonConfig implements ConfigData {
 	public boolean multiplyToolDamage = true;
 	public boolean multiplyFoodExhaustion = true;
 
-	@ConfigEntry.Category("limit")
-	@ConfigEntry.Gui.TransitiveObject
-	public Limit limit = new Limit();
-
 	@ConfigEntry.Category("filter")
 	@ConfigEntry.Gui.TransitiveObject
 	public Filter filter = new Filter();
@@ -29,18 +25,6 @@ public class CommonConfig implements ConfigData {
 	@ConfigEntry.Category("algorithm")
 	@ConfigEntry.Gui.TransitiveObject
 	public AlgorithmConfig algorithm = new AlgorithmConfig();
-
-	public static class Limit {
-		@ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-		public LimitType limitType = LimitType.BASE_BLOCK_AMOUNT;
-		public int blockAmountLimit = 200;
-		public boolean onlyRequiredTool = false;
-
-		public enum LimitType {
-			BASE_BLOCK_AMOUNT,
-			BLOCK_AMOUNT
-		}
-	}
 
 	public static class Filter {
 		@ConfigEntry.Gui.CollapsibleObject
@@ -57,6 +41,13 @@ public class CommonConfig implements ConfigData {
 				this.whitelistedBlockTags = whitelistedBlockTags.stream().map(blockTagKey -> blockTagKey.location().toString()).toList();
 				this.whitelistedBlocks = whitelistedBlocks.stream().map(block -> block.arch$registryName().toString()).toList();
 				this.blacklistedBlocks = blacklistedBlocks.stream().map(block -> block.arch$registryName().toString()).toList();
+			}
+
+			public boolean isValid(Block block) {
+				if (blacklistedBlocks.contains(block.arch$registryName()))
+					return false;
+				return block.defaultBlockState().getTags().anyMatch(blockTagKey -> whitelistedBlockTags.contains(blockTagKey.location().toString())) ||
+						whitelistedBlocks.contains(block.arch$registryName());
 			}
 		}
 	}

@@ -26,6 +26,9 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 
 	@Override
 	public void render(TreeEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+		TreeType treeType = entity.getTreeType();
+		if (treeType == null) return;
+
 		poseStack.pushPose();
 
 		Map<BlockPos, BlockState> blocks = entity.getBlocks();
@@ -35,9 +38,9 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		float animation = (-animationFormula + 1) * -90;
 
 		Direction direction = entity.getDirection().getOpposite();
-		int distance = getDistance(entity.getTreeType(), blocks, 0, direction.getOpposite());
+		int distance = getDistance(treeType, blocks, 0, direction.getOpposite());
 
-		Vector3f pivot =  new Vector3f(0, 0, (.5f + distance) * entity.getTreeType().fallAnimationEdgeDistance());
+		Vector3f pivot =  new Vector3f(0, 0, (.5f + distance) * treeType.fallAnimationEdgeDistance());
 		pivot.rotateY(Math.toRadians(-direction.toYRot()));
 		poseStack.translate(-pivot.x, 0, -pivot.z);
 

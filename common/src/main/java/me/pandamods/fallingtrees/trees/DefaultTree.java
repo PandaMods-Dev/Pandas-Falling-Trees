@@ -1,7 +1,6 @@
 package me.pandamods.fallingtrees.trees;
 
 import dev.architectury.platform.Platform;
-import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.api.TreeType;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
@@ -11,12 +10,11 @@ import net.fabricmc.api.EnvType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -38,7 +36,7 @@ public class DefaultTree implements TreeType {
 
 	@Override
 	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return itemStack.is(ItemTags.AXES);
+		return itemStack.getItem() instanceof AxeItem || itemStack.is(ItemTags.AXES);
 	}
 
 	@Override
@@ -121,7 +119,7 @@ public class DefaultTree implements TreeType {
 
 			for (Direction direction : Direction.values()) {
 				BlockPos neighborPos = originPos.offset(direction.getNormal());
-				if (distance < FallingTreesConfig.getCommonConfig().algorithm.maxLeavesDistance)
+				if (distance < FallingTreesConfig.getCommonConfig().limitations.maxLeavesDistance)
 					loopLeaves(level, neighborPos, distance + 1, leavesBlocks, loopedLeavesBlocks);
 			}
 		}

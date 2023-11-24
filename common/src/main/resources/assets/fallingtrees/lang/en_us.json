@@ -34,11 +34,11 @@
 	"text.autoconfig.fallingtrees_common.option.filter.leaves.whitelistedBlocks": "Whitelisted Blocks",
 	"text.autoconfig.fallingtrees_common.option.filter.leaves.blacklistedBlocks": "Blacklisted Blocks",
 
-	"text.autoconfig.fallingtrees_common.category.algorithm": "Algorithm",
-	"text.autoconfig.fallingtrees_common.option.algorithm.maxLeavesDistance": "Max leaves distance",
+	"text.autoconfig.fallingtrees_common.category.limitations": "Limitations",
+	"text.autoconfig.fallingtrees_common.option.limitations.maxLeavesDistance": "Max leaves distance",
 
-	"text.autoconfig.fallingtrees_common.option.algorithm.treeFallRequirements": "Tree Fall Requirements",
-	"text.autoconfig.fallingtrees_common.option.algorithm.treeFallRequirements.maxAmountType": "Max Amount type",
-	"text.autoconfig.fallingtrees_common.option.algorithm.treeFallRequirements.maxAmount": "Max amount",
-	"text.autoconfig.fallingtrees_common.option.algorithm.treeFallRequirements.onlyRequiredTool": "Only fall when required tool is used"
+	"text.autoconfig.fallingtrees_common.option.limitations.treeFallRequirements": "Tree Fall Requirements",
+	"text.autoconfig.fallingtrees_common.option.limitations.treeFallRequirements.maxAmountType": "Max Amount type",
+	"text.autoconfig.fallingtrees_common.option.limitations.treeFallRequirements.maxAmount": "Max amount",
+	"text.autoconfig.fallingtrees_common.option.limitations.treeFallRequirements.onlyRequiredTool": "Only fall when required tool is used"
 }

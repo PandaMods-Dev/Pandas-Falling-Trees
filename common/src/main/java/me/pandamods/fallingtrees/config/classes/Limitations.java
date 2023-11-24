@@ -2,7 +2,7 @@ package me.pandamods.fallingtrees.config.classes;
 
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
-public class AlgorithmConfig {
+public class Limitations {
 	public int maxLeavesDistance = 7;
 
 	@ConfigEntry.Gui.CollapsibleObject

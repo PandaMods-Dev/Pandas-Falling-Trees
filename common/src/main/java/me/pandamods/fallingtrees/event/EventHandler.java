@@ -73,18 +73,18 @@ public class EventHandler {
 		CommonConfig commonConfig = FallingTreesConfig.getCommonConfig();
 
 		if (!treeType.allowedToFall(player)) return false;
-		if (commonConfig.algorithm.treeFallRequirements.onlyRequiredTool && !treeType.allowedTool(mainItem, blockState)) return false;
+		if (commonConfig.limitations.treeFallRequirements.onlyRequiredTool && !treeType.allowedTool(mainItem, blockState)) return false;
 
 		Set<BlockPos> treeBlockPos = treeType.blockGatheringAlgorithm(blockPos, level);
 		if (treeBlockPos.stream().noneMatch(blockPos1 -> treeType.extraRequiredBlockCheck(level.getBlockState(blockPos1)))) return false;
 
 		long baseAmount = treeBlockPos.stream().filter(blockPos1 -> treeType.baseBlockCheck(level.getBlockState(blockPos1))).count();
-		switch (commonConfig.algorithm.treeFallRequirements.maxAmountType) {
+		switch (commonConfig.limitations.treeFallRequirements.maxAmountType) {
 			case BLOCK_AMOUNT -> {
-				if (treeBlockPos.size() > commonConfig.algorithm.treeFallRequirements.maxAmount) return false;
+				if (treeBlockPos.size() > commonConfig.limitations.treeFallRequirements.maxAmount) return false;
 			}
 			case BASE_BLOCK_AMOUNT -> {
-				if (baseAmount > commonConfig.algorithm.treeFallRequirements.maxAmount) return false;
+				if (baseAmount > commonConfig.limitations.treeFallRequirements.maxAmount) return false;
 			}
 		}
 

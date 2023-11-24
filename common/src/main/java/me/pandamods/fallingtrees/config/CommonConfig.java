@@ -1,7 +1,7 @@
 package me.pandamods.fallingtrees.config;
 
 import me.pandamods.fallingtrees.FallingTrees;
-import me.pandamods.fallingtrees.config.classes.AlgorithmConfig;
+import me.pandamods.fallingtrees.config.classes.Limitations;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -24,7 +24,7 @@ public class CommonConfig implements ConfigData {
 
 	@ConfigEntry.Category("algorithm")
 	@ConfigEntry.Gui.TransitiveObject
-	public AlgorithmConfig algorithm = new AlgorithmConfig();
+	public Limitations limitations = new Limitations();
 
 	public static class Filter {
 		@ConfigEntry.Gui.CollapsibleObject

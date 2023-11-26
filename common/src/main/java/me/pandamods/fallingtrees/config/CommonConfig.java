@@ -22,7 +22,7 @@ public class CommonConfig implements ConfigData {
 	@ConfigEntry.Gui.TransitiveObject
 	public Filter filter = new Filter();
 
-	@ConfigEntry.Category("algorithm")
+	@ConfigEntry.Category("limitations")
 	@ConfigEntry.Gui.TransitiveObject
 	public Limitations limitations = new Limitations();
 

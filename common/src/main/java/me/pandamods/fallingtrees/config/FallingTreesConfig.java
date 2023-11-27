@@ -2,6 +2,7 @@ package me.pandamods.fallingtrees.config;
 
 import dev.architectury.platform.Platform;
 import me.pandamods.fallingtrees.FallingTrees;
+import me.pandamods.fallingtrees.config.screen.ConfigScreen;
 import me.pandamods.fallingtrees.event.EventHandler;
 import me.pandamods.fallingtrees.network.ConfigPacket;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -10,6 +11,7 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import net.fabricmc.api.EnvType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.InteractionResult;
 
 public class FallingTreesConfig {

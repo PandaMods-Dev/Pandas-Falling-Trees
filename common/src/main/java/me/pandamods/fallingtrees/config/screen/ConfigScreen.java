@@ -4,6 +4,8 @@ import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.CommonConfig;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -20,6 +22,7 @@ import net.minecraft.network.chat.Component;
 
 import java.util.function.Supplier;
 
+@Environment(value = EnvType.CLIENT)
 public class ConfigScreen extends Screen {
 	private final Screen parent;
 

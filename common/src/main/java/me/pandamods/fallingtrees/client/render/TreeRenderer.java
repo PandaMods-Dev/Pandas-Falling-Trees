@@ -2,6 +2,7 @@ package me.pandamods.fallingtrees.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Quaternion;
 import me.pandamods.fallingtrees.api.TreeType;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
@@ -62,7 +63,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		Vector3f vector = new Vector3f(Math.toRadians(animation), 0, 0);
 		vector.rotateY(Math.toRadians(-direction.toYRot()));
 		Quaternionf quaternion = new Quaternionf().identity().rotateX(vector.x).rotateZ(vector.z);
-		poseStack.mulPose(quaternion);
+		poseStack.mulPose(new Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w));
 
 		poseStack.translate(pivot.x, 0, pivot.z);
 
@@ -71,7 +72,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		blocks.forEach((blockPos, blockState) -> {
 			poseStack.pushPose();
 			poseStack.translate(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-			RenderUtils.renderBlock(poseStack, blockState, blockPos.offset(entity.getOriginPos()), entity.level(), consumer,
+			RenderUtils.renderBlock(poseStack, blockState, blockPos.offset(entity.getOriginPos()), entity.level, consumer,
 					(state, level, offset, face, pos) -> {
 						if (state.canOcclude()) {
 							BlockPos facePos = blockPos.offset(face.getNormal());

@@ -59,4 +59,8 @@ public interface TreeType {
 	default float fallAnimationEdgeDistance() {
 		return 1;
 	}
+
+	default boolean enabled() {
+		return true;
+	}
 }

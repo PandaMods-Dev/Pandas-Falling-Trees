@@ -16,12 +16,13 @@ import net.minecraft.world.entity.player.Player;
 
 public class ConfigPacket {
 	public static void clientReceiver(FriendlyByteBuf buf, NetworkManager.PacketContext context) {
-		FallingTrees.CONFIG.setCommonConfig(new Gson().fromJson(new String(buf.readByteArray()), CommonConfig.class));
+		byte[] configBytes = buf.readByteArray();
+		FallingTrees.CONFIG.setCommonConfig(new Gson().fromJson(new String(configBytes), CommonConfig.class));
 	}
 
 	public static void sendToPlayer(ServerPlayer player) {
 		FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-		buf.writeByteArray(new Gson().toJson(FallingTreesConfig.getCommonConfig()).getBytes());
+		buf.writeByteArray(new Gson().toJson(FallingTrees.CONFIG.commonConfigHolder.getConfig()).getBytes());
 		NetworkManager.sendToPlayer(player, PacketHandler.CONFIG_PACKET_ID, buf);
 	}
 

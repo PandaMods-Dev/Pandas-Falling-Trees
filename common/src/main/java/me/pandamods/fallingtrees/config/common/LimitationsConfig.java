@@ -1,8 +1,8 @@
-package me.pandamods.fallingtrees.config.classes;
+package me.pandamods.fallingtrees.config.common;
 
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
-public class Limitations {
+public class LimitationsConfig {
 	public int maxLeavesDistance = 7;
 
 	@ConfigEntry.Gui.CollapsibleObject

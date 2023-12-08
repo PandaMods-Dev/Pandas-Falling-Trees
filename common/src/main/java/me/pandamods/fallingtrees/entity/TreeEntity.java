@@ -2,6 +2,7 @@ package me.pandamods.fallingtrees.entity;
 
 import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
 import me.pandamods.fallingtrees.utils.BlockMapEntityData;
 import net.minecraft.core.BlockPos;
@@ -125,11 +126,11 @@ public class TreeEntity extends Entity {
 	}
 
 	public int getMaxLifeTimeTick() {
-		return isLarge() ? 180 : 120;
+		return (int) (FallingTreesConfig.getCommonConfig().treeLifeLength * 20);
 	}
 
 	public float getLifetime(float partialTick) {
-		return (this.tickCount + partialTick) / (isLarge() ? 30 : 20);
+		return (this.tickCount + partialTick) / 20;
 	}
 
 	public boolean isLarge() {

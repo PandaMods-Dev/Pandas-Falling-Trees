@@ -2,6 +2,7 @@ package me.pandamods.fallingtrees.trees;
 
 import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.network.ConfigPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -64,5 +65,10 @@ public class ChorusTree implements TreeType {
 	@Override
 	public boolean shouldDropItems(BlockState blockState) {
 		return blockState.is(Blocks.CHORUS_FLOWER);
+	}
+
+	@Override
+	public boolean enabled() {
+		return !FallingTreesConfig.getCommonConfig().features.disableChorusTrees;
 	}
 }

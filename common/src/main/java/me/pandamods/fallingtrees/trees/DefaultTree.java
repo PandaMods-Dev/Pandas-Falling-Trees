@@ -51,7 +51,7 @@ public class DefaultTree implements TreeType {
 				}
 			}
 
-			if (entity.tickCount == entity.getMaxLifeTimeTick() / 2 - 10) {
+			if (entity.tickCount == (int) (FallingTreesConfig.getClientConfig().animation.fallAnimLength * 20) - 5) {
 				if (FallingTreesConfig.getClientConfig().soundSettings.enabled) {
 					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
 							SoundSource.BLOCKS, FallingTreesConfig.getClientConfig().soundSettings.endVolume, 1f, true);

@@ -1,6 +1,7 @@
 package me.pandamods.fallingtrees.trees;
 
 import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -32,5 +33,10 @@ public class BambooTree implements TreeType {
 	@Override
 	public float fallAnimationEdgeDistance() {
 		return 2f / 16f;
+	}
+
+	@Override
+	public boolean enabled() {
+		return !FallingTreesConfig.getCommonConfig().features.disableBambooTrees;
 	}
 }

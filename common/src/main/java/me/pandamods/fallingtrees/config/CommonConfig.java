@@ -1,16 +1,12 @@
 package me.pandamods.fallingtrees.config;
 
 import me.pandamods.fallingtrees.FallingTrees;
-import me.pandamods.fallingtrees.config.classes.Limitations;
+import me.pandamods.fallingtrees.config.common.FeaturesConfig;
+import me.pandamods.fallingtrees.config.common.FilterConfig;
+import me.pandamods.fallingtrees.config.common.LimitationsConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.block.Block;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Config(name = FallingTrees.MOD_ID + "_common")
 public class CommonConfig implements ConfigData {
@@ -18,37 +14,17 @@ public class CommonConfig implements ConfigData {
 	public boolean multiplyToolDamage = true;
 	public boolean multiplyFoodExhaustion = true;
 
+	public float treeLifeLength = 4;
+
 	@ConfigEntry.Category("filter")
 	@ConfigEntry.Gui.TransitiveObject
-	public Filter filter = new Filter();
+	public FilterConfig filter = new FilterConfig();
 
 	@ConfigEntry.Category("limitations")
 	@ConfigEntry.Gui.TransitiveObject
-	public Limitations limitations = new Limitations();
+	public LimitationsConfig limitations = new LimitationsConfig();
 
-	public static class Filter {
-		@ConfigEntry.Gui.CollapsibleObject
-		public FilterBlock log = new FilterBlock(List.of(BlockTags.LOGS), new ArrayList<>(), new ArrayList<>());
-		@ConfigEntry.Gui.CollapsibleObject
-		public FilterBlock leaves = new FilterBlock(List.of(BlockTags.LEAVES), new ArrayList<>(), new ArrayList<>());
-
-		public static class FilterBlock {
-			public List<String> whitelistedBlockTags;
-			public List<String> whitelistedBlocks;
-			public List<String> blacklistedBlocks;
-
-			public FilterBlock(List<TagKey<Block>> whitelistedBlockTags, List<Block> whitelistedBlocks, List<Block> blacklistedBlocks) {
-				this.whitelistedBlockTags = whitelistedBlockTags.stream().map(blockTagKey -> blockTagKey.location().toString()).toList();
-				this.whitelistedBlocks = whitelistedBlocks.stream().map(block -> block.arch$registryName().toString()).toList();
-				this.blacklistedBlocks = blacklistedBlocks.stream().map(block -> block.arch$registryName().toString()).toList();
-			}
-
-			public boolean isValid(Block block) {
-				if (blacklistedBlocks.contains(block.arch$registryName()))
-					return false;
-				return block.defaultBlockState().getTags().anyMatch(blockTagKey -> whitelistedBlockTags.contains(blockTagKey.location().toString())) ||
-						whitelistedBlocks.contains(block.arch$registryName());
-			}
-		}
-	}
+	@ConfigEntry.Category("features")
+	@ConfigEntry.Gui.TransitiveObject
+	public FeaturesConfig features = new FeaturesConfig();
 }

@@ -17,7 +17,7 @@ public class TreeRegistry {
 	}
 
 	public static Optional<TreeType> getTreeType(BlockState blockState) {
-		return REGISTRIES.values().stream().filter(treeType -> treeType.mineableBlock(blockState)).findFirst();
+		return REGISTRIES.values().stream().filter(treeType -> treeType.enabled() && treeType.mineableBlock(blockState)).findFirst();
 	}
 
 	public static Optional<TreeType> getTreeType(ResourceLocation resourceLocation) {

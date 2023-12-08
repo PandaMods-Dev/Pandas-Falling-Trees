@@ -1,6 +1,7 @@
 package me.pandamods.fallingtrees.trees;
 
 import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;
@@ -34,5 +35,10 @@ public class CactusTree implements TreeType {
 	@Override
 	public float fallAnimationEdgeDistance() {
 		return 14f / 16f;
+	}
+
+	@Override
+	public boolean enabled() {
+		return !FallingTreesConfig.getCommonConfig().features.disableCactusTrees;
 	}
 }

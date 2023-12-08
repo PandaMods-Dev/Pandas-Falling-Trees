@@ -3,8 +3,12 @@ package me.pandamods.fallingtrees.client.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.config.ClientConfig;
+import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.utils.RenderUtils;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -19,9 +23,13 @@ import org.joml.Vector3f;
 
 import java.util.Map;
 
+@Environment(EnvType.CLIENT)
 public class TreeRenderer extends EntityRenderer<TreeEntity> {
+	final ClientConfig config;
+
 	public TreeRenderer(EntityRendererProvider.Context context) {
 		super(context);
+		this.config = FallingTreesConfig.getClientConfig();
 	}
 
 	@Override
@@ -32,10 +40,17 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		poseStack.pushPose();
 
 		Map<BlockPos, BlockState> blocks = entity.getBlocks();
-		float time = entity.getLifetime(partialTick);
-		float animationTime = (float) Math.min(Math.PI*3, time * (time / 3));
-		float animationFormula = Math.abs(Math.sin(animationTime) / animationTime);
-		float animation = (-animationFormula + 1) * -90;
+		float fallAnimLength = config.animation.fallAnimLength;
+
+		float bounceHeight = config.animation.bounceAngleHeight;
+		float bounceAnimLength = config.animation.bounceAnimLength;
+
+		float time = (float) (entity.getLifetime(partialTick) * (Math.PI / 2) / fallAnimLength);
+
+		float fallAnim = bumpCos(time) * 90;
+		float bounceAnim = bumpSin((float) ((time - Math.PI / 2) / (bounceAnimLength / (fallAnimLength * 2)))) * bounceHeight;
+
+		float animation = (fallAnim + bounceAnim) - 90;
 
 		Direction direction = entity.getDirection().getOpposite();
 		int distance = getDistance(treeType, blocks, 0, direction.getOpposite());
@@ -82,5 +97,13 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		if (blocks.containsKey(nextBlockPos) && treeType.baseBlockCheck(blocks.get(nextBlockPos)))
 			return getDistance(treeType, blocks, distance + 1, direction);
 		return distance;
+	}
+
+	private float bumpCos(float time) {
+		return (float) Math.max(0, Math.cos(Math.clamp(-Math.PI, Math.PI, time)));
+	}
+
+	private float bumpSin(float time) {
+		return (float) Math.max(0, Math.sin(Math.clamp(-Math.PI, Math.PI, time)));
 	}
 }

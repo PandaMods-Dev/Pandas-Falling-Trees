@@ -1,9 +1,13 @@
 package me.pandamods.fallingtrees.config;
 
 import me.pandamods.fallingtrees.FallingTrees;
+import me.pandamods.fallingtrees.config.client.AnimationConfig;
+import me.pandamods.fallingtrees.config.client.SoundSettingsConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
 @Config(name = FallingTrees.MOD_ID + "_client")
 public class ClientConfig implements ConfigData {
@@ -11,11 +15,9 @@ public class ClientConfig implements ConfigData {
 
 	@ConfigEntry.Category("sound_settings")
 	@ConfigEntry.Gui.TransitiveObject
-	public SoundSettings soundSettings = new SoundSettings();
+	public SoundSettingsConfig soundSettings = new SoundSettingsConfig();
 
-	public static class SoundSettings {
-		public boolean enabled = true;
-		public float startVolume = 0.7f;
-		public float endVolume = 0.7f;
-	}
+	@ConfigEntry.Category("animation")
+	@ConfigEntry.Gui.TransitiveObject
+	public AnimationConfig animation = new AnimationConfig();
 }

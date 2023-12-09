@@ -27,9 +27,6 @@ configurations {
 }
 
 dependencies {
-    api("org.joml:joml:1.10.5")
-    include("org.joml:joml:1.10.5")
-
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"

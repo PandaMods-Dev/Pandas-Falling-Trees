@@ -32,7 +32,7 @@ public interface TreeType {
 	}
 
 	default void entityTick(TreeEntity entity) {
-		Level level = entity.getLevel();
+		Level level = entity.level();
 		if (entity.tickCount >= entity.getMaxLifeTimeTick()) {
 			ItemStack usedItem = entity.getUsedTool();
 			for (Map.Entry<BlockPos, BlockState> entry : entity.getBlocks().entrySet()) {

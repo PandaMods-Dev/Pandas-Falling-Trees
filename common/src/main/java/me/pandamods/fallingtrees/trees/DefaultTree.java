@@ -36,7 +36,7 @@ public class DefaultTree implements TreeType {
 
 	@Override
 	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return itemStack.getItem() instanceof AxeItem;
+		return itemStack.getItem() instanceof AxeItem || itemStack.is(ItemTags.AXES);
 	}
 
 	@Override
@@ -46,14 +46,14 @@ public class DefaultTree implements TreeType {
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			if (entity.tickCount == 1) {
 				if (FallingTreesConfig.getClientConfig().soundSettings.enabled) {
-					entity.level.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
+					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
 							SoundSource.BLOCKS, FallingTreesConfig.getClientConfig().soundSettings.startVolume, 1f, true);
 				}
 			}
 
 			if (entity.tickCount == (int) (FallingTreesConfig.getClientConfig().animation.fallAnimLength * 20) - 5) {
 				if (FallingTreesConfig.getClientConfig().soundSettings.enabled) {
-					entity.level.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
+					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
 							SoundSource.BLOCKS, FallingTreesConfig.getClientConfig().soundSettings.endVolume, 1f, true);
 				}
 			}

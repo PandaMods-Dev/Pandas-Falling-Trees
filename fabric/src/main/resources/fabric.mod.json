@@ -30,11 +30,14 @@
   ],
   "depends": {
     "fabricloader": ">=0.14.24",
-    "minecraft": ">=1.20.1",
-		"fabric-api": ">=0.90.4",
+    "minecraft": ">=1.20",
+		"fabric-api": ">=0.83.0",
 		"cloth-config": ">=11.1.106",
 		"architectury": ">=9.1.12"
   },
+	"suggests": {
+		"modmenu": ">=7.0.1"
+	},
 	"custom": {
 		"modmenu": {
 			"links": {

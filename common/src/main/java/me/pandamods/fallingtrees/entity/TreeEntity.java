@@ -129,7 +129,7 @@ public class TreeEntity extends Entity {
 	}
 
 	public int getMaxLifeTimeTick() {
-		return (int) (FallingTreesConfig.getCommonConfig().treeLifeLength * 20);
+		return (int) (FallingTreesConfig.getCommonConfig().treeLifetimeLength * 20);
 	}
 
 	public float getLifetime(float partialTick) {

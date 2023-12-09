@@ -14,6 +14,11 @@
 	"text.autoconfig.fallingtrees_client.option.soundSettings.startVolume": "Start volume",
 	"text.autoconfig.fallingtrees_client.option.soundSettings.endVolume": "End volume",
 
+	"text.autoconfig.fallingtrees_client.category.animation": "Animation",
+	"text.autoconfig.fallingtrees_client.option.animation.fallAnimLength": "Fall animation length",
+	"text.autoconfig.fallingtrees_client.option.animation.bounceAngleHeight": "Bounce angle height",
+	"text.autoconfig.fallingtrees_client.option.animation.bounceAnimLength": "Bounce animation length",
+
 
 	"text.autoconfig.fallingtrees_common.title": "Panda's Falling Tree's Common Config",
 
@@ -21,6 +26,7 @@
 	"text.autoconfig.fallingtrees_common.option.isCrouchMiningAllowed": "Is Crouch mining allowed",
 	"text.autoconfig.fallingtrees_common.option.multiplyToolDamage": "Multiply tool damage",
 	"text.autoconfig.fallingtrees_common.option.multiplyFoodExhaustion": "Multiply food exhaustion",
+	"text.autoconfig.fallingtrees_common.option.treeLifetimeLength": "Tree lifetime length",
 
 	"text.autoconfig.fallingtrees_common.category.filter": "Filter",
 
@@ -40,5 +46,10 @@
 	"text.autoconfig.fallingtrees_common.option.limitations.treeFallRequirements": "Tree Fall Requirements",
 	"text.autoconfig.fallingtrees_common.option.limitations.treeFallRequirements.maxAmountType": "Max Amount type",
 	"text.autoconfig.fallingtrees_common.option.limitations.treeFallRequirements.maxAmount": "Max amount",
-	"text.autoconfig.fallingtrees_common.option.limitations.treeFallRequirements.onlyRequiredTool": "Only fall when required tool is used"
+	"text.autoconfig.fallingtrees_common.option.limitations.treeFallRequirements.onlyRequiredTool": "Only fall when required tool is used",
+
+	"text.autoconfig.fallingtrees_common.category.features": "Features",
+	"text.autoconfig.fallingtrees_common.option.features.disableCactusTrees": "Disable Cactus trees",
+	"text.autoconfig.fallingtrees_common.option.features.disableBambooTrees": "Disable Bamboo trees",
+	"text.autoconfig.fallingtrees_common.option.features.disableChorusTrees": "Disable Chorus trees"
 }

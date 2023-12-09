@@ -26,7 +26,7 @@
 	"text.autoconfig.fallingtrees_common.option.isCrouchMiningAllowed": "Is Crouch mining allowed",
 	"text.autoconfig.fallingtrees_common.option.multiplyToolDamage": "Multiply tool damage",
 	"text.autoconfig.fallingtrees_common.option.multiplyFoodExhaustion": "Multiply food exhaustion",
-	"text.autoconfig.fallingtrees_common.option.treeLifeLength": "Tree life length",
+	"text.autoconfig.fallingtrees_common.option.treeLifetimeLength": "Tree lifetime length",
 
 	"text.autoconfig.fallingtrees_common.category.filter": "Filter",
 

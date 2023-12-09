@@ -11,7 +11,7 @@ public class CommonConfig implements ConfigData {
 	public boolean disableExtraToolDamage = false;
 	public boolean disableExtraFoodExhaustion = false;
 
-	public float treeLifetimeLength = 4;
+	public float treeLifeLength = 4;
 
 	public DynamicMiningSpeed dynamicMiningSpeed = new DynamicMiningSpeed();
 	public TreeConfigs trees = new TreeConfigs();

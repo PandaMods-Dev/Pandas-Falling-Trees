@@ -3,7 +3,7 @@
 [![Discord](https://img.shields.io/discord/1021703635178115122?style=for-the-badge&logo=discord&label=Discord&labelColor=black&color=lightblue)](https://discord.gg/wjPt4vEfXb)
 [![Modrinth](https://img.shields.io/modrinth/dt/i2kUe4lq?style=for-the-badge&logo=modrinth&label=Modrinth&labelColor=black&color=green)](https://modrinth.com/mod/pandas-falling-trees)
 [![Curseforge](https://img.shields.io/curseforge/dt/880630?style=for-the-badge&logo=curseforge&label=Curseforge&labelColor=black&color=red)](https://www.curseforge.com/minecraft/mc-mods/pandas-falling-trees)
-[![GitHub](https://img.shields.io/github/license/PandaDap2006/Pandas-Falling-Trees?style=for-the-badge&logo=github&label=Github&labelColor=black&color=white)](https://github.com/PandaDap2006/Pandas-Falling-Trees)
+[![GitHub](https://img.shields.io/github/downloads/PandaDap2006/Pandas-Falling-Trees/total?style=for-the-badge&logo=github&label=Github&labelColor=black&color=white)](https://github.com/PandaDap2006/Pandas-Falling-Trees)
 
 [![Architecury API](https://img.shields.io/badge/Architectury%20API-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
 [![Cloth Config](https://img.shields.io/badge/Cloth%20Config-REQUIRED-1?style=for-the-badge&labelColor=black&color=gold)](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
@@ -27,8 +27,10 @@ If you have any of your own questions, please leave them [here](https://github.c
 
 You can also join my [Discord](https://discord.gg/wjPt4vEfXb)
 
-## Known Issues:
-- Wilder Wilds: Game crash when mining trees. I recommend blacklisting the logs and leaves in the mod config.
+## Known Incompatibilities:
+- **HT's Treechop:** Compatibility is planned and will be added when 0.18.5 is ported to 1.20+
+- **Wilder Wilds:** Game crash when mining trees. I recommend blacklisting the logs and leaves in the mod config.
+- **Physics mod:** I will not make compatibility because it's not open sourced, if compatibility should ever be a thing, then the creators of the Physics mod should add it.
 
 ---
 ### Do you need a cheap Minecraft server and want to support me, click the banner below and sign up, you can also use my code to get 15% off you first month at Kinetic Hosting.

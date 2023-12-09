@@ -14,7 +14,7 @@ public class CommonConfig implements ConfigData {
 	public boolean multiplyToolDamage = true;
 	public boolean multiplyFoodExhaustion = true;
 
-	public float treeLifetimeLength = 4;
+	public float treeLifeLength = 4;
 
 	@ConfigEntry.Category("filter")
 	@ConfigEntry.Gui.TransitiveObject

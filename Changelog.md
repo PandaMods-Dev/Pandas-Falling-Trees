@@ -10,4 +10,4 @@
 
 * **What's been added**
   * Animation config options
-  * Tree lifetime length config option
+  * Tree life length config option

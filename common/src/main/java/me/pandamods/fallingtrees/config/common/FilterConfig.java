@@ -4,15 +4,16 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FilterConfig {
 	@ConfigEntry.Gui.CollapsibleObject
-	public FilterBlock log = new FilterBlock(List.of(BlockTags.LOGS), new ArrayList<>(), new ArrayList<>());
+	public FilterBlock log = new FilterBlock(List.of(BlockTags.LOGS), List.of(Blocks.MUSHROOM_STEM), new ArrayList<>());
 	@ConfigEntry.Gui.CollapsibleObject
-	public FilterBlock leaves = new FilterBlock(List.of(BlockTags.LEAVES), new ArrayList<>(), new ArrayList<>());
+	public FilterBlock leaves = new FilterBlock(List.of(BlockTags.LEAVES), List.of(Blocks.BROWN_MUSHROOM_BLOCK, Blocks.RED_MUSHROOM_BLOCK), new ArrayList<>());
 
 	public static class FilterBlock {
 		public List<String> whitelistedBlockTags;
@@ -26,10 +27,10 @@ public class FilterConfig {
 		}
 
 		public boolean isValid(Block block) {
-			if (blacklistedBlocks.contains(block.arch$registryName()))
+			if (blacklistedBlocks.contains(block.arch$registryName().toString()))
 				return false;
 			return block.defaultBlockState().getTags().anyMatch(blockTagKey -> whitelistedBlockTags.contains(blockTagKey.location().toString())) ||
-					whitelistedBlocks.contains(block.arch$registryName());
+					whitelistedBlocks.contains(block.arch$registryName().toString());
 		}
 	}
 }

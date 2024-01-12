@@ -2,9 +2,9 @@ package me.pandamods.fallingtrees.trees;
 
 import dev.architectury.platform.Platform;
 import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
-import me.pandamods.fallingtrees.network.ConfigPacket;
 import me.pandamods.fallingtrees.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;
 import net.minecraft.core.BlockPos;
@@ -44,17 +44,18 @@ public class DefaultTree implements TreeType {
 		TreeType.super.entityTick(entity);
 
 		if (Platform.getEnv() == EnvType.CLIENT) {
+			ClientConfig clientConfig = FallingTreesConfig.getClientConfig();
 			if (entity.tickCount == 1) {
-				if (FallingTreesConfig.getClientConfig().soundSettings.enabled) {
+				if (clientConfig.soundSettings.enabled) {
 					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
-							SoundSource.BLOCKS, FallingTreesConfig.getClientConfig().soundSettings.startVolume, 1f, true);
+							SoundSource.BLOCKS, clientConfig.soundSettings.startVolume, 1f, true);
 				}
 			}
 
-			if (entity.tickCount == (int) (FallingTreesConfig.getClientConfig().animation.fallAnimLength * 20) - 5) {
-				if (FallingTreesConfig.getClientConfig().soundSettings.enabled) {
+			if (entity.tickCount == (int) (clientConfig.animation.fallAnimLength * 20) - 5) {
+				if (clientConfig.soundSettings.enabled) {
 					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
-							SoundSource.BLOCKS, FallingTreesConfig.getClientConfig().soundSettings.endVolume, 1f, true);
+							SoundSource.BLOCKS, clientConfig.soundSettings.endVolume, 1f, true);
 				}
 			}
 		}
@@ -79,7 +80,7 @@ public class DefaultTree implements TreeType {
 	@Override
 	public boolean allowedToFall(Player player) {
 		return !(FallingTreesConfig.getCommonConfig().isCrouchMiningAllowed &&
-				player.isCrouching() != ConfigPacket.getClientConfig(player).getBoolean("invertCrouchMining"));
+				player.isCrouching() != FallingTreesConfig.getClientConfig(player).invertCrouchMining);
 	}
 
 	public void loopLogs(LevelAccessor level, BlockPos originPos, Set<BlockPos> logBlocks, Set<BlockPos> loopedLogBlocks, Set<BlockPos> leavesBlocks) {

@@ -1,40 +1,41 @@
-modLoader="javafml"
-loaderVersion="[46,)"
-license="MIT"
-showAsResourcePack=false
-issueTrackerURL="https://github.com/PandaDap2006/Pandas-Falling-Trees/issues"
+modLoader = "javafml"
+loaderVersion = "[46,)"
+issueTrackerURL = "https://github.com/PandaDap2006/Pandas-Falling-Trees/issues"
+showAsResourcePack = false
+license = "MIT"
 
 [[mods]]
-	modId="fallingtrees"
-	version="${version}"
-	displayName="Falling Tree's"
-	logoFile="icon.png"
-	authors="The Panda Oliver/PandaMods"
-	description='''
-		Makes trees fall realistically.
-	'''
+modId = "fallingtrees"
+version = "${version}"
+displayName = "Falling Trees"
+authors = "The Panda Oliver/PandaMods"
+description = "Makes trees fall realistically."
+logoFile = "icon.png"
 
 [[dependencies.fallingtrees]]
-   modId="forge"
-   mandatory=true
-   versionRange="[46,)"
-   ordering="NONE"
-   side="BOTH"
+modId = "forge"
+mandatory = true
+versionRange = "[46,)"
+ordering = "NONE"
+side = "BOTH"
+
 [[dependencies.fallingtrees]]
-   modId="minecraft"
-   mandatory=true
-   versionRange="[1.20,1.21)"
-   ordering="NONE"
-   side="BOTH"
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20,)"
+ordering = "NONE"
+side = "BOTH"
+
 [[dependencies.fallingtrees]]
-    modId="cloth_config"
-    mandatory=true
-    versionRange="[11.1.106,)"
-    ordering="NONE"
-    side="BOTH"
+modId = "architectury"
+mandatory = true
+versionRange = "[9.1.12,)"
+ordering = "AFTER"
+side = "BOTH"
+
 [[dependencies.fallingtrees]]
-    modId="architectury"
-    mandatory=true
-    versionRange="[9.1.12,)"
-    ordering="NONE"
-    side="BOTH"
+modId="pandalib"
+mandatory=true
+versionRange="[0.1,)"
+ordering="NONE"
+side="BOTH"

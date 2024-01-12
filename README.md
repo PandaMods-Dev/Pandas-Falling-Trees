@@ -28,7 +28,8 @@ If you have any of your own questions, please leave them [here](https://github.c
 You can also join my [Discord](https://discord.gg/wjPt4vEfXb)
 
 ## Known Incompatibilities:
-- **HT's Treechop:** Compatibility is planned and will be added when 0.18.5 is ported to 1.20+
+- **Optifine:** I cant promise that compatibility will ever be possible.
+- **HT's Treechop:** Compatibility is planned and will be added when 0.18.5+ is ported to 1.20+
 - **Wilder Wilds:** Game crash when mining trees. I recommend blacklisting the logs and leaves in the mod config.
 - **Physics mod:** I will not make compatibility because it's not open sourced, if compatibility should ever be a thing, then the creators of the Physics mod should add it.
 

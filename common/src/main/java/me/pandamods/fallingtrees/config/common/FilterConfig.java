@@ -1,6 +1,5 @@
 package me.pandamods.fallingtrees.config.common;
 
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -10,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilterConfig {
-	@ConfigEntry.Gui.CollapsibleObject
 	public FilterBlock log = new FilterBlock(List.of(BlockTags.LOGS), List.of(Blocks.MUSHROOM_STEM), new ArrayList<>());
-	@ConfigEntry.Gui.CollapsibleObject
 	public FilterBlock leaves = new FilterBlock(List.of(BlockTags.LEAVES), List.of(Blocks.BROWN_MUSHROOM_BLOCK, Blocks.RED_MUSHROOM_BLOCK), new ArrayList<>());
 
 	public static class FilterBlock {

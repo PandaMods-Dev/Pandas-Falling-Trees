@@ -1,3 +1,8 @@
-## Version 0.9.1 Changelog
+## Version 0.10 Changelog
 * **What's been fixed**
-  * Block filter only validating block tags.
+  * Block filter not validating correctly.
+
+
+* **What's been changed**
+	* Falling Trees now require PandaLib
+	* Falling Trees no longer require Cloth Config

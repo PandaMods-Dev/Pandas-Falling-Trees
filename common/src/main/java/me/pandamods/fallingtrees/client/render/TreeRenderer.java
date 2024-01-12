@@ -6,30 +6,44 @@ import me.pandamods.fallingtrees.api.TreeType;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
-import me.pandamods.fallingtrees.utils.RenderUtils;
+import me.pandamods.pandalib.utils.RenderUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Math;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.util.BitSet;
+import java.util.List;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public class TreeRenderer extends EntityRenderer<TreeEntity> {
-	final ClientConfig config;
+	public BlockRenderDispatcher blockRenderDispatcher = Minecraft.getInstance().getBlockRenderer();
 
 	public TreeRenderer(EntityRendererProvider.Context context) {
 		super(context);
-		this.config = FallingTreesConfig.getClientConfig();
+	}
+
+	public ClientConfig getConfig() {
+		return FallingTreesConfig.getClientConfig(Minecraft.getInstance().player);
 	}
 
 	@Override
@@ -40,10 +54,10 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		poseStack.pushPose();
 
 		Map<BlockPos, BlockState> blocks = entity.getBlocks();
-		float fallAnimLength = config.animation.fallAnimLength;
+		float fallAnimLength = getConfig().animation.fallAnimLength;
 
-		float bounceHeight = config.animation.bounceAngleHeight;
-		float bounceAnimLength = config.animation.bounceAnimLength;
+		float bounceHeight = getConfig().animation.bounceAngleHeight;
+		float bounceAnimLength = getConfig().animation.bounceAnimLength;
 
 		float time = (float) (entity.getLifetime(partialTick) * (Math.PI / 2) / fallAnimLength);
 
@@ -71,17 +85,10 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		blocks.forEach((blockPos, blockState) -> {
 			poseStack.pushPose();
 			poseStack.translate(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-			RenderUtils.renderBlock(poseStack, blockState, blockPos.offset(entity.getOriginPos()), entity.level(), consumer,
-					(state, level, offset, face, pos) -> {
-						if (state.canOcclude()) {
-							BlockPos facePos = blockPos.offset(face.getNormal());
-							if (blocks.containsKey(facePos)) {
-								return !state.is(blocks.get(facePos).getBlock());
-							}
-							return true;
-						}
-						return true;
-					});
+
+			blockPos = blockPos.offset(entity.getOriginPos());
+			RenderUtils.renderBlock(poseStack, blockState, blockPos, entity.level(), consumer, OverlayTexture.NO_OVERLAY);
+
 			poseStack.popPose();
 		});
 		poseStack.popPose();

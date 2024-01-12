@@ -1,11 +1,11 @@
 {
   "required": true,
-  "minVersion": "0.8",
-  "package": "me.pandamods.fallingtrees.mixin.fabric",
+  "package": "me.pandamods.fallingtrees.fabric.mixin",
   "compatibilityLevel": "JAVA_17",
-  "mixins": [
-  ],
+  "minVersion": "0.8",
   "client": [
+  ],
+  "mixins": [
   ],
   "injectors": {
     "defaultRequire": 1

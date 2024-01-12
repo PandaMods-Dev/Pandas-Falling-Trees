@@ -3,7 +3,10 @@ package me.pandamods.fallingtrees.registry;
 import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.api.TreeType;
-import me.pandamods.fallingtrees.trees.*;
+import me.pandamods.fallingtrees.trees.BambooTree;
+import me.pandamods.fallingtrees.trees.CactusTree;
+import me.pandamods.fallingtrees.trees.ChorusTree;
+import me.pandamods.fallingtrees.trees.DefaultTree;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;

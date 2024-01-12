@@ -1,11 +1,9 @@
 package me.pandamods.fallingtrees.registry;
 
-import com.sun.source.tree.Tree;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.entity.TreeEntity;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;

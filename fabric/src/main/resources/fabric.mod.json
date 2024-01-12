@@ -2,38 +2,39 @@
   "schemaVersion": 1,
   "id": "fallingtrees",
   "version": "${version}",
-
-  "name": "Falling Tree's",
+  "name": "Falling Trees",
   "description": "Makes trees fall realistically.",
-  "authors": ["The Panda Oliver/PandaMods"],
-  "contact": {
+  "authors": [
+		"The Panda Oliver/PandaMods"
+  ],
+	"contact": {
 		"issues": "https://github.com/PandaDap2006/Pandas-Falling-Trees/issues",
 		"sources": "https://github.com/PandaDap2006/Pandas-Falling-Trees",
 		"homepage": "https://www.curseforge.com/minecraft/mc-mods/pandas-falling-trees"
 	},
-
   "license": "MIT",
   "icon": "icon.png",
-
   "environment": "*",
   "entrypoints": {
-		"main": [
+    "main": [
 			"me.pandamods.fallingtrees.fabric.FallingTreesFabric"
+    ],
+		"client": [
+			"me.pandamods.fallingtrees.fabric.FallingTreesFabricClient"
 		],
 		"modmenu": [
 			"me.pandamods.fallingtrees.fabric.ModMenuIntegration"
 		]
-	},
+  },
   "mixins": [
-    "fallingtrees.mixins.json",
+		"fallingtrees.mixins.json",
     "fallingtrees-common.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.24",
+    "fabric": "*",
     "minecraft": ">=1.20",
-		"fabric-api": ">=0.83.0",
-		"cloth-config": ">=11.1.106",
-		"architectury": ">=9.1.12"
+    "architectury": ">=9.1.12",
+    "pandalib": ">=0.1"
   },
 	"suggests": {
 		"modmenu": ">=7.0.1"

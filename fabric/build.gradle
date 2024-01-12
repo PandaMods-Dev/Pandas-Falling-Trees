@@ -13,34 +13,33 @@ loom {
 
 configurations {
     common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}")
-    modApi("com.terraformersmc:modmenu:${rootProject.modmenu_version}")
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    modApi "dev.architectury:architectury-fabric:${architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+
+	modImplementation(fileTree(dir: project(':').file('libs/fabric'), include: ["*.jar"]))
+	modApi("com.terraformersmc:modmenu:${modmenu_version}")
 }
 
 repositories {
-    maven { url = uri("https://maven.terraformersmc.com/releases/") }
+	maven { url = uri("https://maven.terraformersmc.com/releases/") }
 }
 
 processResources {
-    inputs.property "version", project.version
+    inputs.property "version", mod_version
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version
+        expand "version": mod_version
     }
 }
 
@@ -48,18 +47,13 @@ shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    archiveClassifier.set("dev-shadow")
+    archiveClassifier = "dev-shadow"
 }
 
 remapJar {
     injectAccessWidener = true
-    inputFile.set shadowJar.archiveFile
+    input.set shadowJar.archiveFile
     dependsOn shadowJar
-    archiveClassifier.set(null)
-}
-
-jar {
-    archiveClassifier.set("dev")
 }
 
 sourcesJar {
@@ -77,7 +71,7 @@ components.java {
 publishing {
     publications {
         mavenFabric(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
+            artifactId = archives_base_name + "-" + project.name
             from components.java
         }
     }

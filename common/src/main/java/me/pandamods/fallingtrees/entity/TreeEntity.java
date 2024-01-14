@@ -1,7 +1,7 @@
 package me.pandamods.fallingtrees.entity;
 
 import me.pandamods.fallingtrees.api.TreeRegistry;
-import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
 import me.pandamods.fallingtrees.utils.BlockMapEntityData;
@@ -39,19 +39,18 @@ public class TreeEntity extends Entity {
 	public static final EntityDataAccessor<String> TREE_TYPE_LOCATION = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.STRING);
 
 	public Entity owner = null;
-	public TreeType treeType = null;
+	public Tree tree = null;
 
 	public TreeEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.noCulling = true;
 	}
 
-	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, TreeType treeType, Player player) {
+	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, Tree tree, Player player) {
 		if (levelAccessor instanceof Level level) {
 			TreeEntity treeEntity = new TreeEntity(EntityRegistry.TREE.get(), level);
 			treeEntity.setPos(blockPos.getCenter().add(0, -.5, 0));
-			treeEntity.setData(blockPosList, blockPos, treeType, player, player.getItemBySlot(EquipmentSlot.MAINHAND));
-			level.addFreshEntity(treeEntity);
+			treeEntity.setData(blockPosList, blockPos, tree, player, player.getItemBySlot(EquipmentSlot.MAINHAND));
 
 			for (BlockPos pos : blockPosList) {
 				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 0);
@@ -59,12 +58,13 @@ public class TreeEntity extends Entity {
 			for (Map.Entry<BlockPos, BlockState> entry : treeEntity.getBlocks().entrySet()) {
 				level.sendBlockUpdated(entry.getKey().offset(blockPos), entry.getValue(), Blocks.AIR.defaultBlockState(), 3);
 			}
+			level.addFreshEntity(treeEntity);
 		}
 	}
 
-	public void setData(Set<BlockPos> blockPosList, BlockPos originBlock, TreeType treeType, Entity owner, ItemStack itemStack) {
+	public void setData(Set<BlockPos> blockPosList, BlockPos originBlock, Tree tree, Entity owner, ItemStack itemStack) {
 		this.owner = owner;
-		this.treeType = treeType;
+		this.tree = tree;
 
 		int height = 0;
 
@@ -78,7 +78,7 @@ public class TreeEntity extends Entity {
 		this.getEntityData().set(BLOCKS, blockPosMap);
 		this.getEntityData().set(HEIGHT, height);
 		this.getEntityData().set(USED_TOOL, itemStack);
-		ResourceLocation treeTypeLocation = TreeRegistry.getTreeTypeLocation(treeType);
+		ResourceLocation treeTypeLocation = TreeRegistry.getTreeLocation(tree);
 		if (treeTypeLocation != null)
 			this.getEntityData().set(TREE_TYPE_LOCATION, treeTypeLocation.toString());
 		this.getEntityData().set(FALL_DIRECTION, Direction.fromYRot(
@@ -153,8 +153,8 @@ public class TreeEntity extends Entity {
 		return this.getEntityData().get(FALL_DIRECTION);
 	}
 
-	public TreeType getTreeType() {
-		Optional<TreeType> treeTypeOptional = TreeRegistry.getTreeType(new ResourceLocation(this.getEntityData().get(TREE_TYPE_LOCATION)));
+	public Tree getTreeType() {
+		Optional<Tree> treeTypeOptional = TreeRegistry.getTree(new ResourceLocation(this.getEntityData().get(TREE_TYPE_LOCATION)));
 		return treeTypeOptional.orElse(null);
 	}
 }

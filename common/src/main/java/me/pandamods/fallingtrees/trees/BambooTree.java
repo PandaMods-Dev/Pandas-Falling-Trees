@@ -1,6 +1,6 @@
 package me.pandamods.fallingtrees.trees;
 
-import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
@@ -10,22 +10,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BambooTree implements TreeType {
+public class BambooTree implements Tree {
 	@Override
-	public boolean baseBlockCheck(BlockState blockState) {
+	public boolean mineableBlock(BlockState blockState) {
 		return blockState.is(Blocks.BAMBOO);
 	}
 
 	@Override
-	public Set<BlockPos> blockGatheringAlgorithm(BlockPos blockPos, LevelAccessor level) {
-		Set<BlockPos> blocks = new HashSet<>();
-		loopBlocks(blockPos, level, blocks);
-		return blocks;
+	public boolean blockGatheringAlgorithm(Set<BlockPos> blockList, BlockPos blockPos, LevelAccessor level) {
+		loopBlocks(blockPos, level, blockList);
+		return true;
 	}
 
 	private void loopBlocks(BlockPos pos, LevelAccessor level, Set<BlockPos> blocks) {
 		blocks.add(pos);
-		if (this.baseBlockCheck(level.getBlockState(pos.above()))) {
+		if (this.mineableBlock(level.getBlockState(pos.above()))) {
 			loopBlocks(pos.above(), level, blocks);
 		}
 	}

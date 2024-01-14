@@ -6,6 +6,7 @@ import me.pandamods.fallingtrees.registry.EntityRegistry;
 import me.pandamods.fallingtrees.registry.SoundRegistry;
 import me.pandamods.fallingtrees.registry.TreeTypeRegistry;
 import me.pandamods.fallingtrees.utils.BlockMapEntityData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.syncher.EntityDataSerializers;
 
 public class FallingTrees {

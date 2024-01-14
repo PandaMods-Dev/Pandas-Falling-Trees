@@ -1,20 +1,13 @@
 package me.pandamods.fallingtrees.event;
 
 import dev.architectury.event.EventResult;
-import dev.architectury.event.events.client.ClientLifecycleEvent;
 import dev.architectury.event.events.common.BlockEvent;
-import dev.architectury.platform.Platform;
-import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.utils.value.IntValue;
 import me.pandamods.fallingtrees.api.TreeRegistry;
-import me.pandamods.fallingtrees.api.TreeType;
-import me.pandamods.fallingtrees.client.render.TreeRenderer;
+import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.CommonConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
-import me.pandamods.fallingtrees.registry.EntityRegistry;
-import net.fabricmc.api.EnvType;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -25,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,22 +35,23 @@ public class EventHandler {
 	}
 
 	public static boolean makeTreeFall(BlockPos blockPos, LevelAccessor level, Player player) {
-		Optional<TreeType> treeTypeOptional = TreeRegistry.getTreeType(level.getBlockState(blockPos));
+		Optional<Tree> treeTypeOptional = TreeRegistry.getTree(level.getBlockState(blockPos));
 		return treeTypeOptional.filter(treeType -> makeTreeFall(treeType, blockPos, level, player)).isPresent();
 	}
 
-	public static boolean makeTreeFall(TreeType treeType, BlockPos blockPos, LevelAccessor level, Player player) {
+	public static boolean makeTreeFall(Tree tree, BlockPos blockPos, LevelAccessor level, Player player) {
 		ItemStack mainItem = player.getItemBySlot(EquipmentSlot.MAINHAND);
 		BlockState blockState = level.getBlockState(blockPos);
 		CommonConfig commonConfig = FallingTreesConfig.getCommonConfig();
 
-		if (!treeType.allowedToFall(player)) return false;
-		if (commonConfig.limitations.treeFallRequirements.onlyRequiredTool && !treeType.allowedTool(mainItem, blockState)) return false;
+		if (!tree.allowedToFall(player)) return false;
+		if (commonConfig.limitations.treeFallRequirements.onlyRequiredTool && !tree.allowedTool(mainItem, blockState)) return false;
 
-		Set<BlockPos> treeBlockPos = treeType.blockGatheringAlgorithm(blockPos, level);
-		if (treeBlockPos.stream().noneMatch(blockPos1 -> treeType.extraRequiredBlockCheck(level.getBlockState(blockPos1)))) return false;
+		Set<BlockPos> treeBlockPos = new HashSet<>();
+//		if (treeBlockPos.stream().noneMatch(blockPos1 -> tree.extraRequiredBlockCheck(level.getBlockState(blockPos1)))) return false;
+		if (tree.blockGatheringAlgorithm(treeBlockPos, blockPos, level)) return false;
 
-		long baseAmount = treeBlockPos.stream().filter(blockPos1 -> treeType.baseBlockCheck(level.getBlockState(blockPos1))).count();
+		long baseAmount = treeBlockPos.stream().filter(blockPos1 -> tree.mineableBlock(level.getBlockState(blockPos1))).count();
 		switch (commonConfig.limitations.treeFallRequirements.maxAmountType) {
 			case BLOCK_AMOUNT -> {
 				if (treeBlockPos.size() > commonConfig.limitations.treeFallRequirements.maxAmount) return false;
@@ -72,7 +67,7 @@ public class EventHandler {
 		player.causeFoodExhaustion(0.005f * (commonConfig.multiplyFoodExhaustion ? (int) baseAmount : 1));
 		player.awardStat(Stats.BLOCK_MINED.get(blockState.getBlock()), (int) baseAmount);
 
-		TreeEntity.destroyTree(treeBlockPos, blockPos, level, treeType, player);
+		TreeEntity.destroyTree(treeBlockPos, blockPos, level, tree, player);
 		return true;
 	}
 }

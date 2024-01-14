@@ -2,7 +2,7 @@ package me.pandamods.fallingtrees.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import me.pandamods.fallingtrees.api.TreeType;
+import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
@@ -10,34 +10,23 @@ import me.pandamods.pandalib.utils.RenderUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.block.ModelBlockRenderer;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Math;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import java.util.BitSet;
-import java.util.List;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
 public class TreeRenderer extends EntityRenderer<TreeEntity> {
-	public BlockRenderDispatcher blockRenderDispatcher = Minecraft.getInstance().getBlockRenderer();
-
 	public TreeRenderer(EntityRendererProvider.Context context) {
 		super(context);
 	}
@@ -48,8 +37,8 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 
 	@Override
 	public void render(TreeEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-		TreeType treeType = entity.getTreeType();
-		if (treeType == null) return;
+		Tree tree = entity.getTreeType();
+		if (tree == null) return;
 
 		poseStack.pushPose();
 
@@ -67,9 +56,9 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		float animation = (fallAnim + bounceAnim) - 90;
 
 		Direction direction = entity.getDirection().getOpposite();
-		int distance = getDistance(treeType, blocks, 0, direction.getOpposite());
+		int distance = getDistance(tree, blocks, 0, direction.getOpposite());
 
-		Vector3f pivot =  new Vector3f(0, 0, (.5f + distance) * treeType.fallAnimationEdgeDistance());
+		Vector3f pivot =  new Vector3f(0, 0, (.5f + distance) * tree.fallAnimationEdgeDistance());
 		pivot.rotateY(Math.toRadians(-direction.toYRot()));
 		poseStack.translate(-pivot.x, 0, -pivot.z);
 
@@ -99,10 +88,10 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		return null;
 	}
 
-	private int getDistance(TreeType treeType, Map<BlockPos, BlockState> blocks, int distance, Direction direction) {
+	private int getDistance(Tree tree, Map<BlockPos, BlockState> blocks, int distance, Direction direction) {
 		BlockPos nextBlockPos = new BlockPos(direction.getNormal().multiply(distance + 1));
-		if (blocks.containsKey(nextBlockPos) && treeType.baseBlockCheck(blocks.get(nextBlockPos)))
-			return getDistance(treeType, blocks, distance + 1, direction);
+		if (blocks.containsKey(nextBlockPos) && tree.mineableBlock(blocks.get(nextBlockPos)))
+			return getDistance(tree, blocks, distance + 1, direction);
 		return distance;
 	}
 

@@ -2,14 +2,21 @@ package me.pandamods.fallingtrees.forge;
 
 import dev.architectury.platform.forge.EventBuses;
 import me.pandamods.fallingtrees.FallingTrees;
+import me.pandamods.fallingtrees.FallingTreesClient;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(FallingTrees.MOD_ID)
 public class FallingTreesForge {
     public FallingTreesForge() {
-        // Submit our event bus to let architectury register our content on the right time
-        EventBuses.registerModEventBus(FallingTrees.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
+		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        EventBuses.registerModEventBus(FallingTrees.MOD_ID, bus);
+
         FallingTrees.init();
+
+		DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> FallingTreesForgeClient::clientInit);
     }
 }

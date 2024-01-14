@@ -1,5 +1,7 @@
 package me.pandamods.fallingtrees.config.common;
 
+import dev.architectury.extensions.injected.InjectedRegistryEntryExtension;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -9,8 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilterConfig {
-	public FilterBlock log = new FilterBlock(List.of(BlockTags.LOGS), List.of(Blocks.MUSHROOM_STEM), new ArrayList<>());
-	public FilterBlock leaves = new FilterBlock(List.of(BlockTags.LEAVES), List.of(Blocks.BROWN_MUSHROOM_BLOCK, Blocks.RED_MUSHROOM_BLOCK), new ArrayList<>());
+	public FilterBlock log = new FilterBlock(
+			List.of(BlockTags.LOGS),
+			List.of(Blocks.MUSHROOM_STEM),
+			new ArrayList<>()
+	);
+	public FilterBlock leaves = new FilterBlock(
+			List.of(BlockTags.LEAVES),
+			List.of(Blocks.BROWN_MUSHROOM_BLOCK, Blocks.RED_MUSHROOM_BLOCK),
+			new ArrayList<>()
+	);
+	public FilterBlock decorationBlocks = new FilterBlock(
+			new ArrayList<>(),
+			List.of(Blocks.VINE, Blocks.BEE_NEST),
+			new ArrayList<>()
+	);
 
 	public static class FilterBlock {
 		public List<String> whitelistedBlockTags;

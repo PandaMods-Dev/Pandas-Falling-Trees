@@ -14,17 +14,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Map;
 import java.util.Set;
 
-public interface TreeType {
-	boolean baseBlockCheck(BlockState blockState);
+public interface Tree {
+	boolean mineableBlock(BlockState blockState);
 
-	Set<BlockPos> blockGatheringAlgorithm(BlockPos blockPos, LevelAccessor level);
+	boolean blockGatheringAlgorithm(Set<BlockPos> blockList, BlockPos blockPos, LevelAccessor level);
 
 	default boolean extraRequiredBlockCheck(BlockState blockState) {
 		return true;
-	}
-
-	default boolean mineableBlock(BlockState blockState) {
-		return baseBlockCheck(blockState);
 	}
 
 	default boolean allowedTool(ItemStack itemStack, BlockState blockState) {

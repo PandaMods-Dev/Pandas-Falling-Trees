@@ -1,9 +1,11 @@
 package me.pandamods.fallingtrees.trees;
 
 import dev.architectury.platform.Platform;
+import me.pandamods.fallingtrees.api.GenericTree;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
+import me.pandamods.fallingtrees.config.common.TreeConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;
@@ -21,13 +23,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DefaultTree implements Tree {
+public class StandardTree extends GenericTree {
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
 		return FallingTreesConfig.getCommonConfig().filter.log.isValid(blockState.getBlock());
 	}
 
-	@Override
 	public boolean extraRequiredBlockCheck(BlockState blockState) {
 		if (blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
 			return false;
@@ -41,7 +42,7 @@ public class DefaultTree implements Tree {
 
 	@Override
 	public void entityTick(TreeEntity entity) {
-		Tree.super.entityTick(entity);
+		super.entityTick(entity);
 
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			ClientConfig clientConfig = FallingTreesConfig.getClientConfig();
@@ -63,15 +64,18 @@ public class DefaultTree implements Tree {
 
 	@Override
 	public boolean blockGatheringAlgorithm(Set<BlockPos> blockList, BlockPos blockPos, LevelAccessor level) {
+		if (!level.getBlockState(blockPos.above()).is(level.getBlockState(blockPos).getBlock())) return false;
+
 		Set<BlockPos> logBlocks = new HashSet<>();
 		Set<BlockPos> loopedLogBlocks = new HashSet<>();
 
 		Set<BlockPos> leavesBlocks = new HashSet<>();
+		Set<BlockPos> loopedLeavesBlocks = new HashSet<>();
 
 		Set<BlockPos> decorationBlocks = new HashSet<>();
 		Set<BlockPos> loopedDecorationBlocks = new HashSet<>();
 
-		loopLogs(level, blockPos, logBlocks, loopedLogBlocks, leavesBlocks, decorationBlocks, loopedDecorationBlocks);
+		loopLogs(level, blockPos, logBlocks, loopedLogBlocks);
 
 		blockList.addAll(logBlocks);
 		blockList.addAll(leavesBlocks);
@@ -83,6 +87,23 @@ public class DefaultTree implements Tree {
 	public boolean allowedToFall(Player player) {
 		return !(FallingTreesConfig.getCommonConfig().isCrouchMiningAllowed &&
 				player.isCrouching() != FallingTreesConfig.getClientConfig(player).invertCrouchMining);
+	}
+
+	public void loopLogs(LevelAccessor level, BlockPos blockPos, Set<BlockPos> logBlocks, Set<BlockPos> loopedLogBlocks) {
+		BlockState blockState = level.getBlockState(blockPos);
+		if (loopedLogBlocks.contains(blockPos))
+			return;
+
+		loopedLogBlocks.add(blockPos);
+
+		if (this.mineableBlock(blockState)) {
+			logBlocks.add(blockPos);
+
+			for (BlockPos offset : BlockPos.betweenClosed(new BlockPos(-1, 0, -1), new BlockPos(1, 1, 1))) {
+				BlockPos neighborPos = blockPos.offset(offset);
+				loopLogs(level, neighborPos, logBlocks, loopedLogBlocks);
+			}
+		}
 	}
 
 	public void loopLogs(LevelAccessor level, BlockPos blockPos, Set<BlockPos> logBlocks, Set<BlockPos> loopedLogBlocks,

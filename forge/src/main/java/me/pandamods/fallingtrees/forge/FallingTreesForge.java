@@ -12,8 +12,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(FallingTrees.MOD_ID)
 public class FallingTreesForge {
     public FallingTreesForge() {
-		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        EventBuses.registerModEventBus(FallingTrees.MOD_ID, bus);
+        EventBuses.registerModEventBus(FallingTrees.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
 
         FallingTrees.init();
 

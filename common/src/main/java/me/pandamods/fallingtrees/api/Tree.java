@@ -1,7 +1,13 @@
 package me.pandamods.fallingtrees.api;
 
+import me.pandamods.fallingtrees.FallingTrees;
+import me.pandamods.fallingtrees.config.CommonConfig;
+import me.pandamods.fallingtrees.config.FallingTreesConfig;
+import me.pandamods.fallingtrees.config.common.TreeConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
+import me.pandamods.pandalib.utils.ClassUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -14,25 +20,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Map;
 import java.util.Set;
 
-public interface Tree {
-	boolean mineableBlock(BlockState blockState);
+public abstract class Tree<C extends TreeConfig> {
+	public abstract boolean mineableBlock(BlockState blockState);
 
-	boolean blockGatheringAlgorithm(Set<BlockPos> blockList, BlockPos blockPos, LevelAccessor level);
+	public abstract boolean blockGatheringAlgorithm(Set<BlockPos> blockList, BlockPos blockPos, LevelAccessor level);
 
-	default boolean extraRequiredBlockCheck(BlockState blockState) {
+	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
 		return true;
 	}
 
-	default boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return true;
-	}
-
-	default void entityTick(TreeEntity entity) {
+	public void entityTick(TreeEntity entity) {
 		Level level = entity.level();
 		if (entity.tickCount >= entity.getMaxLifeTimeTick()) {
 			ItemStack usedItem = entity.getUsedTool();
 			for (Map.Entry<BlockPos, BlockState> entry : entity.getBlocks().entrySet()) {
-				if (shouldDropItems(entry.getValue())) {
+				if (shouldDropItems(usedItem, entry.getValue())) {
 					BlockEntity blockEntity = null;
 					if (entry.getValue().hasBlockEntity())
 						blockEntity = level.getBlockEntity(entry.getKey().offset(entity.getOriginPos()));
@@ -44,19 +46,32 @@ public interface Tree {
 		}
 	}
 
-	default boolean allowedToFall(Player player) {
+	public boolean allowedToFall(Player player) {
 		return true;
 	}
 
-	default boolean shouldDropItems(BlockState blockState) {
+	public boolean shouldDropItems(ItemStack itemStack, BlockState blockState) {
 		return true;
 	}
 
-	default float fallAnimationEdgeDistance() {
+	public float fallAnimationEdgeDistance() {
 		return 1;
 	}
 
-	default boolean enabled() {
+	public boolean enabled() {
 		return true;
+	}
+
+	public abstract Class<C> getConfigClass();
+
+	@SuppressWarnings("unchecked")
+	public final C getConfig() {
+		CommonConfig config = FallingTreesConfig.getCommonConfig();
+		ResourceLocation resourceLocation = TreeRegistry.getTreeLocation(this);
+		if (!config.treeConfigs.containsKey(resourceLocation)) {
+			FallingTrees.LOGGER.info("Couldn't get Tree Config, using default");
+			return ClassUtils.constructUnsafely(getConfigClass());
+		}
+		return (C) config.treeConfigs.get(resourceLocation);
 	}
 }

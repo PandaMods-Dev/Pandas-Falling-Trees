@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -22,6 +23,7 @@ public abstract class MultiPlayerGameModeMixin {
 
 	@Shadow public abstract boolean isDestroying();
 
+	@Shadow @Final private Minecraft minecraft;
 	@Unique
 	private boolean fallingTrees$lastTickCrouchState = false;
 	@Unique
@@ -34,18 +36,19 @@ public abstract class MultiPlayerGameModeMixin {
 
 	@Inject(method = "tick", at = @At("RETURN"))
 	public void tick(CallbackInfo ci) {
-		Minecraft minecraft = Minecraft.getInstance();
 		Player player = minecraft.player;
-		BlockState blockState = minecraft.level.getBlockState(this.destroyBlockPos);
-		if (player != null && TreeRegistry.getTree(blockState).isPresent()) {
-			if (player.isCrouching() != fallingTrees$lastTickCrouchState) {
-				if (this.isDestroying() && minecraft.gameMode != null) {
-					MultiPlayerGameMode gameMode = minecraft.gameMode;
-					gameMode.stopDestroyBlock();
-					gameMode.startDestroyBlock(this.destroyBlockPos, fallingTrees$blockDestroyDirection);
+		if (player != null) {
+			BlockState blockState = player.level().getBlockState(this.destroyBlockPos);
+			if (TreeRegistry.getTree(blockState).isPresent()) {
+				if (player.isCrouching() != fallingTrees$lastTickCrouchState) {
+					if (this.isDestroying() && minecraft.gameMode != null) {
+						MultiPlayerGameMode gameMode = minecraft.gameMode;
+						gameMode.stopDestroyBlock();
+						gameMode.startDestroyBlock(this.destroyBlockPos, fallingTrees$blockDestroyDirection);
+					}
 				}
+				this.fallingTrees$lastTickCrouchState = player.isCrouching();
 			}
-			this.fallingTrees$lastTickCrouchState = player.isCrouching();
 		}
 	}
 }

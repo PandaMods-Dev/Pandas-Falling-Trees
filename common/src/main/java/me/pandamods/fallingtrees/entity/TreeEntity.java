@@ -118,7 +118,7 @@ public class TreeEntity extends Entity {
 			this.setDeltaMovement(this.getDeltaMovement().multiply(1, -0.5, 1));
 		}
 
-		this.getTreeType().entityTick(this);
+		this.getTree().entityTick(this);
 	}
 
 	public Map<BlockPos, BlockState> getBlocks() {
@@ -153,8 +153,8 @@ public class TreeEntity extends Entity {
 		return this.getEntityData().get(FALL_DIRECTION);
 	}
 
-	public Tree getTreeType() {
-		Optional<Tree> treeTypeOptional = TreeRegistry.getTree(new ResourceLocation(this.getEntityData().get(TREE_TYPE_LOCATION)));
+	public Tree<?> getTree() {
+		Optional<Tree<?>> treeTypeOptional = TreeRegistry.getTree(new ResourceLocation(this.getEntityData().get(TREE_TYPE_LOCATION)));
 		return treeTypeOptional.orElse(null);
 	}
 }

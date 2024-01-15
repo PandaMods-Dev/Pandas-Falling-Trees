@@ -37,7 +37,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 
 	@Override
 	public void render(TreeEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-		Tree tree = entity.getTreeType();
+		Tree tree = entity.getTree();
 		if (tree == null) return;
 
 		poseStack.pushPose();

@@ -1,7 +1,9 @@
 package me.pandamods.fallingtrees.trees;
 
+import me.pandamods.fallingtrees.api.GenericTree;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
+import me.pandamods.fallingtrees.config.common.TreeConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -10,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BambooTree implements Tree {
+public class BambooTree extends GenericTree {
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
 		return blockState.is(Blocks.BAMBOO);

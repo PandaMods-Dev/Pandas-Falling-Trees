@@ -147,9 +147,9 @@ public class StandardTree extends Tree {
 
 			for (Direction direction : Direction.values()) {
 				BlockPos neighborPos = blockPos.offset(direction.getNormal());
-				if (distance < FallingTreesConfig.getCommonConfig().trees.standardTree.maxLeavesDistance)
+				if (distance < FallingTreesConfig.getCommonConfig().trees.standardTree.maxLeavesRadius)
 					loopLeaves(level, neighborPos, distance + 1, leavesBlocks, loopedLeavesBlocks, decorationBlocks, loopedDecorationBlocks);
-				loopDecorations(level, neighborPos, decorationBlocks, loopedDecorationBlocks);
+//				loopDecorations(level, neighborPos, decorationBlocks, loopedDecorationBlocks);
 			}
 		}
 	}

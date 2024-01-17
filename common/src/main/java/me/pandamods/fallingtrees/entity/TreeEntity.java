@@ -153,8 +153,8 @@ public class TreeEntity extends Entity {
 		return this.getEntityData().get(FALL_DIRECTION);
 	}
 
-	public Tree<?> getTree() {
-		Optional<Tree<?>> treeTypeOptional = TreeRegistry.getTree(new ResourceLocation(this.getEntityData().get(TREE_TYPE_LOCATION)));
+	public Tree getTree() {
+		Optional<Tree> treeTypeOptional = TreeRegistry.getTree(new ResourceLocation(this.getEntityData().get(TREE_TYPE_LOCATION)));
 		return treeTypeOptional.orElse(null);
 	}
 }

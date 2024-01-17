@@ -10,9 +10,6 @@ public class FallingTreesConfig {
 	public final ClientConfigHolder<ClientConfig> clientConfigHolder = ConfigRegistry.registerClient(ClientConfig.class);
 	public final CommonConfigHolder<CommonConfig> commonConfigHolder = ConfigRegistry.registerCommon(CommonConfig.class);
 
-	public FallingTreesConfig() {
-	}
-
 	public static ClientConfig getClientConfig(Player player) {
 		return FallingTrees.CONFIG.clientConfigHolder.getClient(player);
 	}

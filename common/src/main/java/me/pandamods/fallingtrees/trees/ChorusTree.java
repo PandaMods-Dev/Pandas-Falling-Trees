@@ -1,9 +1,7 @@
 package me.pandamods.fallingtrees.trees;
 
-import me.pandamods.fallingtrees.api.GenericTree;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
-import me.pandamods.fallingtrees.config.common.TreeConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -15,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ChorusTree extends GenericTree {
+public class ChorusTree extends Tree {
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
 		return blockState.is(Blocks.CHORUS_PLANT);
@@ -66,6 +64,6 @@ public class ChorusTree extends GenericTree {
 
 	@Override
 	public boolean enabled() {
-		return !FallingTreesConfig.getCommonConfig().features.disableChorusTrees;
+		return FallingTreesConfig.getCommonConfig().trees.chorusTree.enabled;
 	}
 }

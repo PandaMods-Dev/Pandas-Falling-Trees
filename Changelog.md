@@ -1,4 +1,8 @@
 ## Version 0.10 Changelog
+* **What's been recoded**
+	* API
+
+
 * **What's been fixed**
   * Block filter not validating correctly.
 

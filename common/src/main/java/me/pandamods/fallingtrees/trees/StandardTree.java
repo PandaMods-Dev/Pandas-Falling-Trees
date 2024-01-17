@@ -1,11 +1,9 @@
 package me.pandamods.fallingtrees.trees;
 
 import dev.architectury.platform.Platform;
-import me.pandamods.fallingtrees.api.GenericTree;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
-import me.pandamods.fallingtrees.config.common.TreeConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;
@@ -23,16 +21,16 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StandardTree extends GenericTree {
+public class StandardTree extends Tree {
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
-		return FallingTreesConfig.getCommonConfig().filter.log.isValid(blockState.getBlock());
+		return FallingTreesConfig.getCommonConfig().trees.standardTree.logFilter.isValid(blockState);
 	}
 
 	public boolean extraRequiredBlockCheck(BlockState blockState) {
-		if (blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
-			return false;
-		return FallingTreesConfig.getCommonConfig().filter.leaves.isValid(blockState.getBlock());
+//		if (blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
+//			return false;
+		return FallingTreesConfig.getCommonConfig().trees.standardTree.leavesFilter.isValid(blockState);
 	}
 
 	@Override
@@ -121,10 +119,10 @@ public class StandardTree extends GenericTree {
 				BlockPos neighborPos = blockPos.offset(offset);
 				loopLogs(level, neighborPos, logBlocks, loopedLogBlocks, leavesBlocks, decorationBlocks, loopedDecorationBlocks);
 			}
-			for (Direction direction : Direction.values()) {
-				BlockPos neighborPos = blockPos.offset(direction.getNormal());
-				loopDecorations(level, neighborPos, decorationBlocks, loopedDecorationBlocks);
-			}
+//			for (Direction direction : Direction.values()) {
+//				BlockPos neighborPos = blockPos.offset(direction.getNormal());
+//				loopDecorations(level, neighborPos, decorationBlocks, loopedDecorationBlocks);
+//			}
 
 			Set<BlockPos> loopedLeavesBlocks = new HashSet<>();
 
@@ -149,25 +147,30 @@ public class StandardTree extends GenericTree {
 
 			for (Direction direction : Direction.values()) {
 				BlockPos neighborPos = blockPos.offset(direction.getNormal());
-				if (distance < FallingTreesConfig.getCommonConfig().limitations.maxLeavesDistance)
+				if (distance < FallingTreesConfig.getCommonConfig().trees.standardTree.maxLeavesDistance)
 					loopLeaves(level, neighborPos, distance + 1, leavesBlocks, loopedLeavesBlocks, decorationBlocks, loopedDecorationBlocks);
 				loopDecorations(level, neighborPos, decorationBlocks, loopedDecorationBlocks);
 			}
 		}
 	}
 
-	public void loopDecorations(LevelAccessor level, BlockPos blockPos, Set<BlockPos> decorationBlocks, Set<BlockPos> loopedDecorationBlocks) {
-		BlockState blockState = level.getBlockState(blockPos);
-		if (loopedDecorationBlocks.contains(blockPos))
-			return;
+//	public void loopDecorations(LevelAccessor level, BlockPos blockPos, Set<BlockPos> decorationBlocks, Set<BlockPos> loopedDecorationBlocks) {
+//		BlockState blockState = level.getBlockState(blockPos);
+//		if (loopedDecorationBlocks.contains(blockPos))
+//			return;
+//
+//		loopedDecorationBlocks.add(blockPos);
+//
+//
+//		if (FallingTreesConfig.getCommonConfig().trees.standardTree.decorationBlocksFilter.isValid(blockState)) {
+//			decorationBlocks.add(blockPos);
+//
+//			loopDecorations(level, blockPos.offset(Direction.DOWN.getNormal()), decorationBlocks, loopedDecorationBlocks);
+//		}
+//	}
 
-		loopedDecorationBlocks.add(blockPos);
-
-
-		if (FallingTreesConfig.getCommonConfig().filter.decorationBlocks.isValid(blockState.getBlock())) {
-			decorationBlocks.add(blockPos);
-
-			loopDecorations(level, blockPos.offset(Direction.DOWN.getNormal()), decorationBlocks, loopedDecorationBlocks);
-		}
+	@Override
+	public boolean enabled() {
+		return FallingTreesConfig.getCommonConfig().trees.standardTree.enabled;
 	}
 }

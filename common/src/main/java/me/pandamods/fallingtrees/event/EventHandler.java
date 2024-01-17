@@ -35,30 +35,30 @@ public class EventHandler {
 	}
 
 	public static boolean makeTreeFall(BlockPos blockPos, LevelAccessor level, Player player) {
-		Optional<Tree<?>> treeTypeOptional = TreeRegistry.getTree(level.getBlockState(blockPos));
+		Optional<Tree> treeTypeOptional = TreeRegistry.getTree(level.getBlockState(blockPos));
 		return treeTypeOptional.filter(treeType -> makeTreeFall(treeType, blockPos, level, player)).isPresent();
 	}
 
-	public static boolean makeTreeFall(Tree<?> tree, BlockPos blockPos, LevelAccessor level, Player player) {
+	public static boolean makeTreeFall(Tree tree, BlockPos blockPos, LevelAccessor level, Player player) {
 		ItemStack mainItem = player.getItemBySlot(EquipmentSlot.MAINHAND);
 		BlockState blockState = level.getBlockState(blockPos);
 		CommonConfig commonConfig = FallingTreesConfig.getCommonConfig();
 
 		if (!tree.allowedToFall(player)) return false;
-		if (commonConfig.limitations.treeFallRequirements.onlyRequiredTool && !tree.allowedTool(mainItem, blockState)) return false;
+//		if (commonConfig.limitations.treeFallRequirements.onlyRequiredTool && !tree.allowedTool(mainItem, blockState)) return false;
 
 		Set<BlockPos> treeBlockPos = new HashSet<>();
 		if (!tree.blockGatheringAlgorithm(treeBlockPos, blockPos, level)) return false;
 
 		long baseAmount = treeBlockPos.stream().filter(blockPos1 -> tree.mineableBlock(level.getBlockState(blockPos1))).count();
-		switch (commonConfig.limitations.treeFallRequirements.maxAmountType) {
-			case BLOCK_AMOUNT -> {
-				if (treeBlockPos.size() > commonConfig.limitations.treeFallRequirements.maxAmount) return false;
-			}
-			case BASE_BLOCK_AMOUNT -> {
-				if (baseAmount > commonConfig.limitations.treeFallRequirements.maxAmount) return false;
-			}
-		}
+//		switch (commonConfig.limitations.treeFallRequirements.maxAmountType) {
+//			case BLOCK_AMOUNT -> {
+//				if (treeBlockPos.size() > commonConfig.limitations.treeFallRequirements.maxAmount) return false;
+//			}
+//			case BASE_BLOCK_AMOUNT -> {
+//				if (baseAmount > commonConfig.limitations.treeFallRequirements.maxAmount) return false;
+//			}
+//		}
 
 		if (!mainItem.isEmpty()) {
 			mainItem.hurtAndBreak(commonConfig.multiplyToolDamage ? (int) baseAmount : 1, player, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));

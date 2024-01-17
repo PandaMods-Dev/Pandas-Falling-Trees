@@ -1,43 +1,40 @@
 package me.pandamods.fallingtrees.trees;
 
-import me.pandamods.fallingtrees.api.GenericTree;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
-import me.pandamods.fallingtrees.config.common.TreeConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.HashSet;
 import java.util.Set;
 
-public class BambooTree extends GenericTree {
+public class VerticalTree extends Tree {
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
-		return blockState.is(Blocks.BAMBOO);
+		return FallingTreesConfig.getCommonConfig().trees.verticalTree.filter.isValid(blockState);
 	}
 
 	@Override
 	public boolean blockGatheringAlgorithm(Set<BlockPos> blockList, BlockPos blockPos, LevelAccessor level) {
-		loopBlocks(blockPos, level, blockList);
+		loopBlocks(level.getBlockState(blockPos), blockPos, level, blockList);
 		return true;
 	}
 
-	private void loopBlocks(BlockPos pos, LevelAccessor level, Set<BlockPos> blocks) {
-		blocks.add(pos);
-		if (this.mineableBlock(level.getBlockState(pos.above()))) {
-			loopBlocks(pos.above(), level, blocks);
+	private void loopBlocks(BlockState blockState, BlockPos blockpos, LevelAccessor level, Set<BlockPos> blocks) {
+		blocks.add(blockpos);
+		if (blockState.is(level.getBlockState(blockpos.above()).getBlock())) {
+			loopBlocks(blockState, blockpos.above(), level, blocks);
 		}
 	}
 
 	@Override
 	public float fallAnimationEdgeDistance() {
-		return 2f / 16f;
+		return 0;
 	}
 
 	@Override
 	public boolean enabled() {
-		return !FallingTreesConfig.getCommonConfig().features.disableBambooTrees;
+		return FallingTreesConfig.getCommonConfig().trees.verticalTree.enabled;
 	}
 }

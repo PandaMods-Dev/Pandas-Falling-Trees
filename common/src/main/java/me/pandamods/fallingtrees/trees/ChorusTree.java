@@ -1,10 +1,13 @@
 package me.pandamods.fallingtrees.trees;
 
 import me.pandamods.fallingtrees.api.Tree;
+import me.pandamods.fallingtrees.api.TreeData;
+import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChorusPlantBlock;
@@ -13,7 +16,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ChorusTree extends Tree {
+public class ChorusTree implements Tree {
+	public ChorusTree() {
+		super();
+	}
+
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
 		return blockState.is(Blocks.CHORUS_PLANT);
@@ -24,14 +31,14 @@ public class ChorusTree extends Tree {
 	}
 
 	@Override
-	public boolean blockGatheringAlgorithm(Set<BlockPos> blockList, BlockPos blockPos, LevelAccessor level) {
+	public TreeData getTreeData(TreeDataBuilder builder, BlockPos blockPos, BlockGetter level) {
 		Set<BlockPos> loopedBlocks = new HashSet<>();
 
-		loopBlocks(level, blockPos, blockList, loopedBlocks);
-		return true;
+		loopBlocks(level, blockPos, builder, loopedBlocks);
+		return builder.build(true);
 	}
 
-	public void loopBlocks(LevelAccessor level, BlockPos originPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks) {
+	public void loopBlocks(BlockGetter level, BlockPos originPos, TreeDataBuilder builder, Set<BlockPos> loopedBlocks) {
 		if (loopedBlocks.contains(originPos))
 			return;
 
@@ -39,13 +46,13 @@ public class ChorusTree extends Tree {
 
 		BlockState blockState = level.getBlockState(originPos);
 		if (this.mineableBlock(blockState) || this.extraRequiredBlockCheck(blockState)) {
-			blocks.add(originPos);
+			builder.addBlock(originPos);
 
 			if (this.mineableBlock(blockState)) {
 				for (Direction direction : Direction.values()) {
 					if (blockState.getValue(ChorusPlantBlock.PROPERTY_BY_DIRECTION.get(direction))) {
 						BlockPos neighborPos = originPos.offset(direction.getNormal());
-						loopBlocks(level, neighborPos, blocks, loopedBlocks);
+						loopBlocks(level, neighborPos, builder, loopedBlocks);
 					}
 				}
 			}

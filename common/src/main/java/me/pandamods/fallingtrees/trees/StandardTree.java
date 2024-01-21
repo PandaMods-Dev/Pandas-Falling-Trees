@@ -2,8 +2,11 @@ package me.pandamods.fallingtrees.trees;
 
 import dev.architectury.platform.Platform;
 import me.pandamods.fallingtrees.api.Tree;
+import me.pandamods.fallingtrees.api.TreeData;
+import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
+import me.pandamods.fallingtrees.config.common.tree.StandardTreeConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.registry.SoundRegistry;
 import net.fabricmc.api.EnvType;
@@ -14,6 +17,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -21,7 +25,11 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StandardTree extends Tree {
+public class StandardTree implements Tree {
+	public StandardTree() {
+		super();
+	}
+
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
 		return FallingTreesConfig.getCommonConfig().trees.standardTree.logFilter.isValid(blockState);
@@ -40,7 +48,7 @@ public class StandardTree extends Tree {
 
 	@Override
 	public void entityTick(TreeEntity entity) {
-		super.entityTick(entity);
+		Tree.super.entityTick(entity);
 
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			ClientConfig clientConfig = FallingTreesConfig.getClientConfig();
@@ -61,47 +69,81 @@ public class StandardTree extends Tree {
 	}
 
 	@Override
-	public boolean blockGatheringAlgorithm(Set<BlockPos> blockList, BlockPos blockPos, LevelAccessor level) {
-		if (!level.getBlockState(blockPos.above()).is(level.getBlockState(blockPos).getBlock())) return false;
+	public TreeData getTreeData(TreeDataBuilder builder, BlockPos blockPos, BlockGetter level) {
+		if (!this.mineableBlock(level.getBlockState(blockPos.above()))) return builder.build(false);
 
 		Set<BlockPos> logBlocks = new HashSet<>();
+		Set<BlockPos> leavesBlocks = new HashSet<>();
+		Set<BlockPos> decorationBlocks = new HashSet<>();
+
 		Set<BlockPos> loopedLogBlocks = new HashSet<>();
 
-		Set<BlockPos> leavesBlocks = new HashSet<>();
-		Set<BlockPos> loopedLeavesBlocks = new HashSet<>();
-
-		Set<BlockPos> decorationBlocks = new HashSet<>();
 		Set<BlockPos> loopedDecorationBlocks = new HashSet<>();
 
 		loopLogs(level, blockPos, logBlocks, loopedLogBlocks);
+		if (!getConfig().algorithm.shouldFallOnMaxLogAmount && isMaxAmountReached(logBlocks.size())) return builder.build(false);
+		builder.setMiningSpeed(logBlocks.size());
 
-		blockList.addAll(logBlocks);
-		blockList.addAll(leavesBlocks);
-		blockList.addAll(decorationBlocks);
-		return true;
+		logBlocks.forEach(logPos -> {
+			Set<BlockPos> loopedLeavesBlocks = new HashSet<>();
+			for (Direction direction : Direction.values()) {
+				BlockPos neighborPos = logPos.offset(direction.getNormal());
+				loopLeaves(level, neighborPos, leavesBlocks, loopedLeavesBlocks);
+			}
+		});
+
+		builder.addBlocks(logBlocks);
+		builder.addBlocks(leavesBlocks);
+		builder.addBlocks(decorationBlocks);
+		return builder.build(true);
 	}
 
 	@Override
 	public boolean allowedToFall(Player player) {
-		return !(FallingTreesConfig.getCommonConfig().isCrouchMiningAllowed &&
+		return !(!FallingTreesConfig.getCommonConfig().disableCrouchMining &&
 				player.isCrouching() != FallingTreesConfig.getClientConfig(player).invertCrouchMining);
 	}
 
-	public void loopLogs(LevelAccessor level, BlockPos blockPos, Set<BlockPos> logBlocks, Set<BlockPos> loopedLogBlocks) {
+	public void loopLogs(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks) {
+		if (isMaxAmountReached(blocks.size())) return;
 		BlockState blockState = level.getBlockState(blockPos);
-		if (loopedLogBlocks.contains(blockPos))
-			return;
+		if (loopedBlocks.contains(blockPos)) return;
 
-		loopedLogBlocks.add(blockPos);
+		loopedBlocks.add(blockPos);
 
 		if (this.mineableBlock(blockState)) {
-			logBlocks.add(blockPos);
+			blocks.add(blockPos);
 
 			for (BlockPos offset : BlockPos.betweenClosed(new BlockPos(-1, 0, -1), new BlockPos(1, 1, 1))) {
 				BlockPos neighborPos = blockPos.offset(offset);
-				loopLogs(level, neighborPos, logBlocks, loopedLogBlocks);
+				loopLogs(level, neighborPos, blocks, loopedBlocks);
 			}
 		}
+	}
+
+	public void loopLeaves(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks) {
+		BlockState blockState = level.getBlockState(blockPos);
+		if (loopedBlocks.contains(blockPos))
+			return;
+
+		loopedBlocks.add(blockPos);
+
+		if (this.extraRequiredBlockCheck(blockState)) {
+			blocks.add(blockPos);
+
+			for (Direction direction : Direction.values()) {
+				BlockPos neighborPos = blockPos.offset(direction.getNormal());
+				loopLeaves(level, neighborPos, blocks, loopedBlocks);
+			}
+		}
+	}
+
+	public StandardTreeConfig getConfig() {
+		return FallingTreesConfig.getCommonConfig().trees.standardTree;
+	}
+
+	public boolean isMaxAmountReached(int amount) {
+		return amount >= getConfig().algorithm.maxLogAmount;
 	}
 
 	public void loopLogs(LevelAccessor level, BlockPos blockPos, Set<BlockPos> logBlocks, Set<BlockPos> loopedLogBlocks,
@@ -147,7 +189,7 @@ public class StandardTree extends Tree {
 
 			for (Direction direction : Direction.values()) {
 				BlockPos neighborPos = blockPos.offset(direction.getNormal());
-				if (distance < FallingTreesConfig.getCommonConfig().trees.standardTree.maxLeavesRadius)
+				if (distance < FallingTreesConfig.getCommonConfig().trees.standardTree.algorithm.maxLeavesRadius)
 					loopLeaves(level, neighborPos, distance + 1, leavesBlocks, loopedLeavesBlocks, decorationBlocks, loopedDecorationBlocks);
 //				loopDecorations(level, neighborPos, decorationBlocks, loopedDecorationBlocks);
 			}

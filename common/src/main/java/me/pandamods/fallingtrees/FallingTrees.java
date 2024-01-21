@@ -1,6 +1,10 @@
 package me.pandamods.fallingtrees;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.mojang.logging.LogUtils;
+import me.pandamods.fallingtrees.api.TreeData;
+import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.event.EventHandler;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
@@ -8,6 +12,7 @@ import me.pandamods.fallingtrees.registry.SoundRegistry;
 import me.pandamods.fallingtrees.registry.TreeTypeRegistry;
 import me.pandamods.fallingtrees.utils.BlockMapEntityData;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import org.slf4j.Logger;
 
@@ -15,6 +20,8 @@ public class FallingTrees {
     public static final String MOD_ID = "fallingtrees";
 	public static final FallingTreesConfig CONFIG = new FallingTreesConfig();
 	public static final Logger LOGGER = LogUtils.getLogger();
+
+	public static final Cache<BlockPos, TreeData> TREE_CACHE = CacheBuilder.newBuilder().maximumSize(3).build();
 
     public static void init() {
 		TreeTypeRegistry.register();

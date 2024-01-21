@@ -3,6 +3,8 @@ package me.pandamods.fallingtrees.event;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.BlockEvent;
 import dev.architectury.utils.value.IntValue;
+import me.pandamods.fallingtrees.api.TreeData;
+import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.CommonConfig;
@@ -45,10 +47,11 @@ public class EventHandler {
 		CommonConfig commonConfig = FallingTreesConfig.getCommonConfig();
 
 		if (!tree.allowedToFall(player)) return false;
-//		if (commonConfig.limitations.treeFallRequirements.onlyRequiredTool && !tree.allowedTool(mainItem, blockState)) return false;
+		if (commonConfig.onlyFallWithRequiredTool && !tree.allowedTool(mainItem, blockState)) return false;
 
-		Set<BlockPos> treeBlockPos = new HashSet<>();
-		if (!tree.blockGatheringAlgorithm(treeBlockPos, blockPos, level)) return false;
+		TreeData treeData = tree.getTreeData(new TreeDataBuilder(), blockPos, level);
+		Set<BlockPos> treeBlockPos = treeData.blocks();
+		if (!treeData.shouldFall()) return false;
 
 		long baseAmount = treeBlockPos.stream().filter(blockPos1 -> tree.mineableBlock(level.getBlockState(blockPos1))).count();
 //		switch (commonConfig.limitations.treeFallRequirements.maxAmountType) {

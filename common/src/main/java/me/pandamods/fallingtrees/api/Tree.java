@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -14,16 +15,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class Tree {
-	public abstract boolean mineableBlock(BlockState blockState);
+public interface Tree {
+	boolean mineableBlock(BlockState blockState);
 
-	public abstract boolean blockGatheringAlgorithm(Set<BlockPos> blockList, BlockPos blockPos, LevelAccessor level);
+	TreeData getTreeData(TreeDataBuilder builder, BlockPos blockPos, BlockGetter level);
 
-	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
+	default boolean allowedTool(ItemStack itemStack, BlockState blockState) {
 		return true;
 	}
 
-	public void entityTick(TreeEntity entity) {
+	default void entityTick(TreeEntity entity) {
 		Level level = entity.level();
 		if (entity.tickCount >= entity.getMaxLifeTimeTick()) {
 			ItemStack usedItem = entity.getUsedTool();
@@ -40,19 +41,19 @@ public abstract class Tree {
 		}
 	}
 
-	public boolean allowedToFall(Player player) {
+	default boolean allowedToFall(Player player) {
 		return true;
 	}
 
-	public boolean shouldDropItems(ItemStack itemStack, BlockState blockState) {
+	default boolean shouldDropItems(ItemStack itemStack, BlockState blockState) {
 		return true;
 	}
 
-	public float fallAnimationEdgeDistance() {
+	default float fallAnimationEdgeDistance() {
 		return 1;
 	}
 
-	public boolean enabled() {
+	default boolean enabled() {
 		return true;
 	}
 }

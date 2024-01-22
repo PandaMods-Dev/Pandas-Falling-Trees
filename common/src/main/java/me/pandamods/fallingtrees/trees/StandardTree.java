@@ -21,6 +21,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.joml.Math;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -82,7 +83,8 @@ public class StandardTree implements Tree {
 
 		loopLogs(level, blockPos, logBlocks, loopedLogBlocks);
 		if (!getConfig().algorithm.shouldFallOnMaxLogAmount && isMaxAmountReached(logBlocks.size())) return builder.build(false);
-		builder.setMiningSpeed(logBlocks.size());
+		float speedMultiplication = FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.speedMultiplication;
+		builder.setMiningSpeed(1f / (((float) logBlocks.size() - 1f) * speedMultiplication + 1f));
 
 		logBlocks.forEach(logPos -> {
 			Set<BlockPos> loopedLeavesBlocks = new HashSet<>();

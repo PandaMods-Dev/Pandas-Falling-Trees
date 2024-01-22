@@ -18,6 +18,8 @@ public class CommonConfig implements ConfigData {
 	public TreeConfigs trees = new TreeConfigs();
 
 	public static class DynamicMiningSpeed {
-		public boolean disable = true;
+		public boolean disable = false;
+		public float speedMultiplication = 0.5f;
+		public float minimumSpeed = 0.0001f;
 	}
 }

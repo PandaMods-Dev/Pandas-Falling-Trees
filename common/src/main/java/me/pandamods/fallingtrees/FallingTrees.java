@@ -21,8 +21,6 @@ public class FallingTrees {
 	public static final FallingTreesConfig CONFIG = new FallingTreesConfig();
 	public static final Logger LOGGER = LogUtils.getLogger();
 
-	public static final Cache<BlockPos, TreeData> TREE_CACHE = CacheBuilder.newBuilder().maximumSize(3).build();
-
     public static void init() {
 		TreeTypeRegistry.register();
 		SoundRegistry.SOUNDS.register();

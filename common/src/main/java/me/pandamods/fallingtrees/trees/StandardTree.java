@@ -14,11 +14,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.datafix.fixes.LeavesFix;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.joml.Math;
@@ -37,8 +39,8 @@ public class StandardTree implements Tree {
 	}
 
 	public boolean extraRequiredBlockCheck(BlockState blockState) {
-//		if (blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
-//			return false;
+		if (blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
+			return false;
 		return FallingTreesConfig.getCommonConfig().trees.standardTree.leavesFilter.isValid(blockState);
 	}
 
@@ -78,7 +80,6 @@ public class StandardTree implements Tree {
 		Set<BlockPos> decorationBlocks = new HashSet<>();
 
 		Set<BlockPos> loopedLogBlocks = new HashSet<>();
-
 		Set<BlockPos> loopedDecorationBlocks = new HashSet<>();
 
 		loopLogs(level, blockPos, logBlocks, loopedLogBlocks);
@@ -90,12 +91,23 @@ public class StandardTree implements Tree {
 			Set<BlockPos> loopedLeavesBlocks = new HashSet<>();
 			for (Direction direction : Direction.values()) {
 				BlockPos neighborPos = logPos.offset(direction.getNormal());
-				loopLeaves(level, neighborPos, leavesBlocks, loopedLeavesBlocks);
+				loopLeaves(level, neighborPos, leavesBlocks, loopedLeavesBlocks, 1);
+			}
+		});
+		if (leavesBlocks.isEmpty()) return builder.build(false);
+
+		Set<BlockPos> treeBlocks = new HashSet<>();
+		treeBlocks.addAll(logBlocks);
+		treeBlocks.addAll(leavesBlocks);
+
+		treeBlocks.forEach(pos -> {
+			for (Direction direction : Direction.values()) {
+				BlockPos neighborPos = pos.offset(direction.getNormal());
+				loopExtraBlocks(level, neighborPos, decorationBlocks, loopedDecorationBlocks);
 			}
 		});
 
-		builder.addBlocks(logBlocks);
-		builder.addBlocks(leavesBlocks);
+		builder.addBlocks(treeBlocks);
 		builder.addBlocks(decorationBlocks);
 		return builder.build(true);
 	}
@@ -123,10 +135,10 @@ public class StandardTree implements Tree {
 		}
 	}
 
-	public void loopLeaves(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks) {
+	public void loopLeaves(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks, int recursionDistance) {
 		BlockState blockState = level.getBlockState(blockPos);
-		if (loopedBlocks.contains(blockPos))
-			return;
+		if (loopedBlocks.contains(blockPos) ||
+				(blockState.hasProperty(LeavesBlock.DISTANCE) && blockState.getValue(LeavesBlock.DISTANCE) != recursionDistance)) return;
 
 		loopedBlocks.add(blockPos);
 
@@ -135,8 +147,22 @@ public class StandardTree implements Tree {
 
 			for (Direction direction : Direction.values()) {
 				BlockPos neighborPos = blockPos.offset(direction.getNormal());
-				loopLeaves(level, neighborPos, blocks, loopedBlocks);
+				loopLeaves(level, neighborPos, blocks, loopedBlocks, recursionDistance + 1);
 			}
+		}
+	}
+
+	public void loopExtraBlocks(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks) {
+		BlockState blockState = level.getBlockState(blockPos);
+		if (loopedBlocks.contains(blockPos)) return;
+
+		loopedBlocks.add(blockPos);
+
+
+		if (FallingTreesConfig.getCommonConfig().trees.standardTree.extraBlockFilter.isValid(blockState)) {
+			blocks.add(blockPos);
+
+			loopExtraBlocks(level, blockPos.offset(Direction.DOWN.getNormal()), blocks, loopedBlocks);
 		}
 	}
 
@@ -147,71 +173,6 @@ public class StandardTree implements Tree {
 	public boolean isMaxAmountReached(int amount) {
 		return amount >= getConfig().algorithm.maxLogAmount;
 	}
-
-	public void loopLogs(LevelAccessor level, BlockPos blockPos, Set<BlockPos> logBlocks, Set<BlockPos> loopedLogBlocks,
-						 Set<BlockPos> leavesBlocks, Set<BlockPos> decorationBlocks, Set<BlockPos> loopedDecorationBlocks) {
-		BlockState blockState = level.getBlockState(blockPos);
-		if (loopedLogBlocks.contains(blockPos))
-			return;
-
-		loopedLogBlocks.add(blockPos);
-
-		if (this.mineableBlock(blockState)) {
-			logBlocks.add(blockPos);
-
-			for (BlockPos offset : BlockPos.betweenClosed(new BlockPos(-1, 0, -1), new BlockPos(1, 1, 1))) {
-				BlockPos neighborPos = blockPos.offset(offset);
-				loopLogs(level, neighborPos, logBlocks, loopedLogBlocks, leavesBlocks, decorationBlocks, loopedDecorationBlocks);
-			}
-//			for (Direction direction : Direction.values()) {
-//				BlockPos neighborPos = blockPos.offset(direction.getNormal());
-//				loopDecorations(level, neighborPos, decorationBlocks, loopedDecorationBlocks);
-//			}
-
-			Set<BlockPos> loopedLeavesBlocks = new HashSet<>();
-
-			for (Direction direction : Direction.values()) {
-				BlockPos neighborPos = blockPos.offset(direction.getNormal());
-				loopLeaves(level, neighborPos, 1, leavesBlocks, loopedLeavesBlocks, decorationBlocks, loopedDecorationBlocks);
-			}
-		}
-	}
-
-	public void loopLeaves(LevelAccessor level, BlockPos blockPos, int distance, Set<BlockPos> leavesBlocks, Set<BlockPos> loopedLeavesBlocks,
-						   Set<BlockPos> decorationBlocks, Set<BlockPos> loopedDecorationBlocks) {
-		BlockState blockState = level.getBlockState(blockPos);
-		if ((blockState.hasProperty(BlockStateProperties.DISTANCE) && blockState.getValue(BlockStateProperties.DISTANCE) != distance) ||
-				loopedLeavesBlocks.contains(blockPos))
-			return;
-
-		loopedLeavesBlocks.add(blockPos);
-
-		if (this.extraRequiredBlockCheck(blockState)) {
-			leavesBlocks.add(blockPos);
-
-			for (Direction direction : Direction.values()) {
-				BlockPos neighborPos = blockPos.offset(direction.getNormal());
-				if (distance < FallingTreesConfig.getCommonConfig().trees.standardTree.algorithm.maxLeavesRadius)
-					loopLeaves(level, neighborPos, distance + 1, leavesBlocks, loopedLeavesBlocks, decorationBlocks, loopedDecorationBlocks);
-//				loopDecorations(level, neighborPos, decorationBlocks, loopedDecorationBlocks);
-			}
-		}
-	}
-
-//	public void loopDecorations(LevelAccessor level, BlockPos blockPos, Set<BlockPos> decorationBlocks, Set<BlockPos> loopedDecorationBlocks) {
-//		BlockState blockState = level.getBlockState(blockPos);
-//		if (loopedDecorationBlocks.contains(blockPos))
-//			return;
-//
-//		loopedDecorationBlocks.add(blockPos);
-//
-//
-//		if (FallingTreesConfig.getCommonConfig().trees.standardTree.decorationBlocksFilter.isValid(blockState)) {
-//			decorationBlocks.add(blockPos);
-//
-//			loopDecorations(level, blockPos.offset(Direction.DOWN.getNormal()), decorationBlocks, loopedDecorationBlocks);
-//		}
-//	}
 
 	@Override
 	public boolean enabled() {

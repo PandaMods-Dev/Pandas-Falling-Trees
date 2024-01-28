@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
 
@@ -53,10 +54,11 @@ public class TreeEntity extends Entity {
 			treeEntity.setData(blockPosList, blockPos, tree, player, player.getItemBySlot(EquipmentSlot.MAINHAND));
 
 			for (BlockPos pos : blockPosList) {
-				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 0);
+				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 16);
 			}
 			for (Map.Entry<BlockPos, BlockState> entry : treeEntity.getBlocks().entrySet()) {
-				level.sendBlockUpdated(entry.getKey().offset(blockPos), entry.getValue(), Blocks.AIR.defaultBlockState(), 3);
+				level.sendBlockUpdated(entry.getKey().offset(blockPos), entry.getValue(), Blocks.AIR.defaultBlockState(), 1);
+				level.gameEvent(GameEvent.BLOCK_DESTROY, entry.getKey(), GameEvent.Context.of(player, entry.getValue()));
 			}
 			level.addFreshEntity(treeEntity);
 		}

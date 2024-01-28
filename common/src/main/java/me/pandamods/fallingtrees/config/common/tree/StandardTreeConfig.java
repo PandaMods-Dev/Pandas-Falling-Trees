@@ -11,12 +11,17 @@ public class StandardTreeConfig extends TreeConfig {
 
 	public Filter logFilter = new Filter(
 			List.of(BlockTags.LOGS),
-			List.of(Blocks.MUSHROOM_STEM),
+			new ArrayList<>(),
 			new ArrayList<>()
 	);
 	public Filter leavesFilter = new Filter(
 			List.of(BlockTags.LEAVES),
-			List.of(Blocks.BROWN_MUSHROOM_BLOCK, Blocks.RED_MUSHROOM_BLOCK),
+			new ArrayList<>(),
+			new ArrayList<>()
+	);
+	public Filter extraBlockFilter = new Filter(
+			new ArrayList<>(),
+			List.of(Blocks.VINE, Blocks.BEE_NEST, Blocks.COCOA),
 			new ArrayList<>()
 	);
 

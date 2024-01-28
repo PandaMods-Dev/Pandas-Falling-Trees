@@ -35,6 +35,7 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
 	modImplementation(fileTree(dir: project(':').file('libs/forge'), include: ["*.jar"]))
+	modImplementation("curse.maven:jade-324717:${jade_version_forge}")
 }
 
 processResources {

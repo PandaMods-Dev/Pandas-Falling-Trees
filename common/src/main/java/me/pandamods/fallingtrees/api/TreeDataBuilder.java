@@ -2,10 +2,13 @@ package me.pandamods.fallingtrees.api;
 
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TreeDataBuilder {
 	private Set<BlockPos> blocks = new HashSet<>();
@@ -33,7 +36,11 @@ public class TreeDataBuilder {
 	}
 
 	public TreeData build(boolean shouldFall) {
-		return new TreeData(blocks, useDefaultMiningSpeed ? getDefaultMiningSpeed() : miningSpeedMultiplication, shouldFall);
+		return new TreeData(
+				blocks,
+				useDefaultMiningSpeed ? getDefaultMiningSpeed() : miningSpeedMultiplication,
+				shouldFall
+		);
 	}
 
 	protected float getDefaultMiningSpeed() {

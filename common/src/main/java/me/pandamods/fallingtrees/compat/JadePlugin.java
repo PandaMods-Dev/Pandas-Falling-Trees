@@ -15,41 +15,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import snownee.jade.api.*;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.config.IWailaConfig;
+import snownee.jade.api.view.IServerExtensionProvider;
 
 @WailaPlugin
-public class JadePlugin implements IWailaPlugin, IBlockComponentProvider {
-	public static final ResourceLocation hideEntity = new ResourceLocation(FallingTrees.MOD_ID, "hide_entity");
-//	public static final ResourceLocation showDrops = new ResourceLocation(FallingTrees.MOD_ID, "show_drops");
-	private static final ResourceLocation UID = new ResourceLocation(FallingTrees.MOD_ID, "plugin");
-
+public class JadePlugin implements IWailaPlugin {
 	@Override
 	public void registerClient(IWailaClientRegistration registration) {
-		registration.addConfig(hideEntity, true);
-//		registration.addConfig(showDrops, true);
-		registration.markAsClientFeature(hideEntity);
-//		registration.markAsClientFeature(showDrops);
-
-		if (IWailaConfig.get().getPlugin().get(hideEntity))
-			registration.hideTarget(EntityRegistry.TREE.get());
-
-//		if (IWailaConfig.get().getPlugin().get(showDrops))
-//			registration.registerBlockComponent(this, Block.class);
-	}
-
-	@Override
-	public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-		BlockState blockState = blockAccessor.getBlockState();
-		BlockPos blockPos = blockAccessor.getPosition();
-
-		TreeRegistry.getTree(blockState).ifPresent(tree -> {
-			TreeData treeData = TreeCache.get(blockAccessor.getPlayer(), blockPos, () ->
-					tree.getTreeData(new TreeDataBuilder(), blockPos, blockAccessor.getLevel()));
-			if (!treeData.shouldFall()) return;
-		});
-	}
-
-	@Override
-	public ResourceLocation getUid() {
-		return UID;
+		registration.hideTarget(EntityRegistry.TREE.get());
 	}
 }

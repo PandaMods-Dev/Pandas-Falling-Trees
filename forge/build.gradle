@@ -35,7 +35,12 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
 	modImplementation(fileTree(dir: project(':').file('libs/forge'), include: ["*.jar"]))
-	modImplementation("curse.maven:jade-324717:${jade_version_forge}")
+
+    modCompileOnly("curse.maven:jade-324717:${jade_version_forge}")
+//    modRuntimeOnly("curse.maven:jade-324717:${jade_version_forge}")
+
+    modCompileOnly("curse.maven:treechop-421377:${hts_treechop_version_forge}")
+    modRuntimeOnly("curse.maven:treechop-421377:${hts_treechop_version_forge}")
 }
 
 processResources {

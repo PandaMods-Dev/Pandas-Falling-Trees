@@ -11,7 +11,9 @@ dependencies {
     modApi "dev.architectury:architectury:${architectury_version}"
 
 	modImplementation(fileTree(dir: project(':').file('libs/common'), include: ["*.jar"]))
+
 	modImplementation("curse.maven:jade-324717:${jade_version_fabric}")
+    modImplementation("curse.maven:treechop-421377:${hts_treechop_version_fabric}")
 }
 
 publishing {

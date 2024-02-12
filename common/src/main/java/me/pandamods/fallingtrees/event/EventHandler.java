@@ -7,9 +7,11 @@ import me.pandamods.fallingtrees.api.TreeData;
 import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.api.Tree;
+import me.pandamods.fallingtrees.compat.Compat;
 import me.pandamods.fallingtrees.config.CommonConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
+import me.pandamods.fallingtrees.trees.StandardTree;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -38,6 +40,10 @@ public class EventHandler {
 
 	public static boolean makeTreeFall(BlockPos blockPos, LevelAccessor level, Player player) {
 		Optional<Tree> treeTypeOptional = TreeRegistry.getTree(level.getBlockState(blockPos));
+		if (Compat.hasTreeChop() && treeTypeOptional.isPresent()) {
+			Tree tree = treeTypeOptional.get();
+			if (tree instanceof StandardTree) return false;
+		}
 		return treeTypeOptional.filter(treeType -> makeTreeFall(treeType, blockPos, level, player)).isPresent();
 	}
 
@@ -63,10 +69,12 @@ public class EventHandler {
 //			}
 //		}
 
-		if (!mainItem.isEmpty()) {
-			mainItem.hurtAndBreak(commonConfig.multiplyToolDamage ? (int) baseAmount : 1, player, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+		if (!Compat.hasTreeChop()) {
+			if (!mainItem.isEmpty()) {
+				mainItem.hurtAndBreak(commonConfig.multiplyToolDamage ? (int) baseAmount : 1, player, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+			}
+			player.causeFoodExhaustion(0.005f * (commonConfig.multiplyFoodExhaustion ? (int) baseAmount : 1));
 		}
-		player.causeFoodExhaustion(0.005f * (commonConfig.multiplyFoodExhaustion ? (int) baseAmount : 1));
 		player.awardStat(Stats.BLOCK_MINED.get(blockState.getBlock()), (int) baseAmount);
 
 		TreeEntity.destroyTree(treeBlockPos, blockPos, level, tree, player);

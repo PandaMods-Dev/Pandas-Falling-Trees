@@ -4,6 +4,7 @@ import dev.architectury.platform.Platform;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.api.TreeData;
 import me.pandamods.fallingtrees.api.TreeDataBuilder;
+import me.pandamods.fallingtrees.compat.Compat;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.config.common.tree.StandardTreeConfig;
@@ -31,10 +32,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class StandardTree implements Tree {
-	public StandardTree() {
-		super();
-	}
-
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
 		return FallingTreesConfig.getCommonConfig().trees.standardTree.logFilter.isValid(blockState);
@@ -174,6 +171,11 @@ public class StandardTree implements Tree {
 
 	public boolean isMaxAmountReached(int amount) {
 		return amount >= getConfig().algorithm.maxLogAmount;
+	}
+
+	@Override
+	public float fallAnimationEdgeDistance() {
+		return Compat.hasTreeChop() ? 0 : Tree.super.fallAnimationEdgeDistance();
 	}
 
 	@Override

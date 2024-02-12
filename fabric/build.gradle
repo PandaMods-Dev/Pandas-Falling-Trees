@@ -29,7 +29,12 @@ dependencies {
 
 	modImplementation(fileTree(dir: project(':').file('libs/fabric'), include: ["*.jar"]))
 	modApi("com.terraformersmc:modmenu:${modmenu_version}")
-	modImplementation("curse.maven:jade-324717:${jade_version_fabric}")
+
+    modCompileOnly("curse.maven:jade-324717:${jade_version_fabric}")
+//    modLocalRuntime("curse.maven:jade-324717:${jade_version_fabric}")
+
+    modCompileOnly("curse.maven:treechop-421377:${hts_treechop_version_fabric}")
+//    modRuntimeOnly("curse.maven:treechop-421377:${hts_treechop_version_fabric}")
 }
 
 repositories {

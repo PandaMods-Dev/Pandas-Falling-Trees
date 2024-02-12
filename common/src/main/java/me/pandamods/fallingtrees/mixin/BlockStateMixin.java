@@ -5,6 +5,7 @@ import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.api.TreeData;
 import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.api.TreeRegistry;
+import me.pandamods.fallingtrees.compat.Compat;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.utils.TreeCache;
 import net.minecraft.core.BlockPos;
@@ -24,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 public class BlockStateMixin {
 	@Inject(method = "getDestroyProgress", at = @At("RETURN"), cancellable = true)
 	public void getDestroyProgress(Player player, BlockGetter level, BlockPos pos, CallbackInfoReturnable<Float> cir) {
-		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable) return;
+		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable || Compat.hasTreeChop()) return;
 		TreeRegistry.getTree(level.getBlockState(pos)).ifPresent(tree -> {
 			TreeData treeData = TreeCache.get(player, pos, () -> tree.getTreeData(new TreeDataBuilder(), pos, level));
 			if (!treeData.shouldFall()) return;

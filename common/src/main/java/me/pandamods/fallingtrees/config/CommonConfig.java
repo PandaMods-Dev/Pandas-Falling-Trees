@@ -8,8 +8,8 @@ import me.pandamods.pandalib.config.api.ConfigData;
 @Config(name = FallingTrees.MOD_ID + "_common", modId = FallingTrees.MOD_ID, synchronize = true)
 public class CommonConfig implements ConfigData {
 	public boolean disableCrouchMining = true;
-	public boolean multiplyToolDamage = true;
-	public boolean multiplyFoodExhaustion = true;
+	public boolean disableExtraToolDamage = false;
+	public boolean disableExtraFoodExhaustion = false;
 	public boolean onlyFallWithRequiredTool = false;
 
 	public float treeLifetimeLength = 4;

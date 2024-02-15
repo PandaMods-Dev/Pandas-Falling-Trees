@@ -1,7 +1,7 @@
 package me.pandamods.fallingtrees.entity;
 
-import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.api.Tree;
+import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
 import me.pandamods.fallingtrees.utils.BlockMapEntityData;
@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -22,7 +23,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
 
@@ -48,17 +48,27 @@ public class TreeEntity extends Entity {
 	}
 
 	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, Tree tree, Player player) {
-		if (levelAccessor instanceof Level level) {
+		if (levelAccessor instanceof ServerLevel level) {
 			TreeEntity treeEntity = new TreeEntity(EntityRegistry.TREE.get(), level);
 			treeEntity.setPos(blockPos.getCenter().add(0, -.5, 0));
 			treeEntity.setData(blockPosList, blockPos, tree, player, player.getItemBySlot(EquipmentSlot.MAINHAND));
 
+			BlockState air = Blocks.AIR.defaultBlockState();
 			for (BlockPos pos : blockPosList) {
-				level.setBlock(pos, Blocks.AIR.defaultBlockState(), 16);
+				BlockState oldState = level.getBlockState(pos);
+				level.setBlock(pos, air, 16);
+				level.setBlocksDirty(pos, oldState, level.getBlockState(pos));
 			}
 			for (Map.Entry<BlockPos, BlockState> entry : treeEntity.getBlocks().entrySet()) {
-				level.sendBlockUpdated(entry.getKey().offset(blockPos), entry.getValue(), Blocks.AIR.defaultBlockState(), 1);
-				level.gameEvent(GameEvent.BLOCK_DESTROY, entry.getKey(), GameEvent.Context.of(player, entry.getValue()));
+				BlockPos pos = entry.getKey().offset(blockPos);
+				BlockState newState = level.getBlockState(pos);
+				level.sendBlockUpdated(pos, entry.getValue(), newState, 3);
+				level.blockUpdated(pos, newState.getBlock());
+				newState.updateIndirectNeighbourShapes(level, pos, 511);
+				entry.getValue().updateNeighbourShapes(level, pos, 511);
+				entry.getValue().updateIndirectNeighbourShapes(level, pos, 511);
+
+				level.onBlockStateChange(pos, entry.getValue(), newState);
 			}
 			level.addFreshEntity(treeEntity);
 		}
@@ -133,10 +143,6 @@ public class TreeEntity extends Entity {
 
 	public float getLifetime(float partialTick) {
 		return (this.tickCount + partialTick) / 20;
-	}
-
-	public boolean isLarge() {
-		return this.getHeight() > 15;
 	}
 
 	public float getHeight() {

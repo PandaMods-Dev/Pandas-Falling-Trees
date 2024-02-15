@@ -35,7 +35,11 @@ public class ChorusTree implements Tree {
 		Set<BlockPos> loopedBlocks = new HashSet<>();
 
 		loopBlocks(level, blockPos, builder, loopedBlocks);
-		return builder.build(true);
+		return builder
+				.setAwardedBlocks(builder.getBlocks().size())
+				.setFoodExhaustion(builder.getBlocks().size())
+				.setToolDamage(builder.getBlocks().size())
+				.build(true);
 	}
 
 	public void loopBlocks(BlockGetter level, BlockPos originPos, TreeDataBuilder builder, Set<BlockPos> loopedBlocks) {

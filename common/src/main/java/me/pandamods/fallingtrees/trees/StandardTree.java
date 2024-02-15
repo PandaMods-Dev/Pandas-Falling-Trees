@@ -106,9 +106,13 @@ public class StandardTree implements Tree {
 			}
 		});
 
-		builder.addBlocks(treeBlocks);
-		builder.addBlocks(decorationBlocks);
-		return builder.build(true);
+		return builder
+				.addBlocks(treeBlocks)
+				.addBlocks(decorationBlocks)
+				.setAwardedBlocks(logBlocks.size())
+				.setFoodExhaustion(logBlocks.size())
+				.setToolDamage(logBlocks.size())
+				.build(true);
 	}
 
 	@Override
@@ -171,11 +175,6 @@ public class StandardTree implements Tree {
 
 	public boolean isMaxAmountReached(int amount) {
 		return amount >= getConfig().algorithm.maxLogAmount;
-	}
-
-	@Override
-	public float fallAnimationEdgeDistance() {
-		return Compat.hasTreeChop() ? 0 : Tree.super.fallAnimationEdgeDistance();
 	}
 
 	@Override

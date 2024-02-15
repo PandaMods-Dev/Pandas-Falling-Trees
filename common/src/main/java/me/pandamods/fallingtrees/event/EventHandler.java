@@ -12,7 +12,6 @@ import me.pandamods.fallingtrees.compat.TreeChopCompat;
 import me.pandamods.fallingtrees.config.CommonConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
-import me.pandamods.fallingtrees.trees.StandardTree;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
@@ -23,7 +22,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -56,23 +54,15 @@ public class EventHandler {
 		Set<BlockPos> treeBlockPos = treeData.blocks();
 		if (!treeData.shouldFall()) return false;
 
-		long baseAmount = treeBlockPos.stream().filter(blockPos1 -> tree.mineableBlock(level.getBlockState(blockPos1))).count();
-//		switch (commonConfig.limitations.treeFallRequirements.maxAmountType) {
-//			case BLOCK_AMOUNT -> {
-//				if (treeBlockPos.size() > commonConfig.limitations.treeFallRequirements.maxAmount) return false;
-//			}
-//			case BASE_BLOCK_AMOUNT -> {
-//				if (baseAmount > commonConfig.limitations.treeFallRequirements.maxAmount) return false;
-//			}
-//		}
-
-		if (!Compat.hasTreeChop()) {
+		if (!Compat.hasTreeChop() || !(level instanceof Level && TreeChopCompat.isChoppable((Level) level, blockPos))) {
 			if (!mainItem.isEmpty()) {
-				mainItem.hurtAndBreak(commonConfig.multiplyToolDamage ? (int) baseAmount : 1, player, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+				mainItem.hurtAndBreak(commonConfig.disableExtraToolDamage ? 1 : treeData.toolDamage(), player,
+						entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 			}
-			player.causeFoodExhaustion(0.005f * (commonConfig.multiplyFoodExhaustion ? (int) baseAmount : 1));
+			float defaultExhaustion = 0.005f;
+			player.causeFoodExhaustion(commonConfig.disableExtraFoodExhaustion ? defaultExhaustion : defaultExhaustion * treeData.foodExhaustionMultiply());
 		}
-		player.awardStat(Stats.BLOCK_MINED.get(blockState.getBlock()), (int) baseAmount);
+		player.awardStat(Stats.BLOCK_MINED.get(blockState.getBlock()), treeData.awardedBlocks());
 
 		TreeEntity.destroyTree(treeBlockPos, blockPos, level, tree, player);
 		return true;

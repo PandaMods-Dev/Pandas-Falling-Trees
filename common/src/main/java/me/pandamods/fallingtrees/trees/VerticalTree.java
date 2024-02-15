@@ -24,7 +24,11 @@ public class VerticalTree implements Tree {
 	@Override
 	public TreeData getTreeData(TreeDataBuilder builder, BlockPos blockPos, BlockGetter level) {
 		loopBlocks(level.getBlockState(blockPos), blockPos, level, builder);
-		return builder.build(true);
+		return builder
+				.setAwardedBlocks(builder.getBlocks().size())
+				.setFoodExhaustion(builder.getBlocks().size())
+				.setToolDamage(builder.getBlocks().size())
+				.build(true);
 	}
 
 	private void loopBlocks(BlockState blockState, BlockPos blockpos, BlockGetter level, TreeDataBuilder builder) {

@@ -2,27 +2,32 @@ package me.pandamods.fallingtrees.api;
 
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 
-import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TreeDataBuilder {
 	private Set<BlockPos> blocks = new HashSet<>();
 	private boolean useDefaultMiningSpeed = true;
 	private float miningSpeedMultiplication = 1;
+	private int toolDamage = 0;
+	private float foodExhaustionMultiplication = 1;
+	private int awardedBlocks = 0;
+
+	public Set<BlockPos> getBlocks() {
+		return blocks;
+	}
 
 	public TreeDataBuilder setBlocks(Set<BlockPos> blocks) {
 		this.blocks = blocks;
 		return this;
 	}
 
-	public void setMiningSpeed(float multiply) {
+	public TreeDataBuilder setMiningSpeed(float multiply) {
 		this.useDefaultMiningSpeed = false;
 		this.miningSpeedMultiplication = multiply;
+		return this;
 	}
 
 	public TreeDataBuilder addBlocks(Collection<BlockPos> blocks) {
@@ -35,11 +40,29 @@ public class TreeDataBuilder {
 		return this;
 	}
 
+	public TreeDataBuilder setToolDamage(int toolDamage) {
+		this.toolDamage = toolDamage;
+		return this;
+	}
+
+	public TreeDataBuilder setFoodExhaustion(float multiply) {
+		this.foodExhaustionMultiplication = multiply;
+		return this;
+	}
+
+	public TreeDataBuilder setAwardedBlocks(int awardedBlocks) {
+		this.awardedBlocks = awardedBlocks;
+		return this;
+	}
+
 	public TreeData build(boolean shouldFall) {
 		return new TreeData(
 				blocks,
 				useDefaultMiningSpeed ? getDefaultMiningSpeed() : miningSpeedMultiplication,
-				shouldFall
+				shouldFall,
+				toolDamage,
+				foodExhaustionMultiplication,
+				awardedBlocks
 		);
 	}
 

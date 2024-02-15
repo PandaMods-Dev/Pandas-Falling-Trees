@@ -139,6 +139,7 @@ public class StandardTree implements Tree {
 	}
 
 	public void loopLeaves(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks, int recursionDistance) {
+		if (recursionDistance > getConfig().algorithm.maxLeavesRadius) return;
 		BlockState blockState = level.getBlockState(blockPos);
 		if (loopedBlocks.contains(blockPos) ||
 				(blockState.hasProperty(LeavesBlock.DISTANCE) && blockState.getValue(LeavesBlock.DISTANCE) != recursionDistance)) return;

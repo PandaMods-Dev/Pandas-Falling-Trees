@@ -2,13 +2,10 @@ package me.pandamods.fallingtrees.forge;
 
 import dev.architectury.platform.forge.EventBuses;
 import me.pandamods.fallingtrees.FallingTrees;
-import me.pandamods.fallingtrees.FallingTreesClient;
-import me.pandamods.fallingtrees.forge.compat.CompatForge;
+import me.pandamods.fallingtrees.compat.forge.CompatForge;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.IModBusEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(FallingTrees.MOD_ID)

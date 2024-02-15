@@ -1,7 +1,5 @@
 package me.pandamods.fallingtrees.mixin;
 
-import me.pandamods.fallingtrees.FallingTrees;
-import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.api.TreeData;
 import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.api.TreeRegistry;
@@ -12,14 +10,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import org.joml.Math;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 @Mixin(BlockBehaviour.BlockStateBase.class)
 public class BlockStateMixin {

@@ -28,6 +28,8 @@ configurations {
 }
 
 dependencies {
+    include api("org.joml:joml:1.10.5")
+
     forge "net.minecraftforge:forge:${forge_version}"
     modApi "dev.architectury:architectury-forge:${architectury_version}"
 

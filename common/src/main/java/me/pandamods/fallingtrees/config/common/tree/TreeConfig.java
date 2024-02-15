@@ -1,6 +1,6 @@
 package me.pandamods.fallingtrees.config.common.tree;
 
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -24,7 +24,7 @@ public class TreeConfig {
 
 		public boolean isValid(BlockState blockState) {
 			Block block = blockState.getBlock();
-			ResourceLocation resourceLocation = BuiltInRegistries.BLOCK.getKey(block);
+			ResourceLocation resourceLocation = Registry.BLOCK.getKey(block);
 			if (blacklist.contains(resourceLocation.toString()))
 				return false;
 			return blockState.getTags().anyMatch(blockTagKey -> whitelistedTags.contains(blockTagKey.location().toString())) ||

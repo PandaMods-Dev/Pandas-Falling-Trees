@@ -8,6 +8,8 @@ import me.pandamods.fallingtrees.utils.BlockMapEntityData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -23,8 +25,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Math;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +52,7 @@ public class TreeEntity extends Entity {
 	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, Tree tree, Player player) {
 		if (levelAccessor instanceof ServerLevel level) {
 			TreeEntity treeEntity = new TreeEntity(EntityRegistry.TREE.get(), level);
-			treeEntity.setPos(blockPos.getCenter().add(0, -.5, 0));
+			treeEntity.setPos(blockPos.getX() + .5f, blockPos.getY(), blockPos.getZ() + .5f);
 			treeEntity.setData(blockPosList, blockPos, tree, player, player.getItemBySlot(EquipmentSlot.MAINHAND));
 
 			BlockState air = Blocks.AIR.defaultBlockState();
@@ -84,7 +86,7 @@ public class TreeEntity extends Entity {
 		for (BlockPos pos : blockPosList) {
 			if (pos.getY() > height)
 				height = pos.getY() - originBlock.getY();
-			blockPosMap.put(pos.immutable().subtract(originBlock), level().getBlockState(pos));
+			blockPosMap.put(pos.immutable().subtract(originBlock), level.getBlockState(pos));
 		}
 		this.getEntityData().set(ORIGIN_POS, originBlock);
 		this.getEntityData().set(BLOCKS, blockPosMap);
@@ -126,7 +128,7 @@ public class TreeEntity extends Entity {
 			this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.04, 0.0));
 		}
 		this.move(MoverType.SELF, this.getDeltaMovement());
-		if (this.onGround()) {
+		if (this.onGround) {
 			this.setDeltaMovement(this.getDeltaMovement().multiply(1, -0.5, 1));
 		}
 
@@ -159,6 +161,11 @@ public class TreeEntity extends Entity {
 
 	public @NotNull Direction getDirection() {
 		return this.getEntityData().get(FALL_DIRECTION);
+	}
+
+	@Override
+	public Packet<?> getAddEntityPacket() {
+		return new ClientboundAddEntityPacket(this);
 	}
 
 	public Tree getTree() {

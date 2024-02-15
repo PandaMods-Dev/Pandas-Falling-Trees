@@ -25,8 +25,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.storage.loot.LootParams;
-import org.joml.Math;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -45,7 +43,7 @@ public class StandardTree implements Tree {
 
 	@Override
 	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return itemStack.getItem() instanceof AxeItem || itemStack.is(ItemTags.AXES);
+		return itemStack.getItem() instanceof AxeItem;
 	}
 
 	@Override
@@ -56,14 +54,14 @@ public class StandardTree implements Tree {
 			ClientConfig clientConfig = FallingTreesConfig.getClientConfig();
 			if (entity.tickCount == 1) {
 				if (clientConfig.soundSettings.enabled) {
-					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
+					entity.level.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
 							SoundSource.BLOCKS, clientConfig.soundSettings.startVolume, 1f, true);
 				}
 			}
 
 			if (entity.tickCount == (int) (clientConfig.animation.fallAnimLength * 20) - 5) {
 				if (clientConfig.soundSettings.enabled) {
-					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
+					entity.level.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
 							SoundSource.BLOCKS, clientConfig.soundSettings.endVolume, 1f, true);
 				}
 			}

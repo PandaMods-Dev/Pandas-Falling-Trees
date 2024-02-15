@@ -20,6 +20,8 @@ configurations {
 }
 
 dependencies {
+    include api("org.joml:joml:1.10.5")
+
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
     modApi "dev.architectury:architectury-fabric:${architectury_version}"

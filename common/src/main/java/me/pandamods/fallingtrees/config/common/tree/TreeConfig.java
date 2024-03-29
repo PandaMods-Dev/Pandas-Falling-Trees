@@ -16,10 +16,10 @@ public class TreeConfig {
 		public List<String> whitelist;
 		public List<String> blacklist;
 
-		public Filter(List<TagKey<Block>> whitelistedBlockTags, List<Block> whitelistedBlocks, List<Block> blacklistedBlocks) {
-			this.whitelistedTags = whitelistedBlockTags.stream().map(blockTagKey -> blockTagKey.location().toString()).toList();
-			this.whitelist = whitelistedBlocks.stream().map(block -> block.arch$registryName().toString()).toList();
-			this.blacklist = blacklistedBlocks.stream().map(block -> block.arch$registryName().toString()).toList();
+		public Filter(List<String> whitelistedBlockTags, List<String> whitelistedBlocks, List<String> blacklistedBlocks) {
+			this.whitelistedTags = whitelistedBlockTags;
+			this.whitelist = whitelistedBlocks;
+			this.blacklist = blacklistedBlocks;
 		}
 
 		public boolean isValid(BlockState blockState) {

@@ -3,8 +3,9 @@ package me.pandamods.fallingtrees.config;
 import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.config.client.AnimationConfig;
 import me.pandamods.fallingtrees.config.client.SoundSettingsConfig;
-import me.pandamods.pandalib.config.api.Config;
-import me.pandamods.pandalib.config.api.ConfigData;
+import me.pandamods.pandalib.api.config.Config;
+import me.pandamods.pandalib.api.config.ConfigData;
+
 
 @Config(name = FallingTrees.MOD_ID + "_client", modId = FallingTrees.MOD_ID, synchronize = true)
 public class ClientConfig implements ConfigData {

@@ -6,19 +6,19 @@ import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
-import me.pandamods.pandalib.utils.RenderUtils;
+import me.pandamods.fallingtrees.utils.RenderUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Math;
 import org.joml.Quaternionf;
@@ -38,6 +38,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 
 	@Override
 	public void render(TreeEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+		BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 		Tree tree = entity.getTree();
 		if (tree == null) return;
 
@@ -71,13 +72,12 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		poseStack.translate(pivot.x, 0, pivot.z);
 
 		poseStack.translate(-.5, 0, -.5);
-		VertexConsumer consumer = buffer.getBuffer(RenderType.cutout());
 		blocks.forEach((blockPos, blockState) -> {
 			poseStack.pushPose();
 			poseStack.translate(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 
 			blockPos = blockPos.offset(entity.getOriginPos());
-			RenderUtils.renderBlock(poseStack, blockState, blockPos, entity.level(), consumer, OverlayTexture.NO_OVERLAY);
+			RenderUtils.renderBlock(poseStack, blockState, blockPos, entity.level(), buffer, entity.level().getRandom());
 
 			poseStack.popPose();
 		});

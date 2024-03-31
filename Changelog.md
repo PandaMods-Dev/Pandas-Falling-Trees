@@ -1,3 +1,7 @@
-## Version 0.10.1 Changelog
-* **What's been fixed**
-  * 
+## Version 0.11 Changelog
+#### Updated:
+* Changed Common config option "minimumSpeed" to "maxSpeedMultiplication"
+* Added allowed Tool Filter to config
+
+#### Fixed bugs:
+* Fixed config file not updating or generating

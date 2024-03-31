@@ -3,6 +3,8 @@ package me.pandamods.fallingtrees.config.common.tree;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -28,6 +30,15 @@ public class TreeConfig {
 			if (blacklist.contains(resourceLocation.toString()))
 				return false;
 			return blockState.getTags().anyMatch(blockTagKey -> whitelistedTags.contains(blockTagKey.location().toString())) ||
+					whitelist.contains(resourceLocation.toString());
+		}
+
+		public boolean isValid(ItemStack itemStack) {
+			Item item = itemStack.getItem();
+			ResourceLocation resourceLocation = BuiltInRegistries.ITEM.getKey(item);
+			if (blacklist.contains(resourceLocation.toString()))
+				return false;
+			return itemStack.getTags().anyMatch(blockTagKey -> whitelistedTags.contains(blockTagKey.location().toString())) ||
 					whitelist.contains(resourceLocation.toString());
 		}
 	}

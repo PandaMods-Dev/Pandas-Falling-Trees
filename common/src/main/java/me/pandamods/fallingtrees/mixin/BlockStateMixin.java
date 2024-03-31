@@ -29,10 +29,7 @@ public class BlockStateMixin {
 		TreeRegistry.getTree(level.getBlockState(pos)).ifPresent(tree -> {
 			TreeData treeData = TreeCache.get(player, pos, () -> tree.getTreeData(new TreeDataBuilder(), pos, level));
 			if (!treeData.shouldFall()) return;
-			cir.setReturnValue(cir.getReturnValueF() * Math.max(
-					FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.minimumSpeed,
-					treeData.miningSpeedMultiply()
-			));
+			cir.setReturnValue(cir.getReturnValueF() * treeData.miningSpeedMultiply());
 		});
 	}
 }

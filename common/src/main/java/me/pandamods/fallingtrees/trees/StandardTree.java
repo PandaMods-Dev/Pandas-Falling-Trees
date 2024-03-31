@@ -38,14 +38,15 @@ public class StandardTree implements Tree {
 	}
 
 	public boolean extraRequiredBlockCheck(BlockState blockState) {
-		if (blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
+		if (getConfig().algorithm.shouldIgnorePersistentLeaves &&
+				blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
 			return false;
 		return FallingTreesConfig.getCommonConfig().trees.standardTree.leavesFilter.isValid(blockState);
 	}
 
 	@Override
 	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return itemStack.getItem() instanceof AxeItem || itemStack.is(ItemTags.AXES);
+		return getConfig().allowedToolFilter.isValid(itemStack);
 	}
 
 	@Override
@@ -84,7 +85,8 @@ public class StandardTree implements Tree {
 		loopLogs(level, blockPos, logBlocks, loopedLogBlocks);
 		if (!getConfig().algorithm.shouldFallOnMaxLogAmount && isMaxAmountReached(logBlocks.size())) return builder.build(false);
 		float speedMultiplication = FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.speedMultiplication;
-		builder.setMiningSpeed(1f / (((float) logBlocks.size() - 1f) * speedMultiplication + 1f));
+		float multiplyAmount = Math.min(FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.maxSpeedMultiplication, ((float) logBlocks.size() - 1f));
+		builder.setMiningSpeed(1f / (multiplyAmount * speedMultiplication + 1f));
 
 		logBlocks.forEach(logPos -> {
 			Set<BlockPos> loopedLeavesBlocks = new HashSet<>();

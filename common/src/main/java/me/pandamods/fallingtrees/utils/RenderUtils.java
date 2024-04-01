@@ -31,11 +31,14 @@ public class RenderUtils {
 		long seed = blockState.getSeed(blockPos);
 
 		BitSet bitSet = new BitSet(3);
+		BlockPos.MutableBlockPos mutableBlockPos = blockPos.mutable();
 		for (Direction direction : Direction.values()) {
 			random.setSeed(seed);
 			List<BakedQuad> quads = model.getQuads(blockState, direction, random);
 			if (quads.isEmpty()) continue;
-			int lightColor = LevelRenderer.getLightColor(level, blockState, blockPos);
+			mutableBlockPos.setWithOffset(blockPos, direction);
+			boolean isSolid = !level.getBlockState(mutableBlockPos).isAir() && level.getBlockState(mutableBlockPos).isSolidRender(level, mutableBlockPos);
+			int lightColor = LevelRenderer.getLightColor(level, blockState, isSolid ? blockPos : mutableBlockPos);
 			blockRenderer.renderModelFaceFlat(level, blockState, blockPos, lightColor, OverlayTexture.NO_OVERLAY, false,
 					poseStack, vertexConsumer, quads, bitSet);
 		}

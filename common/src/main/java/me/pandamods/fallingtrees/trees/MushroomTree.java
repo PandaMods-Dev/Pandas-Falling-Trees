@@ -36,8 +36,8 @@ public class MushroomTree implements Tree {
 
 		stemBlocks.forEach(logPos -> {
 			Set<BlockPos> loopedCapBlocks = new HashSet<>();
-			for (Direction direction : Direction.values()) {
-				BlockPos neighborPos = logPos.offset(direction.getNormal());
+			for (BlockPos offset : BlockPos.betweenClosed(new BlockPos(-1, -1, -1), new BlockPos(1, 1, 1))) {
+				BlockPos neighborPos = logPos.offset(offset);
 				loopCap(level, neighborPos, capBlocks, loopedCapBlocks);
 			}
 		});

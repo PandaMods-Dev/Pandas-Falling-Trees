@@ -4,6 +4,8 @@ import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.api.TreeData;
 import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
+import me.pandamods.fallingtrees.entity.TreeEntity;
+import me.pandamods.fallingtrees.utils.ListUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +16,8 @@ import net.minecraft.world.level.block.ChorusPlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ChorusTree implements Tree {
@@ -69,12 +73,12 @@ public class ChorusTree implements Tree {
 	}
 
 	@Override
-	public boolean shouldDropItems(ItemStack itemStack, BlockState blockState) {
-		return blockState.is(Blocks.CHORUS_FLOWER);
+	public boolean enabled() {
+		return FallingTreesConfig.getCommonConfig().trees.chorusTree.enabled;
 	}
 
 	@Override
-	public boolean enabled() {
-		return FallingTreesConfig.getCommonConfig().trees.chorusTree.enabled;
+	public List<ItemStack> getDrops(TreeEntity entity, Map<BlockPos, BlockState> blocks) {
+		return Tree.super.getDrops(entity, ListUtils.mapRemoveIf(blocks, (blockPos, blockState) -> blockState.is(Blocks.CHORUS_FLOWER)));
 	}
 }

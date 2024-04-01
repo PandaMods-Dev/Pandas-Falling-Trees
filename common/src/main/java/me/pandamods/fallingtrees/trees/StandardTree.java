@@ -124,12 +124,11 @@ public class StandardTree implements Tree {
 	}
 
 	public void loopLogs(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks) {
-		if (isMaxAmountReached(blocks.size())) return;
-		BlockState blockState = level.getBlockState(blockPos);
 		if (loopedBlocks.contains(blockPos)) return;
-
+		if (isMaxAmountReached(blocks.size())) return;
 		loopedBlocks.add(blockPos);
 
+		BlockState blockState = level.getBlockState(blockPos);
 		if (this.mineableBlock(blockState)) {
 			blocks.add(blockPos);
 

@@ -14,7 +14,8 @@ public class TreeTypeRegistry {
 	public static final Supplier<StandardTree> DEFAULT = TreeRegistry.register(new ResourceLocation(FallingTrees.MOD_ID, "default"), StandardTree::new);
 	public static final Supplier<VerticalTree> VERTICAL = TreeRegistry.register(new ResourceLocation(FallingTrees.MOD_ID, "vertical"), VerticalTree::new);
 	public static final Supplier<ChorusTree> CHORUS = TreeRegistry.register(new ResourceLocation(FallingTrees.MOD_ID, "chorus"), ChorusTree::new);
-	
+	public static final Supplier<ChorusTree> MUSHROOM = TreeRegistry.register(new ResourceLocation(FallingTrees.MOD_ID, "chorus"), ChorusTree::new);
+
 	public static void register() {
 	}
 }

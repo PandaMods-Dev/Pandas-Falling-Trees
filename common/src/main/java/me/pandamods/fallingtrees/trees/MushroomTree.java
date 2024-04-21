@@ -8,6 +8,7 @@ import me.pandamods.fallingtrees.config.common.tree.MushroomTreeConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Math;
@@ -56,9 +57,8 @@ public class MushroomTree implements Tree {
 	}
 
 	@Override
-	public boolean allowedToFall(Player player) {
-		return !(!FallingTreesConfig.getCommonConfig().disableCrouchMining &&
-				player.isCrouching() != FallingTreesConfig.getClientConfig(player).invertCrouchMining);
+	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
+		return !getConfig().onlyFallWithRequiredTool || getConfig().allowedToolFilter.isValid(itemStack);
 	}
 
 	public void loopStems(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks) {

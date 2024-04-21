@@ -1,6 +1,7 @@
 package me.pandamods.fallingtrees.api;
 
 import dev.architectury.hooks.level.entity.ItemEntityHooks;
+import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -35,7 +36,8 @@ public interface Tree {
 	}
 
 	default boolean allowedToFall(Player player) {
-		return true;
+		return !(!FallingTreesConfig.getCommonConfig().disableCrouchMining &&
+				player.isCrouching() != FallingTreesConfig.getClientConfig(player).invertCrouchMining);
 	}
 
 	default float fallAnimationEdgeDistance() {

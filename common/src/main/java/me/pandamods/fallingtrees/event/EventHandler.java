@@ -38,17 +38,19 @@ public class EventHandler {
 	}
 
 	public static boolean makeTreeFall(BlockPos blockPos, LevelAccessor level, Player player) {
+		if (level.isClientSide()) return false;
 		Optional<Tree> treeTypeOptional = TreeRegistry.getTree(level.getBlockState(blockPos));
 		return treeTypeOptional.filter(treeType -> makeTreeFall(treeType, blockPos, level, player)).isPresent();
 	}
 
 	public static boolean makeTreeFall(Tree tree, BlockPos blockPos, LevelAccessor level, Player player) {
+		if (level.isClientSide()) return false;
 		ItemStack mainItem = player.getItemBySlot(EquipmentSlot.MAINHAND);
 		BlockState blockState = level.getBlockState(blockPos);
 		CommonConfig commonConfig = FallingTreesConfig.getCommonConfig();
 
 		if (!tree.allowedToFall(player)) return false;
-		if (commonConfig.onlyFallWithRequiredTool && !tree.allowedTool(mainItem, blockState)) return false;
+		if (!tree.allowedTool(mainItem, blockState)) return false;
 
 		TreeData treeData = tree.getTreeData(new TreeDataBuilder(), blockPos, level);
 		Set<BlockPos> treeBlockPos = treeData.blocks();

@@ -4,6 +4,8 @@ import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.api.TreeData;
 import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
+import me.pandamods.fallingtrees.config.common.tree.TreeConfig;
+import me.pandamods.fallingtrees.config.common.tree.VerticalTreeConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.utils.ListUtils;
 import net.minecraft.core.BlockPos;
@@ -32,6 +34,11 @@ public class ChorusTree implements Tree {
 
 	public boolean extraRequiredBlockCheck(BlockState blockState) {
 		return blockState.is(Blocks.CHORUS_FLOWER);
+	}
+
+	@Override
+	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
+		return !getConfig().onlyFallWithRequiredTool || getConfig().allowedToolFilter.isValid(itemStack);
 	}
 
 	@Override
@@ -72,9 +79,13 @@ public class ChorusTree implements Tree {
 		return 6f / 16f;
 	}
 
+	public TreeConfig getConfig() {
+		return FallingTreesConfig.getCommonConfig().trees.chorusTree;
+	}
+
 	@Override
 	public boolean enabled() {
-		return FallingTreesConfig.getCommonConfig().trees.chorusTree.enabled;
+		return getConfig().enabled;
 	}
 
 	@Override

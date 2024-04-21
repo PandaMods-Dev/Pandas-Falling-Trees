@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StandardTreeConfig extends TreeConfig {
+	public StandardTreeConfig() {
+		this.allowedToolFilter.whitelistedTags.add(ItemTags.AXES.location().toString());
+	}
+
 	public Algorithm algorithm = new Algorithm();
 
 	public Filter logFilter = new Filter(
@@ -27,11 +31,6 @@ public class StandardTreeConfig extends TreeConfig {
 					Blocks.BEE_NEST.arch$registryName().toString(),
 					Blocks.COCOA.arch$registryName().toString()
 			),
-			new ArrayList<>()
-	);
-	public Filter allowedToolFilter = new Filter(
-			List.of(ItemTags.AXES.location().toString()),
-			new ArrayList<>(),
 			new ArrayList<>()
 	);
 

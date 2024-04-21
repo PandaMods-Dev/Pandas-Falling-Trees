@@ -46,7 +46,7 @@ public class StandardTree implements Tree {
 
 	@Override
 	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return getConfig().allowedToolFilter.isValid(itemStack);
+		return !getConfig().onlyFallWithRequiredTool || getConfig().allowedToolFilter.isValid(itemStack);
 	}
 
 	@Override
@@ -117,12 +117,6 @@ public class StandardTree implements Tree {
 				.build(true);
 	}
 
-	@Override
-	public boolean allowedToFall(Player player) {
-		return !(!FallingTreesConfig.getCommonConfig().disableCrouchMining &&
-				player.isCrouching() != FallingTreesConfig.getClientConfig(player).invertCrouchMining);
-	}
-
 	public void loopLogs(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks) {
 		if (loopedBlocks.contains(blockPos)) return;
 		if (isMaxAmountReached(blocks.size())) return;
@@ -164,7 +158,7 @@ public class StandardTree implements Tree {
 		loopedBlocks.add(blockPos);
 
 
-		if (FallingTreesConfig.getCommonConfig().trees.standardTree.extraBlockFilter.isValid(blockState)) {
+		if (getConfig().extraBlockFilter.isValid(blockState)) {
 			blocks.add(blockPos);
 
 			loopExtraBlocks(level, blockPos.offset(Direction.DOWN.getNormal()), blocks, loopedBlocks);

@@ -2,16 +2,25 @@ package me.pandamods.fallingtrees.config.common.tree;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TreeConfig {
 	public boolean enabled = true;
+
+	public boolean onlyFallWithRequiredTool = false;
+	public Filter allowedToolFilter = new Filter(
+			new ArrayList<>(),
+			new ArrayList<>(),
+			new ArrayList<>()
+	);
 
 	public static class Filter {
 		public List<String> whitelistedTags;

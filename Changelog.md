@@ -1,9 +1,8 @@
-## Version 0.11 Changelog
+## Version 0.12 Changelog
 #### Updated:
-* Changed Common config option "minimumSpeed" to "maxSpeedMultiplication"
-* Added allowed Tool Filter to config
-* Fixed Chorus flower dropping instead of Chorus fruit
-* Added Mushroom Tree type
+* Made all tree types follow the rules of config options "onlyFallWithRequiredTool" and "disableCrouchMining"
+* Added config option "allowedToolFilter" to all tree types
+* Improved lighting on rendered blocks
 
 #### Fixed bugs:
-* Fixed config file not updating or generating
+* Fixed issue with client configs not staying synchronized with server (Update PandaLib to 0.2.1+)

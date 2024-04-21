@@ -1,19 +1,22 @@
 package me.pandamods.fallingtrees.api;
 
+import dev.architectury.hooks.level.entity.ItemEntityHooks;
+import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface Tree {
 	boolean mineableBlock(BlockState blockState);
@@ -27,26 +30,14 @@ public interface Tree {
 	default void entityTick(TreeEntity entity) {
 		Level level = entity.level;
 		if (entity.tickCount >= entity.getMaxLifeTimeTick()) {
-			ItemStack usedItem = entity.getUsedTool();
-			for (Map.Entry<BlockPos, BlockState> entry : entity.getBlocks().entrySet()) {
-				if (shouldDropItems(usedItem, entry.getValue())) {
-					BlockEntity blockEntity = null;
-					if (entry.getValue().hasBlockEntity())
-						blockEntity = level.getBlockEntity(entry.getKey().offset(entity.getOriginPos()));
-					Block.dropResources(entry.getValue(), level, entity.getOriginPos(), blockEntity, entity.owner, usedItem);
-				}
-			}
-
+			getDrops(entity, entity.getBlocks()).forEach(itemStack -> Block.popResource(level, entity.getOriginPos(), itemStack));
 			entity.remove(Entity.RemovalReason.DISCARDED);
 		}
 	}
 
 	default boolean allowedToFall(Player player) {
-		return true;
-	}
-
-	default boolean shouldDropItems(ItemStack itemStack, BlockState blockState) {
-		return true;
+		return !(!FallingTreesConfig.getCommonConfig().disableCrouchMining &&
+				player.isCrouching() != FallingTreesConfig.getClientConfig(player).invertCrouchMining);
 	}
 
 	default float fallAnimationEdgeDistance() {
@@ -55,5 +46,18 @@ public interface Tree {
 
 	default boolean enabled() {
 		return true;
+	}
+
+	default List<ItemStack> getDrops(TreeEntity entity, Map<BlockPos, BlockState> blocks) {
+		List<ItemStack> itemStacks = new ArrayList<>();
+		if (entity.level() instanceof ServerLevel serverLevel) {
+			blocks.forEach((blockPos, blockState) -> {
+				BlockEntity blockEntity = null;
+				if (blockState.hasBlockEntity())
+					blockEntity = serverLevel.getBlockEntity(blockPos);
+				itemStacks.addAll(Block.getDrops(blockState, serverLevel, blockPos, blockEntity, entity.owner, entity.getUsedTool()));
+			});
+		}
+		return itemStacks;
 	}
 }

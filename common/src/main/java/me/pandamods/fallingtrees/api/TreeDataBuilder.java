@@ -2,6 +2,7 @@ package me.pandamods.fallingtrees.api;
 
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import net.minecraft.core.BlockPos;
+import org.joml.Math;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -68,6 +69,7 @@ public class TreeDataBuilder {
 
 	protected float getDefaultMiningSpeed() {
 		float speedMultiplication = FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.speedMultiplication;
-		return 1f / (((float) blocks.size() - 1f) * speedMultiplication + 1f);
+		float multiplyAmount = Math.min(FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.maxSpeedMultiplication, ((float) blocks.size() - 1f));
+		return 1f / (multiplyAmount * speedMultiplication + 1f);
 	}
 }

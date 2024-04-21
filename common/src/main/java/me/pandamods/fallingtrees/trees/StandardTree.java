@@ -25,6 +25,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.storage.loot.LootParams;
+import org.joml.Math;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -36,14 +38,15 @@ public class StandardTree implements Tree {
 	}
 
 	public boolean extraRequiredBlockCheck(BlockState blockState) {
-		if (blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
+		if (getConfig().algorithm.shouldIgnorePersistentLeaves &&
+				blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
 			return false;
 		return FallingTreesConfig.getCommonConfig().trees.standardTree.leavesFilter.isValid(blockState);
 	}
 
 	@Override
 	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return itemStack.getItem() instanceof AxeItem;
+		return !getConfig().onlyFallWithRequiredTool || getConfig().allowedToolFilter.isValid(itemStack);
 	}
 
 	@Override
@@ -54,14 +57,14 @@ public class StandardTree implements Tree {
 			ClientConfig clientConfig = FallingTreesConfig.getClientConfig();
 			if (entity.tickCount == 1) {
 				if (clientConfig.soundSettings.enabled) {
-					entity.level.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
+					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
 							SoundSource.BLOCKS, clientConfig.soundSettings.startVolume, 1f, true);
 				}
 			}
 
 			if (entity.tickCount == (int) (clientConfig.animation.fallAnimLength * 20) - 5) {
 				if (clientConfig.soundSettings.enabled) {
-					entity.level.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
+					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
 							SoundSource.BLOCKS, clientConfig.soundSettings.endVolume, 1f, true);
 				}
 			}
@@ -82,7 +85,8 @@ public class StandardTree implements Tree {
 		loopLogs(level, blockPos, logBlocks, loopedLogBlocks);
 		if (!getConfig().algorithm.shouldFallOnMaxLogAmount && isMaxAmountReached(logBlocks.size())) return builder.build(false);
 		float speedMultiplication = FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.speedMultiplication;
-		builder.setMiningSpeed(1f / (((float) logBlocks.size() - 1f) * speedMultiplication + 1f));
+		float multiplyAmount = Math.min(FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.maxSpeedMultiplication, ((float) logBlocks.size() - 1f));
+		builder.setMiningSpeed(1f / (multiplyAmount * speedMultiplication + 1f));
 
 		logBlocks.forEach(logPos -> {
 			Set<BlockPos> loopedLeavesBlocks = new HashSet<>();
@@ -113,19 +117,12 @@ public class StandardTree implements Tree {
 				.build(true);
 	}
 
-	@Override
-	public boolean allowedToFall(Player player) {
-		return !(!FallingTreesConfig.getCommonConfig().disableCrouchMining &&
-				player.isCrouching() != FallingTreesConfig.getClientConfig(player).invertCrouchMining);
-	}
-
 	public void loopLogs(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks) {
-		if (isMaxAmountReached(blocks.size())) return;
-		BlockState blockState = level.getBlockState(blockPos);
 		if (loopedBlocks.contains(blockPos)) return;
-
+		if (isMaxAmountReached(blocks.size())) return;
 		loopedBlocks.add(blockPos);
 
+		BlockState blockState = level.getBlockState(blockPos);
 		if (this.mineableBlock(blockState)) {
 			blocks.add(blockPos);
 
@@ -161,7 +158,7 @@ public class StandardTree implements Tree {
 		loopedBlocks.add(blockPos);
 
 
-		if (FallingTreesConfig.getCommonConfig().trees.standardTree.extraBlockFilter.isValid(blockState)) {
+		if (getConfig().extraBlockFilter.isValid(blockState)) {
 			blocks.add(blockPos);
 
 			loopExtraBlocks(level, blockPos.offset(Direction.DOWN.getNormal()), blocks, loopedBlocks);

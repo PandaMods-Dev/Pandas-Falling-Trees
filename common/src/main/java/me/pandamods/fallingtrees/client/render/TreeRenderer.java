@@ -1,25 +1,22 @@
 package me.pandamods.fallingtrees.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
-import me.pandamods.pandalib.utils.RenderUtils;
+import me.pandamods.fallingtrees.utils.RenderUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Math;
 import org.joml.Quaternionf;
@@ -39,6 +36,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 
 	@Override
 	public void render(TreeEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+		BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
 		Tree tree = entity.getTree();
 		if (tree == null) return;
 
@@ -67,18 +65,17 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		Vector3f vector = new Vector3f(Math.toRadians(animation), 0, 0);
 		vector.rotateY(Math.toRadians(-direction.toYRot()));
 		Quaternionf quaternion = new Quaternionf().identity().rotateX(vector.x).rotateZ(vector.z);
-		poseStack.mulPose(new Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w));
+		poseStack.mulPose(quaternion);
 
 		poseStack.translate(pivot.x, 0, pivot.z);
 
 		poseStack.translate(-.5, 0, -.5);
-		VertexConsumer consumer = buffer.getBuffer(RenderType.cutout());
 		blocks.forEach((blockPos, blockState) -> {
 			poseStack.pushPose();
 			poseStack.translate(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 
 			blockPos = blockPos.offset(entity.getOriginPos());
-			RenderUtils.renderBlock(poseStack, blockState, blockPos, entity.level, consumer, OverlayTexture.NO_OVERLAY);
+			RenderUtils.renderSingleBlock(poseStack, blockState, blockPos, entity.level(), buffer, packedLight);
 
 			poseStack.popPose();
 		});

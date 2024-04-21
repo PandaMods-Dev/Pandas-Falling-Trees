@@ -36,6 +36,6 @@ side = "BOTH"
 [[dependencies.fallingtrees]]
 modId="pandalib"
 mandatory=true
-versionRange="[0.1,)"
+versionRange="[0.2.1,)"
 ordering="NONE"
 side="BOTH"

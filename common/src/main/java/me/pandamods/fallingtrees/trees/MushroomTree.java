@@ -16,7 +16,7 @@ import org.joml.Math;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MushroomTree implements Tree {
+public class MushroomTree implements Tree<MushroomTreeConfig> {
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
 		return getConfig().stemFilter.isValid(blockState);
@@ -56,11 +56,6 @@ public class MushroomTree implements Tree {
 				.build(true);
 	}
 
-	@Override
-	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return !getConfig().onlyFallWithRequiredTool || getConfig().allowedToolFilter.isValid(itemStack);
-	}
-
 	public void loopStems(BlockGetter level, BlockPos blockPos, Set<BlockPos> blocks, Set<BlockPos> loopedBlocks) {
 		if (loopedBlocks.contains(blockPos)) return;
 		loopedBlocks.add(blockPos);
@@ -91,6 +86,7 @@ public class MushroomTree implements Tree {
 		}
 	}
 
+	@Override
 	public MushroomTreeConfig getConfig() {
 		return FallingTreesConfig.getCommonConfig().trees.mushroomTree;
 	}

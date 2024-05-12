@@ -2,10 +2,13 @@ package me.pandamods.fallingtrees.api;
 
 import dev.architectury.hooks.level.entity.ItemEntityHooks;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
+import me.pandamods.fallingtrees.config.common.tree.StandardTreeConfig;
+import me.pandamods.fallingtrees.config.common.tree.TreeConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -18,14 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public interface Tree {
+public interface Tree<T extends TreeConfig> {
 	boolean mineableBlock(BlockState blockState);
-
+	
 	TreeData getTreeData(TreeDataBuilder builder, BlockPos blockPos, BlockGetter level);
-
-	default boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return true;
-	}
 
 	default void entityTick(TreeEntity entity) {
 		Level level = entity.level();
@@ -35,7 +34,9 @@ public interface Tree {
 		}
 	}
 
-	default boolean allowedToFall(Player player) {
+	default boolean willTreeFall(BlockPos blockPos, BlockGetter level, Player player) {
+		if (getConfig().onlyFallWithRequiredTool && !getConfig().allowedToolFilter.isValid(player.getItemBySlot(EquipmentSlot.MAINHAND))) return false;
+
 		return !(!FallingTreesConfig.getCommonConfig().disableCrouchMining &&
 				player.isCrouching() != FallingTreesConfig.getClientConfig(player).invertCrouchMining);
 	}
@@ -54,10 +55,13 @@ public interface Tree {
 			blocks.forEach((blockPos, blockState) -> {
 				BlockEntity blockEntity = null;
 				if (blockState.hasBlockEntity())
+
 					blockEntity = serverLevel.getBlockEntity(blockPos);
 				itemStacks.addAll(Block.getDrops(blockState, serverLevel, blockPos, blockEntity, entity.owner, entity.getUsedTool()));
 			});
 		}
 		return itemStacks;
 	}
+
+	T getConfig();
 }

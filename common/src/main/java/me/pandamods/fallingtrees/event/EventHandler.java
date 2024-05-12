@@ -45,12 +45,11 @@ public class EventHandler {
 
 	public static boolean makeTreeFall(Tree tree, BlockPos blockPos, LevelAccessor level, Player player) {
 		if (level.isClientSide()) return false;
-		ItemStack mainItem = player.getItemBySlot(EquipmentSlot.MAINHAND);
 		BlockState blockState = level.getBlockState(blockPos);
 		CommonConfig commonConfig = FallingTreesConfig.getCommonConfig();
 
-		if (!tree.allowedToFall(player)) return false;
-		if (!tree.allowedTool(mainItem, blockState)) return false;
+		if (!tree.willTreeFall(blockPos, level, player)) return false;
+		ItemStack mainItem = player.getItemBySlot(EquipmentSlot.MAINHAND);
 
 		TreeData treeData = tree.getTreeData(new TreeDataBuilder(), blockPos, level);
 		Set<BlockPos> treeBlockPos = treeData.blocks();

@@ -22,11 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ChorusTree implements Tree {
-	public ChorusTree() {
-		super();
-	}
-
+public class ChorusTree implements Tree<TreeConfig> {
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
 		return blockState.is(Blocks.CHORUS_PLANT);
@@ -34,11 +30,6 @@ public class ChorusTree implements Tree {
 
 	public boolean extraRequiredBlockCheck(BlockState blockState) {
 		return blockState.is(Blocks.CHORUS_FLOWER);
-	}
-
-	@Override
-	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return !getConfig().onlyFallWithRequiredTool || getConfig().allowedToolFilter.isValid(itemStack);
 	}
 
 	@Override
@@ -79,6 +70,7 @@ public class ChorusTree implements Tree {
 		return 6f / 16f;
 	}
 
+	@Override
 	public TreeConfig getConfig() {
 		return FallingTreesConfig.getCommonConfig().trees.chorusTree;
 	}

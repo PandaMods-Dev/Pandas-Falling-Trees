@@ -44,7 +44,7 @@ public class TreeConfig {
 
 		public boolean isValid(ItemStack itemStack) {
 			Item item = itemStack.getItem();
-			ResourceLocation resourceLocation = BuiltInRegistries.ITEM.getKey(item);
+			ResourceLocation resourceLocation = Registry.ITEM.getKey(item);
 			if (blacklist.contains(resourceLocation.toString()))
 				return false;
 			return itemStack.getTags().anyMatch(blockTagKey -> whitelistedTags.contains(blockTagKey.location().toString())) ||

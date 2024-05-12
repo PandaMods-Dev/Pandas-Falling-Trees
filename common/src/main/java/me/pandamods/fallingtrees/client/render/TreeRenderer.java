@@ -1,6 +1,7 @@
 package me.pandamods.fallingtrees.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
@@ -66,7 +67,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		Vector3f vector = new Vector3f(Math.toRadians(animation), 0, 0);
 		vector.rotateY(Math.toRadians(-direction.toYRot()));
 		Quaternionf quaternion = new Quaternionf().identity().rotateX(vector.x).rotateZ(vector.z);
-		poseStack.mulPose(quaternion);
+		poseStack.mulPose(new Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w));
 
 		poseStack.translate(pivot.x, 0, pivot.z);
 
@@ -76,7 +77,7 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 			poseStack.translate(blockPos.getX(), blockPos.getY(), blockPos.getZ());
 
 			blockPos = blockPos.offset(entity.getOriginPos());
-			RenderUtils.renderSingleBlock(poseStack, blockState, blockPos, entity.level(), buffer, packedLight);
+			RenderUtils.renderSingleBlock(poseStack, blockState, blockPos, entity.level, buffer, packedLight);
 
 			poseStack.popPose();
 		});

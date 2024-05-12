@@ -29,7 +29,7 @@ side = "BOTH"
 [[dependencies.fallingtrees]]
 modId = "architectury"
 mandatory = true
-versionRange = "[6.5.90,)"
+versionRange = "[6.6.92,)"
 ordering = "AFTER"
 side = "BOTH"
 

@@ -35,8 +35,8 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.20",
-    "architectury": ">=9.1.12",
+    "minecraft": ">=1.19.2",
+    "architectury": ">=6.6.92",
     "pandalib": ">=0.2.1"
   },
 	"suggests": {

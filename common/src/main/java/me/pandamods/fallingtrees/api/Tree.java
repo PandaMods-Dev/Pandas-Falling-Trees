@@ -51,7 +51,7 @@ public interface Tree<T extends TreeConfig> {
 
 	default List<ItemStack> getDrops(TreeEntity entity, Map<BlockPos, BlockState> blocks) {
 		List<ItemStack> itemStacks = new ArrayList<>();
-		if (entity.level() instanceof ServerLevel serverLevel) {
+		if (entity.level instanceof ServerLevel serverLevel) {
 			blocks.forEach((blockPos, blockState) -> {
 				BlockEntity blockEntity = null;
 				if (blockState.hasBlockEntity())

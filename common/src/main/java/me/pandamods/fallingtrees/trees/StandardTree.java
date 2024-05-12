@@ -31,7 +31,7 @@ import org.joml.Math;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StandardTree implements Tree {
+public class StandardTree implements Tree<StandardTreeConfig> {
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
 		return FallingTreesConfig.getCommonConfig().trees.standardTree.logFilter.isValid(blockState);
@@ -42,11 +42,6 @@ public class StandardTree implements Tree {
 				blockState.hasProperty(BlockStateProperties.PERSISTENT) && blockState.getValue(BlockStateProperties.PERSISTENT))
 			return false;
 		return FallingTreesConfig.getCommonConfig().trees.standardTree.leavesFilter.isValid(blockState);
-	}
-
-	@Override
-	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return !getConfig().onlyFallWithRequiredTool || getConfig().allowedToolFilter.isValid(itemStack);
 	}
 
 	@Override
@@ -165,6 +160,7 @@ public class StandardTree implements Tree {
 		}
 	}
 
+	@Override
 	public StandardTreeConfig getConfig() {
 		return FallingTreesConfig.getCommonConfig().trees.standardTree;
 	}

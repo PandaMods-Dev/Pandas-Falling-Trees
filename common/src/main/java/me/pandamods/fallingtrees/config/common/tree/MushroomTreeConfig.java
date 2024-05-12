@@ -9,13 +9,13 @@ import java.util.List;
 
 public class MushroomTreeConfig extends TreeConfig {
 	public Filter stemFilter = new Filter(
-			List.of(BlockTags.LOGS.location().toString()),
 			new ArrayList<>(),
+			List.of(Blocks.MUSHROOM_STEM.arch$registryName().toString()),
 			new ArrayList<>()
 	);
 	public Filter capFilter = new Filter(
-			List.of(BlockTags.LEAVES.location().toString()),
 			new ArrayList<>(),
+			List.of(Blocks.RED_MUSHROOM_BLOCK.arch$registryName().toString(), Blocks.BROWN_MUSHROOM_BLOCK.arch$registryName().toString()),
 			new ArrayList<>()
 	);
 }

@@ -14,15 +14,10 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Set;
 
-public class VerticalTree implements Tree {
+public class VerticalTree implements Tree<VerticalTreeConfig> {
 	@Override
 	public boolean mineableBlock(BlockState blockState) {
 		return getConfig().filter.isValid(blockState);
-	}
-
-	@Override
-	public boolean allowedTool(ItemStack itemStack, BlockState blockState) {
-		return !getConfig().onlyFallWithRequiredTool || getConfig().allowedToolFilter.isValid(itemStack);
 	}
 
 	@Override
@@ -47,6 +42,7 @@ public class VerticalTree implements Tree {
 		return 0;
 	}
 
+	@Override
 	public VerticalTreeConfig getConfig() {
 		return FallingTreesConfig.getCommonConfig().trees.verticalTree;
 	}

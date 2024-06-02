@@ -1,10 +1,27 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.5-SNAPSHOT" apply false
+    id "io.github.pacifistmc.forgix" version "1.2.9"
 }
 
 architectury {
     minecraft = minecraft_version
+}
+
+forgix {
+    group = "me.pandamods.fallingtrees"
+    mergedJarName = "fallingtrees-${mod_version}.jar"
+    outputDir = "build/libs/merged"
+
+    forge {
+        projectName = "forge"
+        jarLocation = "build/libs/fallingtrees-${mod_version}.jar"
+    }
+
+    fabric {
+        projectName = "fabric"
+        jarLocation = "build/libs/fallingtrees-${mod_version}.jar"
+    }
 }
 
 subprojects {

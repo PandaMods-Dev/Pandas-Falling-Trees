@@ -10,7 +10,7 @@ architectury {
 
 forgix {
     group = "me.pandamods.fallingtrees"
-    mergedJarName = "fallingtrees-${mod_version}.jar"
+    mergedJarName = "fallingtrees-${mod_version}-${minecraft_version}.jar"
     outputDir = "build/libs/merged"
 
     forge {

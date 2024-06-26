@@ -12,10 +12,10 @@ import java.util.function.Supplier;
 
 public class TreeTypeRegistry {
 
-	public static final Supplier<StandardTree> DEFAULT = TreeRegistry.register(new ResourceLocation(FallingTrees.MOD_ID, "default"), StandardTree::new);
-	public static final Supplier<VerticalTree> VERTICAL = TreeRegistry.register(new ResourceLocation(FallingTrees.MOD_ID, "vertical"), VerticalTree::new);
-	public static final Supplier<ChorusTree> CHORUS = TreeRegistry.register(new ResourceLocation(FallingTrees.MOD_ID, "chorus"), ChorusTree::new);
-	public static final Supplier<MushroomTree> MUSHROOM = TreeRegistry.register(new ResourceLocation(FallingTrees.MOD_ID, "mushroom"), MushroomTree::new);
+	public static final Supplier<StandardTree> DEFAULT = TreeRegistry.register(FallingTrees.ID("default"), StandardTree::new);
+	public static final Supplier<VerticalTree> VERTICAL = TreeRegistry.register(FallingTrees.ID("vertical"), VerticalTree::new);
+	public static final Supplier<ChorusTree> CHORUS = TreeRegistry.register(FallingTrees.ID("chorus"), ChorusTree::new);
+	public static final Supplier<MushroomTree> MUSHROOM = TreeRegistry.register(FallingTrees.ID("mushroom"), MushroomTree::new);
 
 	public static void register() {
 	}

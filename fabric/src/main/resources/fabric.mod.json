@@ -5,14 +5,14 @@
   "name": "Falling Trees",
   "description": "Makes trees fall realistically.",
   "authors": [
-		"The Panda Oliver/PandaMods"
+		"The Panda Oliver"
   ],
 	"contact": {
 		"issues": "https://github.com/PandaDap2006/Pandas-Falling-Trees/issues",
 		"sources": "https://github.com/PandaDap2006/Pandas-Falling-Trees",
 		"homepage": "https://www.curseforge.com/minecraft/mc-mods/pandas-falling-trees"
 	},
-  "license": "MIT",
+  "license": "LGPL-3",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
@@ -35,17 +35,21 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.20",
-    "architectury": ">=9.1.12",
-    "pandalib": ">=0.2.1"
+    "minecraft": ">=1.21",
+    "architectury": "*",
+    "pandalib": ">=0.2.2"
   },
 	"suggests": {
-		"modmenu": ">=7.0.1"
+		"modmenu": "*"
 	},
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.discord": "https://discord.gg/wjPt4vEfXb"
+				"modmenu.discord": "https://discord.gg/wjPt4vEfXb",
+				"modmenu.kofi": "https://ko-fi.com/pandamods",
+				"modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/pandas-falling-trees",
+				"modmenu.modrinth": "https://modrinth.com/mod/pandas-falling-trees",
+				"modmenu.github_releases": "https://github.com/PandaDap2006/pandas-falling-trees/releases"
 			},
 			"update_checker": true
 		}

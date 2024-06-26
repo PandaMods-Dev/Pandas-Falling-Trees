@@ -4,11 +4,15 @@ plugins {
 
 architectury {
     platformSetupLoomIde()
-    fabric()
+    neoForge()
 }
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
+remapJar {
+    atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
 }
 
 configurations {
@@ -16,40 +20,25 @@ configurations {
     shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentFabric.extendsFrom common
+    developmentNeoForge.extendsFrom common
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}+${minecraft_version}"
-    modApi "dev.architectury:architectury-fabric:${architectury_version}"
+    neoForge "net.neoforged:neoforge:${neoforge_version}"
+    // Remove the next line if you don't want to depend on the API
+    modApi "dev.architectury:architectury-neoforge:${architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 
-    modApi("me.pandamods:pandalib-fabric:${pandalib_version}")
-	modApi("com.terraformersmc:modmenu:${modmenu_version}")
+    modApi("me.pandamods:pandalib-neoforge:${pandalib_version}")
 
-    modCompileOnly("maven.modrinth:jade:${jade_version}+fabric-fabric,${jade_minecraft_version}")
-//    modLocalRuntime("maven.modrinth:jade:${jade_version}+fabric-fabric,${jade_minecraft_version}")
-
-//    modCompileOnly("maven.modrinth:treechop:${hts_treechop_version}-fabric,${hts_treechop_minecraft_version}")
-//    modRuntimeOnly("maven.modrinth:treechop:${hts_treechop_version}-fabric,${hts_treechop_minecraft_version}")
-}
-
-repositories {
-	maven { url = uri("https://maven.terraformersmc.com/releases/") }
-}
-
-processResources {
-    inputs.property "version", mod_version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": mod_version
-    }
+    modCompileOnly("maven.modrinth:jade:${jade_version}+neoforge-neoforge,${jade_minecraft_version}")
+//    modRuntimeOnly("maven.modrinth:jade:${jade_version}+neoforge-neoforge,${jade_minecraft_version}")
 }
 
 shadowJar {
+    exclude "fabric.mod.json"
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
@@ -57,7 +46,6 @@ shadowJar {
 }
 
 remapJar {
-    injectAccessWidener = true
     input.set shadowJar.archiveFile
     dependsOn shadowJar
 }
@@ -76,7 +64,7 @@ components.java {
 
 publishing {
     publications {
-        mavenFabric(MavenPublication) {
+        mavenNeoForge(MavenPublication) {
             artifactId = archives_base_name + "-" + project.name
             from components.java
         }

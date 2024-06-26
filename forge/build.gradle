@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 architectury {
@@ -28,19 +28,19 @@ configurations {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${forge_version}"
+    forge "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     modApi "dev.architectury:architectury-forge:${architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-	modImplementation(fileTree(dir: project(':').file('libs/forge'), include: ["*.jar"]))
+    modApi("me.pandamods:pandalib-forge:${pandalib_version}")
 
-    modCompileOnly("curse.maven:jade-324717:${jade_version_forge}")
-//    modRuntimeOnly("curse.maven:jade-324717:${jade_version_forge}")
+    modCompileOnly("maven.modrinth:jade:${jade_version}+forge-forge,${jade_minecraft_version}")
+//    modRuntimeOnly("maven.modrinth:jade:${jade_version}+forge-forge,${jade_minecraft_version}")
 
-    modCompileOnly("curse.maven:treechop-421377:${hts_treechop_version_forge}")
-    modRuntimeOnly("curse.maven:treechop-421377:${hts_treechop_version_forge}")
+//    modCompileOnly("maven.modrinth:treechop:${hts_treechop_version}-forge,${hts_treechop_minecraft_version}")
+//    modRuntimeOnly("maven.modrinth:treechop:${hts_treechop_version}-forge,${hts_treechop_minecraft_version}")
 }
 
 processResources {

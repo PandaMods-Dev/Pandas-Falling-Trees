@@ -4,6 +4,5 @@ import me.pandamods.fallingtrees.compat.Compat;
 
 public class CompatFabric {
 	public static void init() {
-		if (Compat.hasTreeChop()) TreeChopCompatImpl.init();
 	}
 }

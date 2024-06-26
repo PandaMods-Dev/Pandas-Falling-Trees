@@ -8,10 +8,14 @@ import me.pandamods.fallingtrees.utils.BlockMapEntityData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -40,14 +44,14 @@ public class TreeEntity extends Entity {
 	public static final EntityDataAccessor<String> TREE_TYPE_LOCATION = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.STRING);
 
 	public Entity owner = null;
-	public Tree tree = null;
+	public Tree<?> tree = null;
 
 	public TreeEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.noCulling = true;
 	}
 
-	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, Tree tree, Player player) {
+	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, Tree<?> tree, Player player) {
 		if (levelAccessor instanceof ServerLevel level) {
 			TreeEntity treeEntity = new TreeEntity(EntityRegistry.TREE.get(), level);
 			treeEntity.setPos(blockPos.getCenter().add(0, -.5, 0));
@@ -74,7 +78,7 @@ public class TreeEntity extends Entity {
 		}
 	}
 
-	public void setData(Set<BlockPos> blockPosList, BlockPos originBlock, Tree tree, Entity owner, ItemStack itemStack) {
+	public void setData(Set<BlockPos> blockPosList, BlockPos originBlock, Tree<?> tree, Entity owner, ItemStack itemStack) {
 		this.owner = owner;
 		this.tree = tree;
 
@@ -99,24 +103,20 @@ public class TreeEntity extends Entity {
 	}
 
 	@Override
-	protected void defineSynchedData() {
-		this.getEntityData().define(BLOCKS, new HashMap<>());
-		this.getEntityData().define(HEIGHT, 0);
-		this.getEntityData().define(ORIGIN_POS, new BlockPos(0, 0, 0));
-		this.getEntityData().define(USED_TOOL, ItemStack.EMPTY);
-		this.getEntityData().define(FALL_DIRECTION, Direction.NORTH);
-		this.getEntityData().define(TREE_TYPE_LOCATION, "");
+	protected void defineSynchedData(SynchedEntityData.Builder builder) {
+		builder.define(BLOCKS, new HashMap<>());
+		builder.define(HEIGHT, 0);
+		builder.define(ORIGIN_POS, new BlockPos(0, 0, 0));
+		builder.define(USED_TOOL, ItemStack.EMPTY);
+		builder.define(FALL_DIRECTION, Direction.NORTH);
+		builder.define(TREE_TYPE_LOCATION, "");
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag compound) {
-
-	}
+	protected void readAdditionalSaveData(CompoundTag compound) {}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag compound) {
-
-	}
+	protected void addAdditionalSaveData(CompoundTag compound) {}
 
 	@Override
 	public void tick() {
@@ -161,8 +161,8 @@ public class TreeEntity extends Entity {
 		return this.getEntityData().get(FALL_DIRECTION);
 	}
 
-	public Tree getTree() {
-		Optional<Tree> treeTypeOptional = TreeRegistry.getTree(new ResourceLocation(this.getEntityData().get(TREE_TYPE_LOCATION)));
+	public Tree<?> getTree() {
+		Optional<Tree<?>> treeTypeOptional = TreeRegistry.getTree(ResourceLocation.tryParse(this.getEntityData().get(TREE_TYPE_LOCATION)));
 		return treeTypeOptional.orElse(null);
 	}
 }

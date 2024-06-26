@@ -10,23 +10,24 @@ architectury {
 }
 
 forgix {
+    var version = "${rootProject.mod_version}-${rootProject.minecraft_version}"
     group = "${rootProject.maven_group}.${rootProject.archives_name}"
-    mergedJarName = "${rootProject.archives_name}-${rootProject.mod_version}-${rootProject.minecraft_version}.jar"
+    mergedJarName = "${rootProject.archives_name}-${version}.jar"
     outputDir = "build/libs/merged"
 
     fabric {
         projectName = "fabric"
-        jarLocation = "build/libs/${rootProject.archives_name}-fabric-${project.version}.jar"
+        jarLocation = "build/libs/${rootProject.archives_name}-fabric-${version}.jar"
     }
 
     forge {
         projectName = "forge"
-        jarLocation = "build/libs/${rootProject.archives_name}-forge-${project.version}.jar"
+        jarLocation = "build/libs/${rootProject.archives_name}-forge-${version}.jar"
     }
 
     neoforge {
         projectName = "neoforge"
-        jarLocation = "build/libs/${rootProject.archives_name}-neoforge-${project.version}.jar"
+        jarLocation = "build/libs/${rootProject.archives_name}-neoforge-${version}.jar"
     }
 }
 

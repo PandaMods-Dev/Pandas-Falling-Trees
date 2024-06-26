@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "com.github.johnrengelman.shadow"
 }
 
 architectury {
@@ -23,55 +23,40 @@ configurations {
     developmentNeoForge.extendsFrom common
 }
 
+repositories {
+    maven {
+        name = "NeoForged"
+        url = "https://maven.neoforged.net/releases"
+    }
+}
+
 dependencies {
-    neoForge "net.neoforged:neoforge:${neoforge_version}"
-    // Remove the next line if you don't want to depend on the API
-    modApi "dev.architectury:architectury-neoforge:${architectury_version}"
+    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
+
+    modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
+
+    modApi("me.pandamods:pandalib-neoforge:${rootProject.pandalib_version}")
+
+    modCompileOnly("maven.modrinth:jade:${rootProject.jade_version}+neoforge-neoforge,${rootProject.jade_minecraft_version}")
+//    modRuntimeOnly("maven.modrinth:jade:${rootProject.jade_version}+neoforge-neoforge,${rootProject.jade_minecraft_version}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+}
 
-    modApi("me.pandamods:pandalib-neoforge:${pandalib_version}")
+processResources {
+    inputs.property 'version', rootProject.mod_version
 
-    modCompileOnly("maven.modrinth:jade:${jade_version}+neoforge-neoforge,${jade_minecraft_version}")
-//    modRuntimeOnly("maven.modrinth:jade:${jade_version}+neoforge-neoforge,${jade_minecraft_version}")
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand version: rootProject.mod_version
+    }
 }
 
 shadowJar {
-    exclude "fabric.mod.json"
-    exclude "architectury.common.json"
-
     configurations = [project.configurations.shadowCommon]
     archiveClassifier = "dev-shadow"
 }
 
 remapJar {
     input.set shadowJar.archiveFile
-    dependsOn shadowJar
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
-publishing {
-    publications {
-        mavenNeoForge(MavenPublication) {
-            artifactId = archives_base_name + "-" + project.name
-            from components.java
-        }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-    }
 }

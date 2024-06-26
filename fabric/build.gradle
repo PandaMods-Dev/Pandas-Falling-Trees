@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id "com.github.johnrengelman.shadow"
 }
 
 architectury {
@@ -19,71 +19,42 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
+repositories {
+    maven { url = "https://maven.terraformersmc.com/releases/" }
+}
+
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}+${minecraft_version}"
-    modApi "dev.architectury:architectury-fabric:${architectury_version}"
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+
+    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+
+    modApi("me.pandamods:pandalib-fabric:${rootProject.pandalib_version}")
+    modApi("com.terraformersmc:modmenu:${rootProject.modmenu_version}")
+
+    modCompileOnly("maven.modrinth:jade:${rootProject.jade_version}+fabric-fabric,${rootProject.jade_minecraft_version}")
+//    modLocalRuntime("maven.modrinth:jade:${rootProject.jade_version}+fabric-fabric,${rootProject.jade_minecraft_version}")
+
+//    modCompileOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-fabric,${rootProject.hts_treechop_minecraft_version}")
+//    modRuntimeOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-fabric,${rootProject.hts_treechop_minecraft_version}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-
-    modApi("me.pandamods:pandalib-fabric:${pandalib_version}")
-	modApi("com.terraformersmc:modmenu:${modmenu_version}")
-
-    modCompileOnly("maven.modrinth:jade:${jade_version}+fabric-fabric,${jade_minecraft_version}")
-//    modLocalRuntime("maven.modrinth:jade:${jade_version}+fabric-fabric,${jade_minecraft_version}")
-
-//    modCompileOnly("maven.modrinth:treechop:${hts_treechop_version}-fabric,${hts_treechop_minecraft_version}")
-//    modRuntimeOnly("maven.modrinth:treechop:${hts_treechop_version}-fabric,${hts_treechop_minecraft_version}")
-}
-
-repositories {
-	maven { url = uri("https://maven.terraformersmc.com/releases/") }
 }
 
 processResources {
-    inputs.property "version", mod_version
+    inputs.property 'version', rootProject.mod_version
 
-    filesMatching("fabric.mod.json") {
-        expand "version": mod_version
+    filesMatching('fabric.mod.json') {
+        expand version: rootProject.mod_version
     }
 }
 
 shadowJar {
-    exclude "architectury.common.json"
-
     configurations = [project.configurations.shadowCommon]
     archiveClassifier = "dev-shadow"
 }
 
 remapJar {
-    injectAccessWidener = true
     input.set shadowJar.archiveFile
-    dependsOn shadowJar
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
-publishing {
-    publications {
-        mavenFabric(MavenPublication) {
-            artifactId = archives_base_name + "-" + project.name
-            from components.java
-        }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-    }
 }

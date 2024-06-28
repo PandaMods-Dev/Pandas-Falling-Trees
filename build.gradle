@@ -2,33 +2,10 @@ plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
     id "com.github.johnrengelman.shadow" version "8.1.1" apply false
-    id "io.github.pacifistmc.forgix" version "1.2.9"
 }
 
 architectury {
     minecraft = rootProject.minecraft_version
-}
-
-forgix {
-    var version = "${rootProject.mod_version}-${rootProject.minecraft_version}"
-    group = "${rootProject.maven_group}.${rootProject.archives_name}"
-    mergedJarName = "${rootProject.archives_name}-${version}.jar"
-    outputDir = "build/libs/merged"
-
-    fabric {
-        projectName = "fabric"
-        jarLocation = "build/libs/${rootProject.archives_name}-fabric-${version}.jar"
-    }
-
-    forge {
-        projectName = "forge"
-        jarLocation = "build/libs/${rootProject.archives_name}-forge-${version}.jar"
-    }
-
-    neoforge {
-        projectName = "neoforge"
-        jarLocation = "build/libs/${rootProject.archives_name}-neoforge-${version}.jar"
-    }
 }
 
 allprojects {
@@ -41,16 +18,9 @@ subprojects {
     apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
 
-    loom {
-        silentMojangMappingsLicense()
-    }
-
     base {
         archivesName = "${rootProject.archives_name}-${project.name}"
     }
-
-    build.finalizedBy(mergeJars)
-    assemble.finalizedBy(mergeJars)
 
     repositories {
         maven {

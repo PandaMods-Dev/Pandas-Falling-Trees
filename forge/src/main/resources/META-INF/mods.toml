@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[51,)"
+loaderVersion = "[46,)"
 issueTrackerURL = "https://github.com/PandaDap2006/Pandas-Falling-Trees/issues"
 showAsResourcePack = false
 license = "LGPL-3"
@@ -15,14 +15,14 @@ logoFile = "icon.png"
 [[dependencies.fallingtrees]]
 modId = "forge"
 mandatory = true
-versionRange = "[51,)"
+versionRange = "[46,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.fallingtrees]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.21,)"
+versionRange = "[1.20,1.20.5)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -36,6 +36,13 @@ side = "BOTH"
 [[dependencies.fallingtrees]]
 modId="pandalib"
 mandatory=true
-versionRange="[0.2.2,)"
+versionRange="[0.3,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.fallingtrees]]
+modId="treechop"
+mandatory=false
+versionRange="[0.19.0,)"
 ordering="NONE"
 side="BOTH"

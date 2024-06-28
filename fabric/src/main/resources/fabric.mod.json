@@ -35,10 +35,13 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.20.5 <1.21",
+    "minecraft": ">=1.20 <1.20.5",
     "architectury": "*",
     "pandalib": ">=0.3"
   },
+	"conflicts": {
+		"treechop": "<0.19.0"
+	},
 	"suggests": {
 		"modmenu": "*"
 	},

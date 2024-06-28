@@ -30,8 +30,7 @@ public class FallingTrees {
 		EntityRegistry.ENTITIES.register();
 		EventHandler.register();
 
-		if (!Platform.isNeoForge())
-			EntityDataSerializers.registerSerializer(BlockMapEntityData.BLOCK_MAP);
+		EntityDataSerializers.registerSerializer(BlockMapEntityData.BLOCK_MAP);
     }
 
 	public static ResourceLocation ID(String path) {

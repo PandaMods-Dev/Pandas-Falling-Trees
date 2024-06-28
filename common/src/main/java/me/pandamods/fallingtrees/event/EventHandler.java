@@ -8,6 +8,7 @@ import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.compat.Compat;
+import me.pandamods.fallingtrees.compat.TreeChopCompat;
 import me.pandamods.fallingtrees.config.CommonConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
@@ -30,7 +31,7 @@ public class EventHandler {
 	}
 
 	private static EventResult onBlockBreak(Level level, BlockPos blockPos, BlockState blockState, ServerPlayer serverPlayer, IntValue intValue) {
-		if (serverPlayer != null && makeTreeFall(blockPos, level, serverPlayer)) {
+		if (serverPlayer != null && !TreeChopCompat.isChoppable(level, blockPos) && makeTreeFall(blockPos, level, serverPlayer)) {
 			return EventResult.interruptFalse();
 		}
 		return EventResult.pass();
@@ -42,7 +43,7 @@ public class EventHandler {
 		return treeTypeOptional.filter(treeType -> makeTreeFall(treeType, blockPos, level, player)).isPresent();
 	}
 
-	public static boolean makeTreeFall(Tree<?> tree, BlockPos blockPos, LevelAccessor level, Player player) {
+	public static boolean makeTreeFall(Tree tree, BlockPos blockPos, LevelAccessor level, Player player) {
 		if (level.isClientSide()) return false;
 		BlockState blockState = level.getBlockState(blockPos);
 		CommonConfig commonConfig = FallingTreesConfig.getCommonConfig();
@@ -54,9 +55,10 @@ public class EventHandler {
 		Set<BlockPos> treeBlockPos = treeData.blocks();
 		if (!treeData.shouldFall()) return false;
 
-		if (!(level instanceof Level)) {
+		if (!Compat.hasTreeChop() || !(level instanceof Level && TreeChopCompat.isChoppable((Level) level, blockPos))) {
 			if (!mainItem.isEmpty()) {
-				mainItem.hurtAndBreak(commonConfig.disableExtraToolDamage ? 1 : treeData.toolDamage(), player, EquipmentSlot.MAINHAND);
+				mainItem.hurtAndBreak(commonConfig.disableExtraToolDamage ? 1 : treeData.toolDamage(), player,
+						entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 			}
 			float defaultExhaustion = 0.005f;
 			player.causeFoodExhaustion(commonConfig.disableExtraFoodExhaustion ? defaultExhaustion : defaultExhaustion * treeData.foodExhaustionMultiply());

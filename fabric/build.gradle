@@ -35,7 +35,7 @@ dependencies {
     modCompileOnly("maven.modrinth:jade:${rootProject.jade_version}+fabric-fabric,${rootProject.jade_minecraft_version}")
 //    modLocalRuntime("maven.modrinth:jade:${rootProject.jade_version}+fabric-fabric,${rootProject.jade_minecraft_version}")
 
-//    modCompileOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-fabric,${rootProject.hts_treechop_minecraft_version}")
+    modCompileOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-fabric,${rootProject.hts_treechop_minecraft_version}")
 //    modRuntimeOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-fabric,${rootProject.hts_treechop_minecraft_version}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

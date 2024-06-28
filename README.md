@@ -32,10 +32,6 @@ You can also join my [Discord](https://discord.gg/wjPt4vEfXb)
 - **Wilder Wilds:** Game crash when mining trees. I recommend blacklisting the logs and leaves in the mod config.
 - **Physics mod:** I will not make compatibility because it's not open sourced, if compatibility should ever be a thing, then the creators of the Physics mod should add it.
 
-## Technical Stuff:
-The mod uses the [Forgix](https://github.com/PacifistMC/Forgix) project to merge the mods into one jar.
-If you need separate files you can find them on Github
-
 ---
 ### Do you need a cheap Minecraft server and want to support me, click the banner below and sign up, you can also use my code to get 15% off you first month at Kinetic Hosting.
 [![](https://github.com/PandaDap2006/PandaDap2006/blob/main/assets_for_readme/kinetic_hosting_banner.png?raw=true)](https://billing.kinetichosting.net/aff.php?aff=476)

@@ -22,9 +22,6 @@
 		"client": [
 			"me.pandamods.fallingtrees.fabric.FallingTreesFabricClient"
 		],
-		"modmenu": [
-			"me.pandamods.fallingtrees.fabric.ModMenuIntegration"
-		],
 		"jade": [
 			"me.pandamods.fallingtrees.compat.JadePlugin"
 		]
@@ -37,7 +34,7 @@
     "fabric": "*",
     "minecraft": ">=1.21",
     "architectury": "*",
-    "pandalib": ">=0.2.2"
+    "pandalib": ">=0.3"
   },
 	"suggests": {
 		"modmenu": "*"

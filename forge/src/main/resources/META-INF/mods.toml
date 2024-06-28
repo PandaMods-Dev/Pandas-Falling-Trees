@@ -29,13 +29,13 @@ side = "BOTH"
 [[dependencies.fallingtrees]]
 modId = "architectury"
 mandatory = true
-versionRange = "[1,)"
+versionRange = "[13,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.fallingtrees]]
 modId="pandalib"
 mandatory=true
-versionRange="[0.2.2,)"
+versionRange="[0.3,)"
 ordering="NONE"
 side="BOTH"

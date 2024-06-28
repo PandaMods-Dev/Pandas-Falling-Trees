@@ -15,14 +15,14 @@ description = "Makes trees fall realistically."
 [[dependencies.pandalib]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.0.6-beta,)"
+versionRange = "[20.5.21-beta,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.pandalib]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "[1.20.5,1.21)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -36,7 +36,7 @@ side = "BOTH"
 [[dependencies.fallingtrees]]
 modId="pandalib"
 type = "required"
-versionRange="[0.2.2,)"
+versionRange="[0.3,)"
 ordering="NONE"
 side="BOTH"
 

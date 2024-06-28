@@ -2,6 +2,7 @@ plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
     id "com.github.johnrengelman.shadow" version "8.1.1" apply false
+    id "me.modmuss50.mod-publish-plugin" version "0.5.1"
 }
 
 architectury {
@@ -56,5 +57,144 @@ subprojects {
 
     java {
         withSourcesJar()
+    }
+}
+
+publishMods {
+    var using_ranged_game_version = Boolean.parseBoolean(rootProject.use_ranged_game_version)
+
+    dryRun = Boolean.parseBoolean(rootProject.is_dry_run)
+
+    type = BETA
+    changelog = rootProject.file("Changelog.md").text
+
+    var supported_version_str = using_ranged_game_version ?
+            "${rootProject.supported_game_version}-${rootProject.max_supported_game_version}" :
+            rootProject.supported_game_version
+
+    discord {
+        webhookUrl = providers.environmentVariable("DISCORD_WEBHOOK")
+        dryRunWebhookUrl = providers.environmentVariable("DISCORD_WEBHOOK_DRY_RUN")
+        username = "Mod Release"
+        avatarUrl = "https://avatars.githubusercontent.com/u/70108603?v=4"
+        content = changelog.map { "# Panda's Falling Tree's ${rootProject.mod_version} Release for ${supported_version_str} \n" + it +
+                "\n<@&1244983762874400892>" }
+    }
+
+    def curseforgeOptions = curseforgeOptions {
+        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
+        projectId = "880630"
+
+        if (using_ranged_game_version)
+            minecraftVersionRange {
+                start = rootProject.supported_game_version
+                end = rootProject.max_supported_game_version
+            }
+        else
+            minecraftVersions.add(rootProject.supported_game_version)
+
+        javaVersions.add(JavaVersion.VERSION_21)
+
+        clientRequired = true
+        serverRequired = true
+
+        projectSlug = "pandas-falling-trees"
+
+        requires("architectury-api")
+        requires("pandalib")
+    }
+
+    def modrinthOptions = modrinthOptions {
+        accessToken = providers.environmentVariable("MODRINTH_API_KEY")
+        projectId = "i2kUe4lq"
+
+        if (using_ranged_game_version)
+            minecraftVersionRange {
+                start = rootProject.supported_game_version
+                end = rootProject.max_supported_game_version
+            }
+        else
+            minecraftVersions.add(rootProject.supported_game_version)
+
+        requires("architectury-api")
+        requires("pandalib")
+    }
+
+    def fabricOptions = publishOptions {
+        file = project(":fabric").remapJar.archiveFile
+        modLoaders.add("fabric")
+    }
+
+    def forgeOptions = publishOptions {
+        file = project(":forge").remapJar.archiveFile
+        modLoaders.add("forge")
+    }
+
+    def neoForgeOptions = publishOptions {
+        file = project(":neoforge").remapJar.archiveFile
+        modLoaders.add("neoforge")
+    }
+
+    if (findProject(":fabric")) {
+        curseforge("curseforgeFabric") {
+            from(curseforgeOptions, fabricOptions)
+
+            announcementTitle = "Download for Fabric ${supported_version_str} from CurseForge"
+
+            requires("fabric-api")
+        }
+
+        modrinth("modrinthFabric") {
+            from(modrinthOptions, fabricOptions)
+
+            announcementTitle = "Download for Fabric ${supported_version_str} from Modrinth"
+
+            requires("fabric-api")
+        }
+    }
+
+    if (findProject(":forge")) {
+        curseforge("curseforgeForge") {
+            from(curseforgeOptions, forgeOptions)
+
+            announcementTitle = "Download for Forge ${supported_version_str} from CurseForge"
+        }
+
+        modrinth("modrinthForge") {
+            from(modrinthOptions, forgeOptions)
+
+            announcementTitle = "Download for Forge ${supported_version_str} from Modrinth"
+        }
+    }
+
+    if (findProject(":neoforge")) {
+        curseforge("curseforgeNeoForge") {
+            from(curseforgeOptions, neoForgeOptions)
+
+            announcementTitle = "Download for NeoForge ${supported_version_str} from CurseForge"
+        }
+
+        modrinth("modrinthNeoForge") {
+            from(modrinthOptions, neoForgeOptions)
+
+            announcementTitle = "Download for NeoForge ${supported_version_str} from Modrinth"
+        }
+    }
+
+    github {
+        accessToken = providers.environmentVariable("GITHUB_API_KEY")
+        repository = "PandaDap2006/Pandas-Falling-Trees"
+        commitish = "main"
+        tagName = "release/${rootProject.mod_version}-${supported_version_str}"
+
+        modLoaders.addAll("fabric", "forge", "neoforge")
+        file = project(":common").jar.archiveFile
+
+        if (findProject(":fabric"))
+            additionalFiles.from(project(":fabric").remapJar.archiveFile)
+        if (findProject(":forge"))
+            additionalFiles.from(project(":forge").remapJar.archiveFile)
+        if (findProject(":neoforge"))
+            additionalFiles.from(project(":neoforge").remapJar.archiveFile)
     }
 }

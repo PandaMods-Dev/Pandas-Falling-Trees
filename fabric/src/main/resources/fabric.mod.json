@@ -22,9 +22,6 @@
 		"client": [
 			"me.pandamods.fallingtrees.fabric.FallingTreesFabricClient"
 		],
-		"modmenu": [
-			"me.pandamods.fallingtrees.fabric.ModMenuIntegration"
-		],
 		"jade": [
 			"me.pandamods.fallingtrees.compat.JadePlugin"
 		]
@@ -41,9 +38,6 @@
   },
 	"conflicts": {
 		"treechop": "<0.18.6"
-	},
-	"suggests": {
-		"modmenu": "*"
 	},
 	"custom": {
 		"modmenu": {

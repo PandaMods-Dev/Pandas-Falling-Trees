@@ -8,7 +8,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = project(":common").file("src/main/resources/fallingtrees.accesswidener")
+    accessWidenerPath = project(":common").loom.accessWidenerPath
 
     forge {
         convertAccessWideners = true
@@ -33,10 +33,10 @@ dependencies {
 
     modApi("me.pandamods:pandalib-forge:${rootProject.pandalib_version}")
 
-    modCompileOnly("maven.modrinth:jade:${rootProject.jade_version}+forge-forge,${rootProject.jade_minecraft_version}")
-//    modRuntimeOnly("maven.modrinth:jade:${rootProject.jade_version}+forge-forge,${rootProject.jade_minecraft_version}")
+    modCompileOnly("maven.modrinth:jade:${rootProject.jade_version}-forge,${rootProject.jade_minecraft_version}")
+//    modRuntimeOnly("maven.modrinth:jade:${rootProject.jade_version}-forge,${rootProject.jade_minecraft_version}")
 
-//    modCompileOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-forge,${rootProject.hts_treechop_minecraft_version}")
+    modCompileOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-forge,${rootProject.hts_treechop_minecraft_version}")
 //    modRuntimeOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-forge,${rootProject.hts_treechop_minecraft_version}")
 
     include api("org.joml:joml:1.10.5")

@@ -12,7 +12,7 @@ dependencies {
 
     modApi("me.pandamods:pandalib-common:${rootProject.pandalib_version}")
 
-	modImplementation("maven.modrinth:jade:${rootProject.jade_version}+fabric-fabric,${rootProject.jade_minecraft_version}")
+	modImplementation("maven.modrinth:jade:${rootProject.jade_version}-fabric,${rootProject.jade_minecraft_version}")
 
     modImplementation("maven.modrinth:treechop:${rootProject.hts_treechop_version}-fabric,${rootProject.hts_treechop_minecraft_version}")
 

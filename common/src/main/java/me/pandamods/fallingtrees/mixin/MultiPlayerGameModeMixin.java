@@ -38,7 +38,7 @@ public abstract class MultiPlayerGameModeMixin {
 
 	@Inject(method = "tick", at = @At("RETURN"))
 	public void tick(CallbackInfo ci) {
-		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable || Compat.hasTreeChop()) return;
+		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable) return;
 		Player player = minecraft.player;
 		if (player != null) {
 			BlockState blockState = player.level.getBlockState(this.destroyBlockPos);

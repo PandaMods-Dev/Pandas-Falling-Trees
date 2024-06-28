@@ -1,5 +1,5 @@
 architectury {
-    common(enabled_platforms.split(","))
+    common(rootProject.enabled_platforms.split(","))
 }
 
 loom {
@@ -7,27 +7,14 @@ loom {
 }
 
 dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi "dev.architectury:architectury:${rootProject.architectury_version}"
+
+    modApi("me.pandamods:pandalib-common:${rootProject.pandalib_version}")
+
+	modImplementation("maven.modrinth:jade:${rootProject.jade_version}+fabric-fabric,${rootProject.jade_minecraft_version}")
+
+    modImplementation("maven.modrinth:treechop:${rootProject.hts_treechop_version}-fabric,${rootProject.hts_treechop_minecraft_version}")
+
     api("org.joml:joml:1.10.5")
-
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modApi "dev.architectury:architectury:${architectury_version}"
-
-	modImplementation(fileTree(dir: project(':').file('libs/common'), include: ["*.jar"]))
-
-	modImplementation("curse.maven:jade-324717:${jade_version_fabric}")
-    modImplementation("curse.maven:treechop-421377:${hts_treechop_version_fabric}")
-}
-
-publishing {
-    publications {
-        mavenCommon(MavenPublication) {
-            artifactId = archives_base_name
-            from components.java
-        }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-    }
 }

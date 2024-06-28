@@ -1,0 +1,59 @@
+plugins {
+    id "com.github.johnrengelman.shadow"
+}
+
+architectury {
+    platformSetupLoomIde()
+    neoForge()
+}
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentNeoForge.extendsFrom common
+}
+
+repositories {
+    maven {
+        name = "NeoForged"
+        url = "https://maven.neoforged.net/releases"
+    }
+}
+
+dependencies {
+    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
+
+    modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
+
+    modApi("me.pandamods:pandalib-neoforge:${rootProject.pandalib_version}")
+
+    modCompileOnly("maven.modrinth:jade:${rootProject.jade_version}+neoforge-neoforge,${rootProject.jade_minecraft_version}")
+//    modRuntimeOnly("maven.modrinth:jade:${rootProject.jade_version}+neoforge-neoforge,${rootProject.jade_minecraft_version}")
+
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+}
+
+processResources {
+    inputs.property 'version', rootProject.mod_version
+
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand version: rootProject.mod_version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = "dev-shadow"
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
+}

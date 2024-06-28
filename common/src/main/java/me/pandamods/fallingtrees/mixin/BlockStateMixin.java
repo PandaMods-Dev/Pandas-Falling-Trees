@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BlockStateMixin {
 	@Inject(method = "getDestroyProgress", at = @At("RETURN"), cancellable = true)
 	public void getDestroyProgress(Player player, BlockGetter level, BlockPos pos, CallbackInfoReturnable<Float> cir) {
-		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable || Compat.hasTreeChop()) return;
+		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable) return;
 		TreeRegistry.getTree(level.getBlockState(pos)).ifPresent(tree -> {
 			if (!tree.willTreeFall(pos, level, player)) return;
 			TreeData treeData = TreeCache.get(player, pos, () -> tree.getTreeData(new TreeDataBuilder(), pos, level));

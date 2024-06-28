@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "com.github.johnrengelman.shadow"
 }
 
 architectury {
@@ -8,7 +8,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
+    accessWidenerPath = project(":common").file("src/main/resources/fallingtrees.accesswidener")
 
     forge {
         convertAccessWideners = true
@@ -28,66 +28,36 @@ configurations {
 }
 
 dependencies {
-    include api("org.joml:joml:1.10.5")
+    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
-    forge "net.minecraftforge:forge:${forge_version}"
-    modApi "dev.architectury:architectury-forge:${architectury_version}"
+    modApi("me.pandamods:pandalib-forge:${rootProject.pandalib_version}")
+
+    modCompileOnly("maven.modrinth:jade:${rootProject.jade_version}+forge-forge,${rootProject.jade_minecraft_version}")
+//    modRuntimeOnly("maven.modrinth:jade:${rootProject.jade_version}+forge-forge,${rootProject.jade_minecraft_version}")
+
+//    modCompileOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-forge,${rootProject.hts_treechop_minecraft_version}")
+//    modRuntimeOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-forge,${rootProject.hts_treechop_minecraft_version}")
+
+    include api("org.joml:joml:1.10.5")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
-
-	modImplementation(fileTree(dir: project(':').file('libs/forge'), include: ["*.jar"]))
-
-    modCompileOnly("curse.maven:jade-324717:${jade_version_forge}")
-//    modRuntimeOnly("curse.maven:jade-324717:${jade_version_forge}")
-
-    modCompileOnly("curse.maven:treechop-421377:${hts_treechop_version_forge}")
-    modRuntimeOnly("curse.maven:treechop-421377:${hts_treechop_version_forge}")
 }
 
 processResources {
-    inputs.property "version", mod_version
+    inputs.property 'version', rootProject.mod_version
 
-    filesMatching("META-INF/mods.toml") {
-        expand "version": mod_version
+    filesMatching('META-INF/mods.toml') {
+        expand version: rootProject.mod_version
     }
 }
 
 shadowJar {
-    exclude "fabric.mod.json"
-    exclude "architectury.common.json"
-
     configurations = [project.configurations.shadowCommon]
     archiveClassifier = "dev-shadow"
 }
 
 remapJar {
     input.set shadowJar.archiveFile
-    dependsOn shadowJar
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
-publishing {
-    publications {
-        mavenForge(MavenPublication) {
-            artifactId = archives_base_name + "-" + project.name
-            from components.java
-        }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-    }
 }

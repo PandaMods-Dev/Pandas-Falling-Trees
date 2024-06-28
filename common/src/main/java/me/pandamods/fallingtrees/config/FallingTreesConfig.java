@@ -11,7 +11,7 @@ public class FallingTreesConfig {
 	public final CommonConfigHolder<CommonConfig> commonConfigHolder = PandaLibConfig.registerCommon(CommonConfig.class);
 
 	public static ClientConfig getClientConfig(Player player) {
-		return player.pandaLib$getConfig(FallingTrees.CONFIG.clientConfigHolder);
+		return player.pandaLib$getConfig(ClientConfig.class);
 	}
 
 	public static ClientConfig getClientConfig() {

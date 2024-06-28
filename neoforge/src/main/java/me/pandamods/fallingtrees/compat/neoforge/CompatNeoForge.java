@@ -1,8 +1,8 @@
-package me.pandamods.fallingtrees.compat.forge;
+package me.pandamods.fallingtrees.compat.neoforge;
 
 import me.pandamods.fallingtrees.compat.Compat;
 
-public class CompatForge {
+public class CompatNeoForge {
 	public static void init() {
 	}
 }

@@ -25,8 +25,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Math;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,14 +42,14 @@ public class TreeEntity extends Entity {
 	public static final EntityDataAccessor<String> TREE_TYPE_LOCATION = SynchedEntityData.defineId(TreeEntity.class, EntityDataSerializers.STRING);
 
 	public Entity owner = null;
-	public Tree tree = null;
+	public Tree<?> tree = null;
 
 	public TreeEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.noCulling = true;
 	}
 
-	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, Tree tree, Player player) {
+	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, Tree<?> tree, Player player) {
 		if (levelAccessor instanceof ServerLevel level) {
 			TreeEntity treeEntity = new TreeEntity(EntityRegistry.TREE.get(), level);
 			treeEntity.setPos(blockPos.getX() + .5f, blockPos.getY(), blockPos.getZ() + .5f);
@@ -76,7 +76,7 @@ public class TreeEntity extends Entity {
 		}
 	}
 
-	public void setData(Set<BlockPos> blockPosList, BlockPos originBlock, Tree tree, Entity owner, ItemStack itemStack) {
+	public void setData(Set<BlockPos> blockPosList, BlockPos originBlock, Tree<?> tree, Entity owner, ItemStack itemStack) {
 		this.owner = owner;
 		this.tree = tree;
 
@@ -111,14 +111,10 @@ public class TreeEntity extends Entity {
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag compound) {
-
-	}
+	protected void readAdditionalSaveData(CompoundTag compound) {}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag compound) {
-
-	}
+	protected void addAdditionalSaveData(CompoundTag compound) {}
 
 	@Override
 	public void tick() {
@@ -168,8 +164,8 @@ public class TreeEntity extends Entity {
 		return new ClientboundAddEntityPacket(this);
 	}
 
-	public Tree getTree() {
-		Optional<Tree> treeTypeOptional = TreeRegistry.getTree(new ResourceLocation(this.getEntityData().get(TREE_TYPE_LOCATION)));
+	public Tree<?> getTree() {
+		Optional<Tree<?>> treeTypeOptional = TreeRegistry.getTree(ResourceLocation.tryParse(this.getEntityData().get(TREE_TYPE_LOCATION)));
 		return treeTypeOptional.orElse(null);
 	}
 }

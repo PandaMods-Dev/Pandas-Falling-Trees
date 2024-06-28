@@ -39,7 +39,7 @@ public class EventHandler {
 
 	public static boolean makeTreeFall(BlockPos blockPos, LevelAccessor level, Player player) {
 		if (level.isClientSide()) return false;
-		Optional<Tree> treeTypeOptional = TreeRegistry.getTree(level.getBlockState(blockPos));
+		Optional<Tree<?>> treeTypeOptional = TreeRegistry.getTree(level.getBlockState(blockPos));
 		return treeTypeOptional.filter(treeType -> makeTreeFall(treeType, blockPos, level, player)).isPresent();
 	}
 

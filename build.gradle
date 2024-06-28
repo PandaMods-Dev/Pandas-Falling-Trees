@@ -2,35 +2,10 @@ plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.6-SNAPSHOT" apply false
     id "com.github.johnrengelman.shadow" version "8.1.1" apply false
-    id "io.github.pacifistmc.forgix" version "1.2.9"
 }
 
 architectury {
     minecraft = rootProject.minecraft_version
-}
-
-forgix {
-    var version = "${rootProject.mod_version}-${rootProject.minecraft_version}"
-    group = "${rootProject.maven_group}.${rootProject.archives_name}"
-    mergedJarName = "${rootProject.archives_name}-${version}.jar"
-    outputDir = "build/libs/merged"
-
-    if (findProject(":fabric"))
-        fabric {
-            jarLocation = "build/libs/${rootProject.archives_name}-fabric-${version}.jar"
-        }
-
-    if (findProject(":forge"))
-        forge {
-            jarLocation = "build/libs/${rootProject.archives_name}-forge-${version}.jar"
-        }
-
-    if (findProject(":neoforge"))
-        neoforge {
-            jarLocation = "build/libs/${rootProject.archives_name}-neoforge-${version}.jar"
-        }
-
-    removeDuplicate "me.pandamods.fallingtrees"
 }
 
 allprojects {

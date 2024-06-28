@@ -8,7 +8,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
+    accessWidenerPath = project(":common").file("src/main/resources/fallingtrees.accesswidener")
 
     forge {
         convertAccessWideners = true

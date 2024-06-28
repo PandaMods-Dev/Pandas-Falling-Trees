@@ -11,10 +11,6 @@ loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
 }
 
-remapJar {
-    atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
-}
-
 configurations {
     common
     shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
@@ -59,4 +55,5 @@ shadowJar {
 
 remapJar {
     input.set shadowJar.archiveFile
+    atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
 }

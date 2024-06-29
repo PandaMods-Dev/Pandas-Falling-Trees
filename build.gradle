@@ -77,8 +77,7 @@ publishMods {
         dryRunWebhookUrl = providers.environmentVariable("DISCORD_WEBHOOK_DRY_RUN")
         username = "Mod Release"
         avatarUrl = "https://avatars.githubusercontent.com/u/70108603?v=4"
-        content = changelog.map { "# Panda's Falling Tree's ${rootProject.mod_version} Release for ${supported_version_str} \n" + it +
-                "\n<@&1244983762874400892>" }
+        content = changelog.map { "# Panda's Falling Tree's ${rootProject.mod_version} Release for ${supported_version_str} \n" + it}
     }
 
     def curseforgeOptions = curseforgeOptions {

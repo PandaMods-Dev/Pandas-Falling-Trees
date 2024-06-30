@@ -62,9 +62,13 @@ subprojects {
 
 publishMods {
     var using_ranged_game_version = Boolean.parseBoolean(rootProject.use_ranged_game_version)
+    var is_fabric_publishing_enabled =  Boolean.parseBoolean(rootProject.enable_fabric_publishing)
+    var is_forge_publishing_enabled =  Boolean.parseBoolean(rootProject.enable_forge_publishing)
+    var is_neoforge_publishing_enabled =  Boolean.parseBoolean(rootProject.enable_neoforge_publishing)
 
     dryRun = Boolean.parseBoolean(rootProject.is_dry_run)
 
+    version = rootProject.mod_version
     type = BETA
     changelog = rootProject.file("Changelog.md").text
 
@@ -134,7 +138,7 @@ publishMods {
         modLoaders.add("neoforge")
     }
 
-    if (findProject(":fabric")) {
+    if (findProject(":fabric") && is_fabric_publishing_enabled) {
         curseforge("curseforgeFabric") {
             from(curseforgeOptions, fabricOptions)
 
@@ -152,7 +156,7 @@ publishMods {
         }
     }
 
-    if (findProject(":forge")) {
+    if (findProject(":forge") && is_forge_publishing_enabled) {
         curseforge("curseforgeForge") {
             from(curseforgeOptions, forgeOptions)
 
@@ -166,7 +170,7 @@ publishMods {
         }
     }
 
-    if (findProject(":neoforge")) {
+    if (findProject(":neoforge") && is_neoforge_publishing_enabled) {
         curseforge("curseforgeNeoForge") {
             from(curseforgeOptions, neoForgeOptions)
 

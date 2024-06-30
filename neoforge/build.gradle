@@ -55,5 +55,6 @@ shadowJar {
 
 remapJar {
     input.set shadowJar.archiveFile
+    injectAccessWidener = true
     atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
 }

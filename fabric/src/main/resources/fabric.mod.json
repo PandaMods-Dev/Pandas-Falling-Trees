@@ -36,9 +36,6 @@
     "architectury": "*",
     "pandalib": ">=0.3"
   },
-	"suggests": {
-		"modmenu": "*"
-	},
 	"custom": {
 		"modmenu": {
 			"links": {

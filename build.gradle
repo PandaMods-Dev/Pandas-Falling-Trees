@@ -138,7 +138,7 @@ publishMods {
     def neoForgeOptions = publishOptions {
         file = project(":neoforge").remapJar.archiveFile
         modLoaders.add("neoforge")
-        displayName = "[NeoForge ${rootProject.mod_version}] ${supported_version_str}"
+        displayName = "[NeoForge ${supported_version_str}] ${rootProject.mod_version}"
     }
 
     if (findProject(":fabric") && is_fabric_publishing_enabled) {

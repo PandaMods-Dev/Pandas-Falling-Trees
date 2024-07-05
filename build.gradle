@@ -160,9 +160,6 @@ subprojects {
 
 publishMods {
 	var using_ranged_game_version = hasProperty("latest_supported_game_version")
-	var is_fabric_publishing_enabled = Boolean.parseBoolean(enable_fabric_publishing)
-	var is_forge_publishing_enabled = Boolean.parseBoolean(enable_forge_publishing)
-	var is_neoforge_publishing_enabled = Boolean.parseBoolean(enable_neoforge_publishing)
 
 	dryRun = Boolean.parseBoolean(is_dry_run)
 
@@ -179,7 +176,7 @@ publishMods {
 		dryRunWebhookUrl = providers.environmentVariable("DISCORD_WEBHOOK_DRY_RUN")
 		username = "Mod Release"
 		avatarUrl = "https://avatars.githubusercontent.com/u/70108603?v=4"
-		content = changelog.map { "# ${mod_name} ${mod_version} Release for ${supported_version_str} \n" + it }
+		content = changelog.map { "# ${mod_name} ${mod_version} Release for ${supported_version_str} \n" + it + "\n<@&${pinged_discord_role_id}>" }
 	}
 
 	def curseforgeOptions = curseforgeOptions {
@@ -237,7 +234,7 @@ publishMods {
 		displayName = "[NeoForge ${supported_version_str}] ${mod_version}"
 	}
 
-	if (findProject(":fabric") && is_fabric_publishing_enabled) {
+	if (findProject(":fabric")) {
 		curseforge("curseforgeFabric") {
 			from(curseforgeOptions, fabricOptions)
 
@@ -255,7 +252,7 @@ publishMods {
 		}
 	}
 
-	if (findProject(":forge") && is_forge_publishing_enabled) {
+	if (findProject(":forge")) {
 		curseforge("curseforgeForge") {
 			from(curseforgeOptions, forgeOptions)
 
@@ -269,7 +266,7 @@ publishMods {
 		}
 	}
 
-	if (findProject(":neoforge") && is_neoforge_publishing_enabled) {
+	if (findProject(":neoforge")) {
 		curseforge("curseforgeNeoForge") {
 			from(curseforgeOptions, neoForgeOptions)
 

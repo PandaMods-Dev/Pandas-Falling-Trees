@@ -91,7 +91,7 @@ subprojects {
 
 		annotationProcessor("systems.manifold:manifold-preprocessor:${manifold_version}")
 
-		if (hasProperty("embed_joml") && embed_joml == "true" && project != project(":common"))
+		if (rootProject.hasProperty("embed_joml") && embed_joml == "true" && project != project(":common"))
 			includeJar("org.joml:joml:${joml_version}")
 		else
 			implementation("org.joml:joml:${joml_version}")
@@ -159,7 +159,7 @@ subprojects {
 }
 
 publishMods {
-	var using_ranged_game_version = hasProperty("latest_supported_game_version")
+	var using_ranged_game_version = rootProject.hasProperty("latest_supported_game_version")
 
 	dryRun = Boolean.parseBoolean(is_dry_run)
 
@@ -191,14 +191,14 @@ publishMods {
 		else
 			minecraftVersions.add(supported_game_version)
 
-		javaVersions.add(JavaVersion.VERSION_21)
+		javaVersions.add(JavaVersion.toVersion(java_version))
 
 		clientRequired = true
 		serverRequired = true
 
-		projectSlug = "pandalib"
+		projectSlug = curseforge_project_slug
 
-		requires("architectury-api")
+		requires(required_curseforge_mods)
 	}
 
 	def modrinthOptions = modrinthOptions {
@@ -213,7 +213,7 @@ publishMods {
 		else
 			minecraftVersions.add(supported_game_version)
 
-		requires("architectury-api")
+		requires(required_modrinth_mods)
 	}
 
 	def fabricOptions = publishOptions {
@@ -240,7 +240,7 @@ publishMods {
 
 			announcementTitle = "Download for Fabric ${supported_version_str} from CurseForge"
 
-			requires("fabric-api")
+			requires(required_fabric_mods)
 		}
 
 		modrinth("modrinthFabric") {
@@ -248,7 +248,7 @@ publishMods {
 
 			announcementTitle = "Download for Fabric ${supported_version_str} from Modrinth"
 
-			requires("fabric-api")
+			requires(required_fabric_mods)
 		}
 	}
 
@@ -257,12 +257,16 @@ publishMods {
 			from(curseforgeOptions, forgeOptions)
 
 			announcementTitle = "Download for Forge ${supported_version_str} from CurseForge"
+
+			requires(required_forge_mods)
 		}
 
 		modrinth("modrinthForge") {
 			from(modrinthOptions, forgeOptions)
 
 			announcementTitle = "Download for Forge ${supported_version_str} from Modrinth"
+
+			requires(required_forge_mods)
 		}
 	}
 
@@ -271,12 +275,16 @@ publishMods {
 			from(curseforgeOptions, neoForgeOptions)
 
 			announcementTitle = "Download for NeoForge ${supported_version_str} from CurseForge"
+
+			requires(required_neoforge_mods)
 		}
 
 		modrinth("modrinthNeoForge") {
 			from(modrinthOptions, neoForgeOptions)
 
 			announcementTitle = "Download for NeoForge ${supported_version_str} from Modrinth"
+
+			requires(required_neoforge_mods)
 		}
 	}
 

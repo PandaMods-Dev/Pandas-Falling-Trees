@@ -27,6 +27,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
 
@@ -54,7 +55,11 @@ public class TreeEntity extends Entity {
 	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, Tree<?> tree, Player player) {
 		if (levelAccessor instanceof ServerLevel level) {
 			TreeEntity treeEntity = new TreeEntity(EntityRegistry.TREE.get(), level);
-			treeEntity.setPos(blockPos.getCenter().add(0, -.5, 0));
+			#if MC_VER >= MC_1_20
+				treeEntity.setPos(blockPos.getCenter().add(0, -.5, 0));
+			#else
+				treeEntity.setPos(Vec3.atCenterOf(blockPos).add(0, -.5, 0));
+			#endif
 			treeEntity.setData(blockPosList, blockPos, tree, player, player.getItemBySlot(EquipmentSlot.MAINHAND));
 
 			BlockState air = Blocks.AIR.defaultBlockState();
@@ -84,11 +89,17 @@ public class TreeEntity extends Entity {
 
 		int height = 0;
 
+		#if MC_VER >= MC_1_20
+			Level level = level();
+		#else
+			Level level = getLevel();
+		#endif
+
 		Map<BlockPos, BlockState> blockPosMap = new HashMap<>();
 		for (BlockPos pos : blockPosList) {
 			if (pos.getY() > height)
 				height = pos.getY() - originBlock.getY();
-			blockPosMap.put(pos.immutable().subtract(originBlock), level().getBlockState(pos));
+			blockPosMap.put(pos.immutable().subtract(originBlock), level.getBlockState(pos));
 		}
 		this.getEntityData().set(ORIGIN_POS, originBlock);
 		this.getEntityData().set(BLOCKS, blockPosMap);
@@ -102,15 +113,27 @@ public class TreeEntity extends Entity {
 		).getOpposite());
 	}
 
-	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
-		builder.define(BLOCKS, new HashMap<>());
-		builder.define(HEIGHT, 0);
-		builder.define(ORIGIN_POS, new BlockPos(0, 0, 0));
-		builder.define(USED_TOOL, ItemStack.EMPTY);
-		builder.define(FALL_DIRECTION, Direction.NORTH);
-		builder.define(TREE_TYPE_LOCATION, "");
-	}
+	#if MC_VER >= MC_1_20_5
+		@Override
+		protected void defineSynchedData(SynchedEntityData.Builder builder) {
+			builder.define(BLOCKS, new HashMap<>());
+			builder.define(HEIGHT, 0);
+			builder.define(ORIGIN_POS, new BlockPos(0, 0, 0));
+			builder.define(USED_TOOL, ItemStack.EMPTY);
+			builder.define(FALL_DIRECTION, Direction.NORTH);
+			builder.define(TREE_TYPE_LOCATION, "");
+		}
+	#else
+		@Override
+		protected void defineSynchedData() {
+			this.getEntityData().define(BLOCKS, new HashMap<>());
+			this.getEntityData().define(HEIGHT, 0);
+			this.getEntityData().define(ORIGIN_POS, new BlockPos(0, 0, 0));
+			this.getEntityData().define(USED_TOOL, ItemStack.EMPTY);
+			this.getEntityData().define(FALL_DIRECTION, Direction.NORTH);
+			this.getEntityData().define(TREE_TYPE_LOCATION, "");
+		}
+	#endif
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag compound) {}
@@ -126,7 +149,7 @@ public class TreeEntity extends Entity {
 			this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.04, 0.0));
 		}
 		this.move(MoverType.SELF, this.getDeltaMovement());
-		if (this.onGround()) {
+		if (#if MC_VER >= MC_1_20 this.onGround() #else this.onGround #endif) {
 			this.setDeltaMovement(this.getDeltaMovement().multiply(1, -0.5, 1));
 		}
 
@@ -165,4 +188,11 @@ public class TreeEntity extends Entity {
 		Optional<Tree<?>> treeTypeOptional = TreeRegistry.getTree(ResourceLocation.tryParse(this.getEntityData().get(TREE_TYPE_LOCATION)));
 		return treeTypeOptional.orElse(null);
 	}
+
+	#if MC_VER <= MC_1_19_2
+	@Override
+	public Packet<?> getAddEntityPacket() {
+		return new ClientboundAddEntityPacket(this);
+	}
+	#endif
 }

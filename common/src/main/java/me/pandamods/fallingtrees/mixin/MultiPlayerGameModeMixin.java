@@ -9,6 +9,7 @@ import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -38,10 +39,17 @@ public abstract class MultiPlayerGameModeMixin {
 
 	@Inject(method = "tick", at = @At("RETURN"))
 	public void tick(CallbackInfo ci) {
-		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable) return;
+		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable || Compat.hasTreeChop()) return;
 		Player player = minecraft.player;
+
+		#if MC_VER >= MC_1_20
+			Level level = player.level();
+		#else
+			Level level = player.getLevel();
+		#endif
+
 		if (player != null) {
-			BlockState blockState = player.level().getBlockState(this.destroyBlockPos);
+			BlockState blockState = level.getBlockState(this.destroyBlockPos);
 			if (TreeRegistry.getTree(blockState).isPresent()) {
 				if (player.isCrouching() != fallingTrees$lastTickCrouchState) {
 					if (this.isDestroying() && minecraft.gameMode != null) {

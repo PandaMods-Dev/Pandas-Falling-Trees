@@ -1,35 +1,34 @@
 modLoader = "javafml"
-loaderVersion = "[2,)"
-license = "LGPL-3"
+loaderVersion = "*"
+license = "GPL-3"
 issueTrackerURL="https://github.com/PandaDap2006/Pandas-Falling-Trees/issues"
-showAsResourcePack=false
 
 [[mods]]
 modId = "fallingtrees"
 version = "${version}"
-displayName = "Falling Trees"
+displayName = "${name}"
 authors = "The Panda Oliver"
-logoFile = "icon.png"
-description = "Makes trees fall realistically."
+logoFile = "assets/fallingtrees/icon.png"
+description = "${description}"
 
-[[dependencies.pandalib]]
+[[dependencies.fallingtrees]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.0.6-beta,)"
+versionRange = "*"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.pandalib]]
+[[dependencies.fallingtrees]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "${compatible_forgemc_versions}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.pandalib]]
+[[dependencies.fallingtrees]]
 modId = "architectury"
 type = "required"
-versionRange = "[13,)"
+versionRange = "*"
 ordering = "AFTER"
 side = "BOTH"
 

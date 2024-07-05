@@ -1,53 +1,48 @@
-plugins {
-    id "com.github.johnrengelman.shadow"
-}
-
 architectury {
-    platformSetupLoomIde()
-    fabric()
+	platformSetupLoomIde()
+	fabric()
 }
 
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
+	accessWidenerPath = project(":common").loom.accessWidenerPath
 }
 
 configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentFabric.extendsFrom common
+	common
+	shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
+	compileClasspath.extendsFrom common
+	runtimeClasspath.extendsFrom common
+	developmentFabric.extendsFrom common
 }
 
 repositories {
-    maven { url = "https://maven.terraformersmc.com/releases/" }
+	maven { url = "https://maven.terraformersmc.com/releases/" }
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
 
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    modApi "dev.architectury:architectury-fabric:${architectury_version}"
 
-    modApi("me.pandamods:pandalib-fabric:${rootProject.pandalib_version}")
-    modApi("com.terraformersmc:modmenu:${rootProject.modmenu_version}")
+    modApi("me.pandamods:pandalib-fabric:${pandalib_version}")
+    modApi("com.terraformersmc:modmenu:${modmenu_version}")
 
-    modCompileOnly("maven.modrinth:jade:${rootProject.jade_version}+fabric-fabric,${rootProject.jade_minecraft_version}")
-//    modLocalRuntime("maven.modrinth:jade:${rootProject.jade_version}+fabric-fabric,${rootProject.jade_minecraft_version}")
+	if (minecraft_version != "1.19.2") {
+		modCompileOnly("maven.modrinth:jade:${jade_version}+fabric-fabric,${jade_minecraft_version}")
+//        modLocalRuntime("maven.modrinth:jade:${jade_version}+fabric-fabric,${jade_minecraft_version}")
+	} else {
+		modCompileOnly("maven.modrinth:jade:${jade_version}-fabric,${jade_minecraft_version}")
+//        modLocalRuntime("maven.modrinth:jade:${jade_version}-fabric,${jade_minecraft_version}")
+	}
 
-//    modCompileOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-fabric,${rootProject.hts_treechop_minecraft_version}")
-//    modRuntimeOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-fabric,${rootProject.hts_treechop_minecraft_version}")
+	if (MC_VER <= MC_1_20) {
+		modCompileOnly("maven.modrinth:treechop:${hts_treechop_version}-fabric,${hts_treechop_minecraft_version}")
+//		modRuntimeOnly("maven.modrinth:treechop:${hts_treechop_version}-fabric,${hts_treechop_minecraft_version}")
+	}
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
-}
-
-processResources {
-    inputs.property 'version', rootProject.mod_version
-
-    filesMatching('fabric.mod.json') {
-        expand version: rootProject.mod_version
-    }
 }
 
 shadowJar {

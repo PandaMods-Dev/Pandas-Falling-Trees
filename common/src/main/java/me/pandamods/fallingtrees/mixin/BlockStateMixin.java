@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 public class BlockStateMixin {
 	@Inject(method = "getDestroyProgress", at = @At("RETURN"), cancellable = true)
 	public void getDestroyProgress(Player player, BlockGetter level, BlockPos pos, CallbackInfoReturnable<Float> cir) {
-		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable) return;
+		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable || Compat.hasTreeChop()) return;
 		TreeRegistry.getTree(level.getBlockState(pos)).ifPresent(tree -> {
 			if (!tree.willTreeFall(pos, level, player)) return;
 			TreeData treeData = TreeCache.get(player, pos, () -> tree.getTreeData(new TreeDataBuilder(), pos, level));

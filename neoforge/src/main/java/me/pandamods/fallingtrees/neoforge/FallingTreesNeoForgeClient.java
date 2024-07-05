@@ -14,18 +14,27 @@ package me.pandamods.fallingtrees.neoforge;
 
 import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.FallingTreesClient;
-import me.pandamods.pandalib.PandaLib;
-import me.pandamods.pandalib.api.config.PandaLibConfig;
-import net.neoforged.fml.IExtensionPoint;
-import net.neoforged.fml.ModLoadingContext;
+import me.pandamods.fallingtrees.client.render.TreeRenderer;
+import me.pandamods.fallingtrees.registry.EntityRegistry;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
-@Mod(FallingTrees.MOD_ID)
+#if MC_VER >= MC_1_21
+@Mod(value = FallingTrees.MOD_ID, dist = Dist.CLIENT)
 public class FallingTreesNeoForgeClient {
-	public static void clientInit() {
+	public FallingTreesNeoForgeClient(IEventBus modBus) {
 		FallingTreesClient.init();
-		ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () -> (minecraft, screen) ->
-				PandaLibConfig.getConfigScreen(screen, FallingTrees.MOD_ID));
+
+		modBus.addListener(FallingTreesNeoForgeClient::registerRenderers);
+	}
+
+	@SubscribeEvent
+	public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+		event.registerEntityRenderer(EntityRegistry.TREE.get(), TreeRenderer::new);
 	}
 }
+#endif

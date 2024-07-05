@@ -1,19 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "fallingtrees",
-  "version": "${version}",
-  "name": "Falling Trees",
-  "description": "Makes trees fall realistically.",
-  "authors": [
+	"id": "${id}",
+	"version": "${version}",
+	"name": "${name}",
+	"description": "${description}",
+	"authors": [
 		"The Panda Oliver"
-  ],
+	],
 	"contact": {
 		"issues": "https://github.com/PandaDap2006/Pandas-Falling-Trees/issues",
-		"sources": "https://github.com/PandaDap2006/Pandas-Falling-Trees",
-		"homepage": "https://www.curseforge.com/minecraft/mc-mods/pandas-falling-trees"
+		"sources": "https://github.com/PandaDap2006/Pandas-Falling-Trees"
 	},
-  "license": "LGPL-3",
-  "icon": "icon.png",
+  "license": "GPL-3",
+	"icon": "assets/fallingtrees/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -32,7 +31,9 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.21",
+		"fabric-api": "*",
+		"minecraft": "${compatible_fabricmc_versions}",
+		"java": ">=${java_version}",
     "architectury": "*",
     "pandalib": ">=0.3"
   },

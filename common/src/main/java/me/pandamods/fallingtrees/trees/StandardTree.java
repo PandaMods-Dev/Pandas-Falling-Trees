@@ -4,7 +4,6 @@ import dev.architectury.platform.Platform;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.api.TreeData;
 import me.pandamods.fallingtrees.api.TreeDataBuilder;
-import me.pandamods.fallingtrees.compat.Compat;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.config.common.tree.StandardTreeConfig;
@@ -14,18 +13,11 @@ import net.fabricmc.api.EnvType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.util.datafix.fixes.LeavesFix;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.storage.loot.LootParams;
 import org.joml.Math;
 
 import java.util.HashSet;
@@ -48,18 +40,24 @@ public class StandardTree implements Tree<StandardTreeConfig> {
 	public void entityTick(TreeEntity entity) {
 		Tree.super.entityTick(entity);
 
+		#if MC_VER >= MC_1_20
+			Level level = entity.level();
+		#else
+			Level level = entity.getLevel();
+		#endif
+
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			ClientConfig clientConfig = FallingTreesConfig.getClientConfig();
 			if (entity.tickCount == 1) {
 				if (clientConfig.soundSettings.enabled) {
-					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
+					level.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_FALL.get(),
 							SoundSource.BLOCKS, clientConfig.soundSettings.startVolume, 1f, true);
 				}
 			}
 
 			if (entity.tickCount == (int) (clientConfig.animation.fallAnimLength * 20) - 5) {
 				if (clientConfig.soundSettings.enabled) {
-					entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
+					level.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundRegistry.TREE_IMPACT.get(),
 							SoundSource.BLOCKS, clientConfig.soundSettings.endVolume, 1f, true);
 				}
 			}

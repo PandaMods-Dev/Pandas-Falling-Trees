@@ -8,6 +8,7 @@ import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.api.TreeRegistry;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.compat.Compat;
+import me.pandamods.fallingtrees.compat.TreeChopCompat;
 import me.pandamods.fallingtrees.config.CommonConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
@@ -30,7 +31,7 @@ public class EventHandler {
 	}
 
 	private static EventResult onBlockBreak(Level level, BlockPos blockPos, BlockState blockState, ServerPlayer serverPlayer, IntValue intValue) {
-		if (serverPlayer != null && makeTreeFall(blockPos, level, serverPlayer)) {
+		if (serverPlayer != null && !TreeChopCompat.isChoppable(level, blockPos) && makeTreeFall(blockPos, level, serverPlayer)) {
 			return EventResult.interruptFalse();
 		}
 		return EventResult.pass();
@@ -56,7 +57,12 @@ public class EventHandler {
 
 		if (!(level instanceof Level)) {
 			if (!mainItem.isEmpty()) {
-				mainItem.hurtAndBreak(commonConfig.disableExtraToolDamage ? 1 : treeData.toolDamage(), player, EquipmentSlot.MAINHAND);
+				#if MC_VER >= MC_1_20_5
+					mainItem.hurtAndBreak(commonConfig.disableExtraToolDamage ? 1 : treeData.toolDamage(), player, EquipmentSlot.MAINHAND);
+				#else
+					mainItem.hurtAndBreak(commonConfig.disableExtraToolDamage ? 1 : treeData.toolDamage(), player, entity ->
+							entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+				#endif
 			}
 			float defaultExhaustion = 0.005f;
 			player.causeFoodExhaustion(commonConfig.disableExtraFoodExhaustion ? defaultExhaustion : defaultExhaustion * treeData.foodExhaustionMultiply());

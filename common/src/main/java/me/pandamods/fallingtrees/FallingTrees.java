@@ -30,11 +30,15 @@ public class FallingTrees {
 		EntityRegistry.ENTITIES.register();
 		EventHandler.register();
 
-		if (!Platform.isNeoForge())
+		if (#if MC_VER >= MC_1_20_5 !Platform.isNeoForge() #else true #endif)
 			EntityDataSerializers.registerSerializer(BlockMapEntityData.BLOCK_MAP);
     }
 
 	public static ResourceLocation ID(String path) {
+		#if MC_VER >= MC_1_21
 		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+		#else
+			return new ResourceLocation(MOD_ID, path);
+		#endif
 	}
 }

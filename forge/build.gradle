@@ -1,14 +1,10 @@
-plugins {
-    id "com.github.johnrengelman.shadow"
-}
-
 architectury {
-    platformSetupLoomIde()
-    forge()
+	platformSetupLoomIde()
+	forge()
 }
 
 loom {
-    accessWidenerPath = project(":common").file("src/main/resources/fallingtrees.accesswidener")
+	accessWidenerPath = project(":common").loom.accessWidenerPath
 
     forge {
         convertAccessWideners = true
@@ -29,26 +25,25 @@ configurations {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
     modApi("me.pandamods:pandalib-forge:${rootProject.pandalib_version}")
 
-    modCompileOnly("maven.modrinth:jade:${rootProject.jade_version}+forge-forge,${rootProject.jade_minecraft_version}")
-//    modRuntimeOnly("maven.modrinth:jade:${rootProject.jade_version}+forge-forge,${rootProject.jade_minecraft_version}")
+	if (minecraft_version != "1.19.2") {
+		modCompileOnly("maven.modrinth:jade:${jade_version}+forge-forge,${jade_minecraft_version}")
+//        modLocalRuntime("maven.modrinth:jade:${jade_version}+forge-forge,${jade_minecraft_version}")
+	} else {
+		modCompileOnly("maven.modrinth:jade:${jade_version}-forge,${jade_minecraft_version}")
+//        modLocalRuntime("maven.modrinth:jade:${jade_version}-forge,${jade_minecraft_version}")
+	}
 
-//    modCompileOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-forge,${rootProject.hts_treechop_minecraft_version}")
-//    modRuntimeOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-forge,${rootProject.hts_treechop_minecraft_version}")
-
+	if (MC_VER <= MC_1_20) {
+		modCompileOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-forge,${rootProject.hts_treechop_minecraft_version}")
+//	    modRuntimeOnly("maven.modrinth:treechop:${rootProject.hts_treechop_version}-forge,${rootProject.hts_treechop_minecraft_version}")
+	}
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
-}
-
-processResources {
-    inputs.property 'version', rootProject.mod_version
-
-    filesMatching('META-INF/mods.toml') {
-        expand version: rootProject.mod_version
-    }
 }
 
 shadowJar {

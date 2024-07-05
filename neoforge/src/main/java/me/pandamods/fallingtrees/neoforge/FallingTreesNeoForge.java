@@ -14,6 +14,7 @@ package me.pandamods.fallingtrees.neoforge;
 
 import me.pandamods.fallingtrees.FallingTrees;
 import me.pandamods.fallingtrees.client.render.TreeRenderer;
+import me.pandamods.fallingtrees.compat.neoforge.CompatNeoForge;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
 import me.pandamods.fallingtrees.utils.BlockMapEntityData;
 import net.minecraft.network.syncher.EntityDataSerializer;
@@ -21,7 +22,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -36,14 +36,18 @@ public class FallingTreesNeoForge {
 
     public FallingTreesNeoForge(IEventBus modBus) {
 		FallingTrees.init();
+		CompatNeoForge.init();
 
 		ENTITY_DATA.register(modBus);
-		modBus.addListener(FallingTreesNeoForge::registerRenderers);
+		#if MC_VER < MC_1_21
+			modBus.addListener(FallingTreesNeoForge::registerRenderers);
+		#endif
     }
 
-
-	@SubscribeEvent
-	public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-		event.registerEntityRenderer(EntityRegistry.TREE.get(), TreeRenderer::new);
-	}
+	#if MC_VER < MC_1_21
+		@SubscribeEvent
+		public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+			event.registerEntityRenderer(EntityRegistry.TREE.get(), TreeRenderer::new);
+		}
+	#endif
 }

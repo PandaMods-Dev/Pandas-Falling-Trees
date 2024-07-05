@@ -27,7 +27,11 @@ public interface Tree<T extends TreeConfig> {
 	TreeData getTreeData(TreeDataBuilder builder, BlockPos blockPos, BlockGetter level);
 
 	default void entityTick(TreeEntity entity) {
-		Level level = entity.level();
+		#if MC_VER >= MC_1_20
+			Level level = entity.level();
+		#else
+			Level level = entity.getLevel();
+		#endif
 		if (entity.tickCount >= entity.getMaxLifeTimeTick()) {
 			getDrops(entity, entity.getBlocks()).forEach(itemStack -> Block.popResource(level, entity.getOriginPos(), itemStack));
 			entity.remove(Entity.RemovalReason.DISCARDED);
@@ -50,8 +54,13 @@ public interface Tree<T extends TreeConfig> {
 	}
 
 	default List<ItemStack> getDrops(TreeEntity entity, Map<BlockPos, BlockState> blocks) {
+		#if MC_VER >= MC_1_20
+			Level level = entity.level();
+		#else
+			Level level = entity.getLevel();
+		#endif
 		List<ItemStack> itemStacks = new ArrayList<>();
-		if (entity.level() instanceof ServerLevel serverLevel) {
+		if (level instanceof ServerLevel serverLevel) {
 			blocks.forEach((blockPos, blockState) -> {
 				BlockEntity blockEntity = null;
 				if (blockState.hasBlockEntity())

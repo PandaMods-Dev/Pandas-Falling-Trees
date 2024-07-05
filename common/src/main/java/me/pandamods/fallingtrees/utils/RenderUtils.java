@@ -16,7 +16,11 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+#if MC_VER >= MC_1_20
 import net.minecraft.world.item.ItemDisplayContext;
+#else
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+#endif
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.RenderShape;
@@ -44,8 +48,9 @@ public class RenderUtils {
 							bakedModel, f, g, h, packedLight, OverlayTexture.NO_OVERLAY);
 					break;
 				case ENTITYBLOCK_ANIMATED:
-					blockEntityRenderDispatcher.renderByItem(new ItemStack(blockState.getBlock()), ItemDisplayContext.NONE, poseStack,
-							bufferSource, packedLight, OverlayTexture.NO_OVERLAY);
+					blockEntityRenderDispatcher.renderByItem(new ItemStack(blockState.getBlock()),
+							#if MC_VER >= MC_1_20 ItemDisplayContext.NONE #else ItemTransforms.TransformType.NONE #endif,
+							poseStack, bufferSource, packedLight, OverlayTexture.NO_OVERLAY);
 			}
 
 		}

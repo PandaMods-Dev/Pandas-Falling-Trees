@@ -1,4 +1,3 @@
-## Version 0.12.4 Changelog
+## Version 0.12.5 Changelog
 * **Bug Fixes**
-  * Set supported treechop version to 0.18.5, to support the latest version of treechop
-    * Note: The latest supported release of treechop version is set to the wrong version internally, this should fix it.
+  * Fixed a typo where the Ht's treechop version was set to 1.18.5 and not 0.18.5

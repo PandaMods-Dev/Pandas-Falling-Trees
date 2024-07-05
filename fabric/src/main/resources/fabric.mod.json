@@ -38,7 +38,7 @@
     "pandalib": ">=0.3"
   },
 	"conflicts": {
-		"treechop": "<1.18.5"
+		"treechop": "<0.18.5"
 	},
 	"custom": {
 		"modmenu": {

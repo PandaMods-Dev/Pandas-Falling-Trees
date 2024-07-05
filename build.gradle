@@ -198,7 +198,8 @@ publishMods {
 
 		projectSlug = curseforge_project_slug
 
-		requires(required_curseforge_mods)
+		if (rootProject.hasProperty("required_curseforge_mods"))
+			requires(required_curseforge_mods.split(","))
 	}
 
 	def modrinthOptions = modrinthOptions {
@@ -213,7 +214,8 @@ publishMods {
 		else
 			minecraftVersions.add(supported_game_version)
 
-		requires(required_modrinth_mods)
+		if (rootProject.hasProperty("required_modrinth_mods"))
+			requires(required_modrinth_mods.split(","))
 	}
 
 	def fabricOptions = publishOptions {
@@ -240,7 +242,8 @@ publishMods {
 
 			announcementTitle = "Download for Fabric ${supported_version_str} from CurseForge"
 
-			requires(required_fabric_mods)
+			if (rootProject.hasProperty("required_fabric_mods"))
+				requires(required_fabric_mods.split(","))
 		}
 
 		modrinth("modrinthFabric") {
@@ -248,7 +251,8 @@ publishMods {
 
 			announcementTitle = "Download for Fabric ${supported_version_str} from Modrinth"
 
-			requires(required_fabric_mods)
+			if (rootProject.hasProperty("required_fabric_mods"))
+				requires(required_fabric_mods.split(","))
 		}
 	}
 
@@ -258,7 +262,8 @@ publishMods {
 
 			announcementTitle = "Download for Forge ${supported_version_str} from CurseForge"
 
-			requires(required_forge_mods)
+			if (rootProject.hasProperty("required_forge_mods"))
+				requires(required_forge_mods.split(","))
 		}
 
 		modrinth("modrinthForge") {
@@ -266,7 +271,8 @@ publishMods {
 
 			announcementTitle = "Download for Forge ${supported_version_str} from Modrinth"
 
-			requires(required_forge_mods)
+			if (rootProject.hasProperty("required_forge_mods"))
+				requires(required_forge_mods.split(","))
 		}
 	}
 
@@ -276,7 +282,8 @@ publishMods {
 
 			announcementTitle = "Download for NeoForge ${supported_version_str} from CurseForge"
 
-			requires(required_neoforge_mods)
+			if (rootProject.hasProperty("required_neoforge_mods"))
+				requires(required_neoforge_mods.split(","))
 		}
 
 		modrinth("modrinthNeoForge") {
@@ -284,7 +291,8 @@ publishMods {
 
 			announcementTitle = "Download for NeoForge ${supported_version_str} from Modrinth"
 
-			requires(required_neoforge_mods)
+			if (rootProject.hasProperty("required_neoforge_mods"))
+				requires(required_neoforge_mods.split(","))
 		}
 	}
 

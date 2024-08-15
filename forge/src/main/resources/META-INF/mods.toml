@@ -1,47 +1,42 @@
 modLoader = "javafml"
 loaderVersion = "*"
-license = "GPL-3"
 issueTrackerURL="https://github.com/PandaDap2006/Pandas-Falling-Trees/issues"
+license = "GPL-3"
 
 [[mods]]
-modId = "fallingtrees"
-version = "${version}"
-displayName = "${name}"
-authors = "The Panda Oliver"
-logoFile = "assets/fallingtrees/icon.png"
-description = "${description}"
+modId = "${modId}"
+version = "${modVersion}"
+displayName = "${modName}"
+authors = "${modAuthor}"
+description = '''
+${modDescription}
+'''
+logoFile = "assets/${modId}/icon.png"
 
-[[dependencies.fallingtrees]]
-modId = "forge"
+[[dependencies.${modId}]]
+modId = "neoforge"
 mandatory = true
 versionRange = "*"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.fallingtrees]]
+[[dependencies.${modId}]]
 modId = "minecraft"
 mandatory = true
-versionRange = "${compatible_forgemc_versions}"
+versionRange = "${neoForgeCompatibleVersions}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.fallingtrees]]
+[[dependencies.${modId}]]
 modId = "architectury"
 mandatory = true
 versionRange = "*"
 ordering = "AFTER"
 side = "BOTH"
 
-[[dependencies.fallingtrees]]
+[[dependencies.${modId}]]
 modId="pandalib"
-mandatory=true
-versionRange="[0.3,)"
-ordering="NONE"
-side="BOTH"
-
-[[dependencies.fallingtrees]]
-modId="treechop"
-mandatory=false
-versionRange="[0.18.5,)"
-ordering="NONE"
-side="BOTH"
+mandatory = true
+versionRange = "[0.3,)"
+ordering = "NONE"
+side = "BOTH"

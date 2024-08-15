@@ -1,42 +1,41 @@
 {
-  "schemaVersion": 1,
-	"id": "${id}",
-	"version": "${version}",
-	"name": "${name}",
-	"description": "${description}",
+	"schemaVersion": 1,
+	"id": "${modId}",
+	"version": "${modVersion}",
+	"name": "${modName}",
+	"description": "${modDescription}",
 	"authors": [
-		"The Panda Oliver"
+		"${modAuthor}"
 	],
 	"contact": {
 		"issues": "https://github.com/PandaDap2006/Pandas-Falling-Trees/issues",
 		"sources": "https://github.com/PandaDap2006/Pandas-Falling-Trees"
 	},
-  "license": "GPL-3",
-	"icon": "assets/fallingtrees/icon.png",
-  "environment": "*",
-  "entrypoints": {
-    "main": [
+	"license": "GPL-3",
+	"icon": "assets/${modId}/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
 			"me.pandamods.fallingtrees.fabric.FallingTreesFabric"
-    ],
+		],
 		"client": [
 			"me.pandamods.fallingtrees.fabric.FallingTreesFabricClient"
 		],
 		"jade": [
 			"me.pandamods.fallingtrees.compat.JadePlugin"
 		]
-  },
-  "mixins": [
-		"fallingtrees.mixins.json",
-    "fallingtrees-common.mixins.json"
-  ],
-  "depends": {
-    "fabric": "*",
+	},
+	"mixins": [
+		"${modId}.mixins.json",
+		"${modId}-common.mixins.json"
+	],
+	"depends": {
+		"fabric": "*",
 		"fabric-api": "*",
-		"minecraft": "${compatible_fabricmc_versions}",
-		"java": ">=${java_version}",
-    "architectury": "*",
-    "pandalib": ">=0.3"
-  },
+		"minecraft": "${fabricCompatibleVersions}",
+		"architectury": "*",
+		"pandalib": ">=0.3"
+	},
 	"conflicts": {
 		"treechop": "<0.18.5"
 	},

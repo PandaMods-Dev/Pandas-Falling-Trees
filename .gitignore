@@ -1,21 +1,20 @@
-build/
-*.ipr
-run/
-*.iws
-out/
-*.iml
 .gradle/
-output/
-bin/
-libs/
+build/
+gradle/wrapper/gradle-wrapper.jar
 
-.classpath
-.project
-.idea/
-classes/
-.metadata
-.vscode
-.settings
-*.launch
-/.architectury-transformer/
 build.properties
+
+### Minecraft ###
+run/
+
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.ipr
+*.iws
+
+### Java ###
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr

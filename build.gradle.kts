@@ -317,6 +317,7 @@ publishMods {
 				requires("fabric-api")
 
 			requires("architectury-api")
+			requires("pandalib")
 		}
 
 		modrinth("modrinth_" + loaderName) {
@@ -340,6 +341,7 @@ publishMods {
 				requires("fabric-api")
 
 			requires("architectury-api")
+			requires("pandalib")
 		}
 	}
 

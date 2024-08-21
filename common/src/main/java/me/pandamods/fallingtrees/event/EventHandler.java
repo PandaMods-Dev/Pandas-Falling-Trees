@@ -55,18 +55,16 @@ public class EventHandler {
 		Set<BlockPos> treeBlockPos = treeData.blocks();
 		if (!treeData.shouldFall()) return false;
 
-		if (!(level instanceof Level)) {
-			if (!mainItem.isEmpty()) {
-				#if MC_VER >= MC_1_20_5
-					mainItem.hurtAndBreak(commonConfig.disableExtraToolDamage ? 1 : treeData.toolDamage(), player, EquipmentSlot.MAINHAND);
-				#else
-					mainItem.hurtAndBreak(commonConfig.disableExtraToolDamage ? 1 : treeData.toolDamage(), player, entity ->
-							entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-				#endif
-			}
-			float defaultExhaustion = 0.005f;
-			player.causeFoodExhaustion(commonConfig.disableExtraFoodExhaustion ? defaultExhaustion : defaultExhaustion * treeData.foodExhaustionMultiply());
+		if (!mainItem.isEmpty()) {
+			#if MC_VER >= MC_1_20_5
+				mainItem.hurtAndBreak(commonConfig.disableExtraToolDamage ? 1 : treeData.toolDamage(), player, EquipmentSlot.MAINHAND);
+			#else
+				mainItem.hurtAndBreak(commonConfig.disableExtraToolDamage ? 1 : treeData.toolDamage(), player, entity ->
+						entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+			#endif
 		}
+		float defaultExhaustion = 0.005f;
+		player.causeFoodExhaustion(commonConfig.disableExtraFoodExhaustion ? defaultExhaustion : defaultExhaustion * treeData.foodExhaustionMultiply());
 		player.awardStat(Stats.BLOCK_MINED.get(blockState.getBlock()), treeData.awardedBlocks());
 
 		TreeEntity.destroyTree(treeBlockPos, blockPos, level, tree, player);

@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "*"
-issueTrackerURL="https://github.com/PandaDap2006/Pandas-Falling-Trees/issues"
+issueTrackerURL="https://github.com/PandaMods-Dev/Pandas-Falling-Trees/issues"
 license = "GPL-3"
 
 [[mods]]
@@ -14,7 +14,7 @@ ${modDescription}
 logoFile = "assets/${modId}/icon.png"
 
 [[dependencies.${modId}]]
-modId = "neoforge"
+modId = "forge"
 mandatory = true
 versionRange = "*"
 ordering = "NONE"

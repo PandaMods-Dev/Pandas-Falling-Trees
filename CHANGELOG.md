@@ -1,3 +1,4 @@
-## Version 0.12.5 Changelog
+## Version 0.12.6 Changelog
 * **Bug Fixes**
-  * Fixed a typo where the Ht's treechop version was set to 1.18.5 and not 0.18.5
+  * Fixed the Player null pointer bug causing crashes.
+  * Fixed items not taking damage properly when chopping trees and not causing food exhaustion.

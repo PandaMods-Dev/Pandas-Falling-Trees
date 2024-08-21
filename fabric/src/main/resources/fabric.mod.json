@@ -46,7 +46,7 @@
 				"modmenu.kofi": "https://ko-fi.com/pandamods",
 				"modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/pandas-falling-trees",
 				"modmenu.modrinth": "https://modrinth.com/mod/pandas-falling-trees",
-				"modmenu.github_releases": "https://github.com/PandaDap2006/pandas-falling-trees/releases"
+				"modmenu.github_releases": "https://github.com/PandaMods-Dev/pandas-falling-trees/releases"
 			},
 			"update_checker": true
 		}

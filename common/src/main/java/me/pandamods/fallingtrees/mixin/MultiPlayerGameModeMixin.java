@@ -42,13 +42,13 @@ public abstract class MultiPlayerGameModeMixin {
 		if (FallingTreesConfig.getCommonConfig().dynamicMiningSpeed.disable || Compat.hasTreeChop()) return;
 		Player player = minecraft.player;
 
-		#if MC_VER >= MC_1_20
-			Level level = player.level();
-		#else
-			Level level = player.getLevel();
-		#endif
-
 		if (player != null) {
+			#if MC_VER >= MC_1_20
+				Level level = player.level();
+			#else
+				Level level = player.getLevel();
+			#endif
+
 			BlockState blockState = level.getBlockState(this.destroyBlockPos);
 			if (TreeRegistry.getTree(blockState).isPresent()) {
 				if (player.isCrouching() != fallingTrees$lastTickCrouchState) {

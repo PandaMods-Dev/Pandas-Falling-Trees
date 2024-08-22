@@ -34,7 +34,7 @@
 		"fabric-api": "*",
 		"minecraft": "${fabricCompatibleVersions}",
 		"architectury": "*",
-		"pandalib": ">=0.3"
+		"pandalib": ">=0.4.2"
 	},
 	"conflicts": {
 		"treechop": "<0.18.5"

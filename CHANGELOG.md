@@ -1,4 +1,3 @@
-## Version 0.12.6 Changelog
-* **Bug Fixes**
-  * Fixed the Player null pointer bug causing crashes.
-  * Fixed items not taking damage properly when chopping trees and not causing food exhaustion.
+## Version 0.12.7 Changelog
+* **Dependency Updates**
+  * Updated pandalib 0.3 -> 0.4.2

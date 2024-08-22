@@ -62,6 +62,7 @@ val parchmentVersion: String by project
 val parchmentMinecraftVersion: String by project
 
 val manifoldVersion: String by project
+val jomlVersion = properties["jomlVersion"]
 
 val pandalibVersion: String by project
 val architecturyVersion: String by project
@@ -75,7 +76,7 @@ val neoForgeCompatibleVersions: String by project
 val MC_VER: String by project
 val MC_1_19_2: String by project
 
-architectury.minecraft = minecraftVersion.toString()
+architectury.minecraft = minecraftVersion
 
 allprojects {
 	apply(plugin = "java")
@@ -117,9 +118,11 @@ subprojects {
 			isCanBeConsumed = false
 		}
 
-		create("jarShadow")
+		create("jarShadow") {
+			isCanBeResolved = true
+			isCanBeConsumed = false
+		}
 		implementation.get().extendsFrom(configurations["jarShadow"])
-		getByName("shadowBundle").extendsFrom(configurations["jarShadow"])
 
 		create("modShadow")
 		getByName("modImplementation").extendsFrom(configurations["modShadow"])
@@ -170,7 +173,7 @@ subprojects {
 
 	if (isMinecraftSubProject) {
 		tasks.withType<ShadowJar>().configureEach {
-			configurations = listOf(project.configurations.getByName("shadowBundle"))
+			configurations = listOf(project.configurations.getByName("shadowBundle"), project.configurations.getByName("jarShadow"))
 			archiveClassifier.set("dev-shadow")
 
 			exclude("architectury.common.json")
@@ -248,7 +251,7 @@ val publishingDryRun: String by project
 val publishingReleaseType: String by project
 
 val publishingMinecraftVersion: String by project
-val publishingLatestMinecraftVersion: String? by project
+val publishingLatestMinecraftVersion = properties["publishingLatestMinecraftVersion"]
 
 val publishingCurseForgeProjectId: String by project
 val publishingModrinthProjectId: String by project
@@ -276,7 +279,7 @@ publishMods {
 	val minecraftVersionStr = if (isRangedVersion) {
 		"${publishingMinecraftVersion}-${publishingLatestMinecraftVersion}"
 	} else {
-		publishingLatestMinecraftVersion
+		publishingMinecraftVersion
 	}
 
 	// Creates publish options for each supported mod loader
@@ -353,6 +356,7 @@ publishMods {
 	}
 	var githubTagName = "${releaseType}/${modVersion}-${minecraftVersionStr}"
 	github {
+		displayName = "${modName} ${modVersion} MC${minecraftVersionStr}"
 		accessToken = githubAPIKey
 		repository = githubRepository
 		tagName = githubTagName

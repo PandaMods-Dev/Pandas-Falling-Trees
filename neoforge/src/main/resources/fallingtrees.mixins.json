@@ -1,6 +1,7 @@
 {
   "required": true,
-  "package": "me.pandamods.fallingtrees.mixin.neoforge",
+  "package": "me.pandamods.fallingtrees.neoforge.mixin",
+	"compatibilityLevel": "JAVA_${java_version}",
   "minVersion": "0.8",
   "client": [
   ],

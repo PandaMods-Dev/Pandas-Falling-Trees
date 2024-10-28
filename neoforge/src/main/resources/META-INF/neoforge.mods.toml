@@ -1,43 +1,41 @@
 modLoader = "javafml"
 loaderVersion = "*"
-issueTrackerURL="https://github.com/PandaMods-Dev/Pandas-Falling-Trees/issues"
-license = "GPL-3"
+issueTrackerURL="https://github.com/${project_github_repo}/issues"
+license = "${mod_license}"
 
 [[mods]]
-modId = "${modId}"
-version = "${modVersion}"
-displayName = "${modName}"
-authors = "${modAuthor}"
-description = '''
-${modDescription}
-'''
-logoFile = "assets/${modId}/icon.png"
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_author}"
+description = "${mod_description}"
+logoFile = "assets/${mod_id}/icon.png"
 
-[[dependencies.${modId}]]
+[[dependencies."${mod_id}"]]
 modId = "neoforge"
 type = "required"
 versionRange = "*"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${modId}]]
+[[dependencies."${mod_id}"]]
 modId = "minecraft"
 type = "required"
-versionRange = "${neoForgeCompatibleVersions}"
+versionRange = "${neoforge_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.${modId}]]
+[[dependencies."${mod_id}"]]
 modId = "architectury"
 type = "required"
 versionRange = "*"
 ordering = "AFTER"
 side = "BOTH"
 
-[[dependencies.${modId}]]
+[[dependencies."${mod_id}"]]
 modId = "pandalib"
 type = "required"
-versionRange = "[0.4.2,)"
+versionRange = "[0.5,)"
 ordering = "NONE"
 side = "BOTH"
 

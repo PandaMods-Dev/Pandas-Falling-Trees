@@ -13,9 +13,9 @@
 package me.pandamods.fallingtrees.config;
 
 import me.pandamods.fallingtrees.FallingTrees;
-import me.pandamods.pandalib.api.config.PandaLibConfig;
-import me.pandamods.pandalib.api.config.holders.ClientConfigHolder;
-import me.pandamods.pandalib.api.config.holders.CommonConfigHolder;
+import me.pandamods.pandalib.config.PandaLibConfig;
+import me.pandamods.pandalib.config.holders.ClientConfigHolder;
+import me.pandamods.pandalib.config.holders.CommonConfigHolder;
 import net.minecraft.world.entity.player.Player;
 
 public class FallingTreesConfig {

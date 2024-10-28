@@ -21,7 +21,7 @@ pluginManagement.repositories {
 	gradlePluginPortal()
 }
 
-val minecraftVersion: String by settings
+val minecraft_version: String by settings
 
 fun loadProperties() {
 	val defaultVersion = "1.21"
@@ -34,10 +34,10 @@ fun loadProperties() {
 	availableVersions.sort()
 	println("Available Minecraft versions: ${availableVersions}")
 
-	var selectedVersion = minecraftVersion
-	var versionIndex = availableVersions.indexOf(minecraftVersion)
+	var selectedVersion = minecraft_version
+	var versionIndex = availableVersions.indexOf(minecraft_version)
 	if (versionIndex == -1) {
-		println("No 'minecraftVersion' set or the set 'minecraftVersion' is invalid! Defaulting to ${defaultVersion}.")
+		println("No 'minecraft_version' set or the set 'minecraft_Version' is invalid! Defaulting to ${defaultVersion}.")
 		selectedVersion = defaultVersion
 		versionIndex = availableVersions.indexOf(defaultVersion)
 	}
@@ -49,15 +49,15 @@ fun loadProperties() {
 	for (property in properties) {
 		gradle.extra.set(property.key.toString(), property.value.toString())
 	}
-	gradle.extra.set("availableVersions", availableVersions)
-	gradle.extra.set("versionIndex", versionIndex)
+	gradle.extra.set("available_versions", availableVersions)
+	gradle.extra.set("version_index", versionIndex)
 }
 loadProperties()
 
-rootProject.name = "PandaLib"
+rootProject.name = "Falling Trees"
 
 include("common")
-gradle.extra.properties["supportedModLoaders"].toString().split(",").forEach {
+gradle.extra.properties["supported_mod_loaders"].toString().split(",").forEach {
 	println("Adding loader ${it}")
 	include(it)
 }

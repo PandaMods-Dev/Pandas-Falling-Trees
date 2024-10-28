@@ -1,19 +1,3 @@
-// gradle.properties
-val fabricLoaderVersion: String by project
-val fabricApiVersion: String by project
-
-val modmenuVersion: String by project
-
-val htsTreechopVersion: String by project
-val htsTreechopMinecraftVersion: String by project
-
-val jadeVersion: String by project
-val jadeMinecraftVersion: String by project
-
-val MC_VER: String by project
-val MC_1_19_2: String by project
-val MC_1_20: String by project
-
 architectury {
 	platformSetupLoomIde()
 	fabric()
@@ -32,26 +16,27 @@ repositories {
 }
 
 dependencies {
-	modImplementation("net.fabricmc:fabric-loader:${fabricLoaderVersion}")
-	modApi("net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}")
+	modImplementation("net.fabricmc:fabric-loader:${properties["fabric_version"]}")
+	modApi("net.fabricmc.fabric-api:fabric-api:${properties["fabric_api_version"]}")
 
-	modApi("com.terraformersmc:modmenu:${modmenuVersion}")
+	modApi("dev.architectury:architectury-fabric:${properties["deps_architectury_version"]}")
+	modApi("com.terraformersmc:modmenu:${properties["deps_modmenu_version"]}")
 
-	if (MC_VER <= MC_1_20) {
-		modCompileOnly("maven.modrinth:treechop:${htsTreechopVersion}-fabric,${htsTreechopMinecraftVersion}")
-//		modRuntimeOnly("maven.modrinth:treechop:${htsTreechopVersion}-fabric,${htsTreechopMinecraftVersion}")
+	if (properties["MC_VER"].toString().toInt() <= properties["MC_1_20"].toString().toInt()) {
+		modCompileOnly("maven.modrinth:treechop:${properties["deps_ht_treechop_version"]}-fabric,${properties["deps_ht_treechop_mc_version"]}")
+//		modRuntimeOnly("maven.modrinth:treechop:${properties["deps_ht_treechop_version"]}-fabric,${properties["deps_ht_treechop_mc_version"]}")
 	}
 
-	if (MC_VER > MC_1_19_2) {
-		modCompileOnly("maven.modrinth:jade:${jadeVersion}+fabric-fabric,${jadeMinecraftVersion}")
-//		modLocalRuntime("maven.modrinth:jade:${jadeVersion}+fabric-fabric,${jadeMinecraftVersion}")
+	if (properties["MC_VER"].toString().toInt() > properties["MC_1_19_2"].toString().toInt()) {
+		modCompileOnly("maven.modrinth:jade:${properties["deps_jade_version"]}+fabric-fabric,${properties["deps_jade_mc_version"]}")
+//		modLocalRuntime("maven.modrinth:jade:${properties["deps_jade_version"]}+fabric-fabric,${properties["deps_jade_mc_version"]}")
 	} else {
-		modCompileOnly("maven.modrinth:jade:${jadeVersion}-fabric,${jadeMinecraftVersion}")
-//		modLocalRuntime("maven.modrinth:jade:${jadeVersion}-fabric,${jadeMinecraftVersion}")
+		modCompileOnly("maven.modrinth:jade:${properties["deps_jade_version"]}-fabric,${properties["deps_jade_mc_version"]}")
+//		modLocalRuntime("maven.modrinth:jade:${properties["deps_jade_version"]}-fabric,${properties["deps_jade_mc_version"]}")
 	}
 
-	"common"(project(":common", "namedElements")) { isTransitive = false }
-	"shadowBundle"(project(":common", "transformProductionFabric"))
+	common(project(":common", "namedElements")) { isTransitive = false }
+	shadowBundle(project(":common", "transformProductionFabric"))
 }
 
 tasks.remapJar {

@@ -12,21 +12,14 @@
 
 package me.pandamods.fallingtrees;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.mojang.logging.LogUtils;
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.platform.Platform;
-import me.pandamods.fallingtrees.api.TreeData;
-import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.event.EventHandler;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
 import me.pandamods.fallingtrees.registry.SoundRegistry;
 import me.pandamods.fallingtrees.registry.TreeTypeRegistry;
 import me.pandamods.fallingtrees.utils.BlockMapEntityData;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;

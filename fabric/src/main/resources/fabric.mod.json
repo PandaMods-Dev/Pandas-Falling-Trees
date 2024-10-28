@@ -1,18 +1,18 @@
 {
 	"schemaVersion": 1,
-	"id": "${modId}",
-	"version": "${modVersion}",
-	"name": "${modName}",
-	"description": "${modDescription}",
+	"id": "${mod_id}",
+	"version": "${mod_version}",
+	"name": "${mod_name}",
+	"description": "${mod_description}",
 	"authors": [
-		"${modAuthor}"
+		"${mod_author}"
 	],
 	"contact": {
-		"issues": "https://github.com/PandaDap2006/Pandas-Falling-Trees/issues",
-		"sources": "https://github.com/PandaDap2006/Pandas-Falling-Trees"
+		"issues": "https://github.com/${project_github_repo}/issues",
+		"sources": "https://github.com/${project_github_repo}"
 	},
-	"license": "GPL-3",
-	"icon": "assets/${modId}/icon.png",
+	"license": "${mod_license}",
+	"icon": "assets/${mod_id}/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -26,15 +26,15 @@
 		]
 	},
 	"mixins": [
-		"${modId}.mixins.json",
-		"${modId}-common.mixins.json"
+		"${mod_id}.mixins.json",
+		"${mod_id}-common.mixins.json"
 	],
 	"depends": {
 		"fabric": "*",
 		"fabric-api": "*",
-		"minecraft": "${fabricCompatibleVersions}",
+		"minecraft": "${fabric_version_range}",
 		"architectury": "*",
-		"pandalib": ">=0.4.2"
+		"pandalib": ">=0.5"
 	},
 	"conflicts": {
 		"treechop": "<0.18.5"
@@ -44,9 +44,9 @@
 			"links": {
 				"modmenu.discord": "https://discord.gg/wjPt4vEfXb",
 				"modmenu.kofi": "https://ko-fi.com/pandamods",
-				"modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/pandas-falling-trees",
-				"modmenu.modrinth": "https://modrinth.com/mod/pandas-falling-trees",
-				"modmenu.github_releases": "https://github.com/PandaMods-Dev/pandas-falling-trees/releases"
+				"modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/${project_curseforge_slug}",
+				"modmenu.modrinth": "https://modrinth.com/mod/${project_modrinth_slug}",
+				"modmenu.github_releases": "https://github.com/${project_github_repo}/releases"
 			},
 			"update_checker": true
 		}

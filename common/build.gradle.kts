@@ -1,37 +1,22 @@
-// gradle.properties
-val modId: String by project
-val supportedModLoaders: String by project
-
-val minecraftVersion: String by project
-val fabricLoaderVersion: String by project
-
-val jadeVersion: String by project
-val jadeMinecraftVersion: String by project
-
-val htsTreechopVersion: String by project
-val htsTreechopMinecraftVersion: String by project
-
-val MC_VER: String by project
-val MC_1_19_2: String by project
-val MC_1_20: String by project
-
 architectury {
-	common(supportedModLoaders.split(","))
+	common(properties["supported_mod_loaders"].toString().split(","))
 }
 
-loom.accessWidenerPath.set(file("src/main/resources/${modId}.accesswidener"))
+loom.accessWidenerPath.set(file("src/main/resources/${properties["mod_id"]}.accesswidener"))
 
 dependencies {
 	// We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
 	// Do NOT use other classes from fabric loader
-	modImplementation("net.fabricmc:fabric-loader:${fabricLoaderVersion}")
+	modImplementation("net.fabricmc:fabric-loader:${properties["fabric_version"]}")
 
-	if (MC_VER > MC_1_19_2) {
-		modImplementation("maven.modrinth:jade:${jadeVersion}+fabric-fabric,${jadeMinecraftVersion}")
+	modApi("dev.architectury:architectury:${properties["deps_architectury_version"]}")
+
+	if (properties["MC_VER"].toString().toInt() <= properties["MC_1_20"].toString().toInt())
+		modImplementation("maven.modrinth:treechop:${properties["deps_ht_treechop_version"]}-fabric,${properties["deps_ht_treechop_mc_version"]}")
+
+	if (properties["MC_VER"].toString().toInt() > properties["MC_1_19_2"].toString().toInt()) {
+		modImplementation("maven.modrinth:jade:${properties["deps_jade_version"]}+fabric-fabric,${properties["deps_jade_mc_version"]}")
 	} else {
-		modImplementation("maven.modrinth:jade:${jadeVersion}-fabric,${jadeMinecraftVersion}")
+		modImplementation("maven.modrinth:jade:${properties["deps_jade_version"]}-fabric,${properties["deps_jade_mc_version"]}")
 	}
-
-	if (MC_VER <= MC_1_20)
-        modImplementation("maven.modrinth:treechop:${htsTreechopVersion}-fabric,${htsTreechopMinecraftVersion}")
 }

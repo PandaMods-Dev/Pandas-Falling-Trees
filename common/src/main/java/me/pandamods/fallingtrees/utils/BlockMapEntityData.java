@@ -12,39 +12,31 @@
 
 package me.pandamods.fallingtrees.utils;
 
-import com.google.common.collect.Maps;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.VarInt;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class BlockMapEntityData {
-	public static StreamCodec<ByteBuf, Map<BlockPos, BlockState>> BLOCK_MAP_CODEC = new StreamCodec<>() {
-		public @NotNull Map<BlockPos, BlockState> decode(ByteBuf byteBuf) {
-			int size = VarInt.read(byteBuf);
-			Map<BlockPos, BlockState> map = Maps.newHashMapWithExpectedSize(size);
+public class BlockMapEntityData implements EntityDataSerializer<Map<BlockPos, BlockState>> {
+	public static final EntityDataSerializer<Map<BlockPos, BlockState>> BLOCK_MAP = new BlockMapEntityData();
 
-			for (int i = 0; i < size; i++) {
-				map.put(FriendlyByteBuf.readBlockPos(byteBuf), Block.stateById(VarInt.read(byteBuf)));
-			}
-			return map;
-		}
+	@Override
+	public void write(FriendlyByteBuf buffer, Map<BlockPos, BlockState> value) {
+		buffer.writeMap(value, FriendlyByteBuf::writeBlockPos, (friendlyByteBuf, state) -> friendlyByteBuf.writeVarInt(Block.getId(state)));
+	}
 
-		public void encode(ByteBuf byteBuf, Map<BlockPos, BlockState> map) {
-			VarInt.write(byteBuf, map.size());
-			map.forEach((blockPos, blockState) -> {
-				FriendlyByteBuf.writeBlockPos(byteBuf, blockPos);
-				VarInt.write(byteBuf, Block.getId(blockState));
-			});
-		}
-	};
+	@Override
+	public @NotNull Map<BlockPos, BlockState> read(FriendlyByteBuf buffer) {
+		return buffer.readMap(FriendlyByteBuf::readBlockPos, buf -> Block.stateById(buf.readVarInt()));
+	}
 
-	public static final EntityDataSerializer<Map<BlockPos, BlockState>> BLOCK_MAP = EntityDataSerializer.forValueType(BLOCK_MAP_CODEC);
+	@Override
+	public @NotNull Map<BlockPos, BlockState> copy(Map<BlockPos, BlockState> value) {
+		return new HashMap<>(value);
+	}
 }

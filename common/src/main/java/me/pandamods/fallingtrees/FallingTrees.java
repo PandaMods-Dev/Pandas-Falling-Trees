@@ -13,7 +13,6 @@
 package me.pandamods.fallingtrees;
 
 import com.mojang.logging.LogUtils;
-import dev.architectury.platform.Platform;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.event.EventHandler;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
@@ -35,8 +34,7 @@ public class FallingTrees {
 		EntityRegistry.ENTITIES.register();
 		EventHandler.register();
 
-		if (!Platform.isNeoForge())
-			EntityDataSerializers.registerSerializer(BlockMapEntityData.BLOCK_MAP);
+		EntityDataSerializers.registerSerializer(BlockMapEntityData.BLOCK_MAP);
     }
 
 	public static ResourceLocation ID(String path) {

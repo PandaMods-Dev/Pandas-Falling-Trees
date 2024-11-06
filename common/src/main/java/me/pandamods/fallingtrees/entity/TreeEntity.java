@@ -113,13 +113,13 @@ public class TreeEntity extends Entity {
 	}
 
 	@Override
-	protected void defineSynchedData(SynchedEntityData.Builder builder) {
-		builder.define(BLOCKS, new HashMap<>());
-		builder.define(HEIGHT, 0);
-		builder.define(ORIGIN_POS, new BlockPos(0, 0, 0));
-		builder.define(USED_TOOL, ItemStack.EMPTY);
-		builder.define(FALL_DIRECTION, Direction.NORTH);
-		builder.define(TREE_TYPE_LOCATION, "");
+	protected void defineSynchedData() {
+		this.getEntityData().define(BLOCKS, new HashMap<>());
+		this.getEntityData().define(HEIGHT, 0);
+		this.getEntityData().define(ORIGIN_POS, new BlockPos(0, 0, 0));
+		this.getEntityData().define(USED_TOOL, ItemStack.EMPTY);
+		this.getEntityData().define(FALL_DIRECTION, Direction.NORTH);
+		this.getEntityData().define(TREE_TYPE_LOCATION, "");
 	}
 
 	@Override

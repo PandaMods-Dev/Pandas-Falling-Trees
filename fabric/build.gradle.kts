@@ -23,6 +23,9 @@ dependencies {
 	modApi("dev.architectury:architectury-fabric:${properties["deps_architectury_version"]}")
 	modApi("com.terraformersmc:modmenu:${properties["deps_modmenu_version"]}")
 
+	modCompileOnly("maven.modrinth:treechop:${properties["deps_ht_treechop_version"]}-fabric,${properties["deps_ht_treechop_mc_version"]}")
+//	modRuntimeOnly("maven.modrinth:treechop:${properties["deps_ht_treechop_version"]}-fabric,${properties["deps_ht_treechop_mc_version"]}")
+
 	modCompileOnly("maven.modrinth:jade:${properties["deps_jade_version"]}+fabric-fabric,${properties["deps_jade_mc_version"]}")
 //	modLocalRuntime("maven.modrinth:jade:${properties["deps_jade_version"]}+fabric-fabric,${properties["deps_jade_mc_version"]}")
 

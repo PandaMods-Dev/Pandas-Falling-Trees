@@ -12,7 +12,6 @@
 
 package me.pandamods.fallingtrees.client;
 
-import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import me.pandamods.fallingtrees.client.render.TreeRenderer;
 import me.pandamods.fallingtrees.registry.EntityRegistry;
@@ -22,8 +21,6 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public class FallingTreesClient {
     public static void init() {
-		if (!Platform.isNeoForge()) {
-			EntityRendererRegistry.register(EntityRegistry.TREE, TreeRenderer::new);
-		}
+		EntityRendererRegistry.register(EntityRegistry.TREE, TreeRenderer::new);
     }
 }

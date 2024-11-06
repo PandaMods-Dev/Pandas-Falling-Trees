@@ -16,13 +16,8 @@ dependencies {
 
 	modApi("dev.architectury:architectury-neoforge:${properties["deps_architectury_version"]}")
 
-	if (properties["MC_VER"].toString().toInt() > properties["MC_1_19_2"].toString().toInt()) {
-		"modCompileOnly"("maven.modrinth:jade:${properties["deps_jade_version"]}+neoforge-neoforge,${properties["deps_jade_mc_version"]}")
-//		"modLocalRuntime"("maven.modrinth:jade:${properties["deps_jade_version"]}+neoforge-neoforge,${properties["deps_jade_mc_version"]}")
-	} else {
-		"modCompileOnly"("maven.modrinth:jade:${properties["deps_jade_version"]}-neoforge,${properties["deps_jade_mc_version"]}")
-//		"modLocalRuntime"("maven.modrinth:jade:${properties["deps_jade_version"]}-neoforge,${properties["deps_jade_mc_version"]}")
-	}
+	"modCompileOnly"("maven.modrinth:jade:${properties["deps_jade_version"]}+neoforge-neoforge,${properties["deps_jade_mc_version"]}")
+//	"modLocalRuntime"("maven.modrinth:jade:${properties["deps_jade_version"]}+neoforge-neoforge,${properties["deps_jade_mc_version"]}")
 
 	common(project(":common", "namedElements")) { isTransitive = false }
 	shadowBundle(project(":common", "transformProductionNeoForge"))

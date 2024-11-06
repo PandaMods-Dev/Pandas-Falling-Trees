@@ -10,7 +10,7 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.pandamods.fallingtrees;
+package me.pandamods.fallingtrees.client;
 
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
@@ -22,7 +22,7 @@ import net.fabricmc.api.Environment;
 @Environment(EnvType.CLIENT)
 public class FallingTreesClient {
     public static void init() {
-		if (#if MC_VER >= MC_1_20_5 !Platform.isNeoForge() #else true #endif) {
+		if (!Platform.isNeoForge()) {
 			EntityRendererRegistry.register(EntityRegistry.TREE, TreeRenderer::new);
 		}
     }

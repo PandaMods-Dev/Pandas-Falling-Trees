@@ -12,14 +12,8 @@
 
 package me.pandamods.fallingtrees.config.common.tree;
 
-#if MC_VER >= MC_1_20
 import net.minecraft.core.registries.BuiltInRegistries;
-#else
-import net.minecraft.core.Registry;
-#endif
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -51,11 +45,7 @@ public class TreeConfig {
 
 		public boolean isValid(BlockState blockState) {
 			Block block = blockState.getBlock();
-			#if MC_VER >= MC_1_20
-				ResourceLocation resourceLocation = BuiltInRegistries.BLOCK.getKey(block);
-			#else
-				ResourceLocation resourceLocation = Registry.BLOCK.getKey(block);
-			#endif
+			ResourceLocation resourceLocation = BuiltInRegistries.BLOCK.getKey(block);
 			if (blacklist.contains(resourceLocation.toString()))
 				return false;
 			return blockState.getTags().anyMatch(blockTagKey -> whitelistedTags.contains(blockTagKey.location().toString())) ||
@@ -64,11 +54,7 @@ public class TreeConfig {
 
 		public boolean isValid(ItemStack itemStack) {
 			Item item = itemStack.getItem();
-			#if MC_VER >= MC_1_20
-				ResourceLocation resourceLocation = BuiltInRegistries.ITEM.getKey(item);
-			#else
-				ResourceLocation resourceLocation = Registry.ITEM.getKey(item);
-			#endif
+			ResourceLocation resourceLocation = BuiltInRegistries.ITEM.getKey(item);
 			if (blacklist.contains(resourceLocation.toString()))
 				return false;
 			return itemStack.getTags().anyMatch(blockTagKey -> whitelistedTags.contains(blockTagKey.location().toString())) ||

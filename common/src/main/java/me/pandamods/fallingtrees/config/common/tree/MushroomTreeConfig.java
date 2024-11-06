@@ -12,8 +12,6 @@
 
 package me.pandamods.fallingtrees.config.common.tree;
 
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;

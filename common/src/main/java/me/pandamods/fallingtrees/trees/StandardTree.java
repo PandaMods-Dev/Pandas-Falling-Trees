@@ -51,12 +51,7 @@ public class StandardTree implements Tree<StandardTreeConfig> {
 	@Override
 	public void entityTick(TreeEntity entity) {
 		Tree.super.entityTick(entity);
-
-		#if MC_VER >= MC_1_20
-			Level level = entity.level();
-		#else
-			Level level = entity.getLevel();
-		#endif
+		Level level = entity.level();
 
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			ClientConfig clientConfig = FallingTreesConfig.getClientConfig();

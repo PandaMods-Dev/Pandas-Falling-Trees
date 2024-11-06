@@ -19,7 +19,7 @@
 			"me.pandamods.fallingtrees.fabric.FallingTreesFabric"
 		],
 		"client": [
-			"me.pandamods.fallingtrees.fabric.FallingTreesFabricClient"
+			"me.pandamods.fallingtrees.fabric.client.FallingTreesClientFabric"
 		],
 		"jade": [
 			"me.pandamods.fallingtrees.compat.JadePlugin"

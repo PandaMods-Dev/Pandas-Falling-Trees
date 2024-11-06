@@ -12,9 +12,7 @@
 
 package me.pandamods.fallingtrees.api;
 
-import dev.architectury.hooks.level.entity.ItemEntityHooks;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
-import me.pandamods.fallingtrees.config.common.tree.StandardTreeConfig;
 import me.pandamods.fallingtrees.config.common.tree.TreeConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import net.minecraft.core.BlockPos;
@@ -39,11 +37,7 @@ public interface Tree<T extends TreeConfig> {
 	TreeData getTreeData(TreeDataBuilder builder, BlockPos blockPos, BlockGetter level);
 
 	default void entityTick(TreeEntity entity) {
-		#if MC_VER >= MC_1_20
-			Level level = entity.level();
-		#else
-			Level level = entity.getLevel();
-		#endif
+		Level level = entity.level();
 		if (entity.tickCount >= entity.getMaxLifeTimeTick()) {
 			getDrops(entity, entity.getBlocks()).forEach(itemStack -> Block.popResource(level, entity.getOriginPos(), itemStack));
 			entity.remove(Entity.RemovalReason.DISCARDED);
@@ -66,11 +60,7 @@ public interface Tree<T extends TreeConfig> {
 	}
 
 	default List<ItemStack> getDrops(TreeEntity entity, Map<BlockPos, BlockState> blocks) {
-		#if MC_VER >= MC_1_20
-			Level level = entity.level();
-		#else
-			Level level = entity.getLevel();
-		#endif
+		Level level = entity.level();
 		List<ItemStack> itemStacks = new ArrayList<>();
 		if (level instanceof ServerLevel serverLevel) {
 			blocks.forEach((blockPos, blockState) -> {

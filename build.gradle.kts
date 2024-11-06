@@ -9,39 +9,10 @@ plugins {
 	id("dev.architectury.loom") version "1.7-SNAPSHOT" apply false
 
 	id("com.github.johnrengelman.shadow") version "8.1.1" apply false
-	id("systems.manifold.manifold-gradle-plugin") version "0.0.2-alpha"
 
 	id("maven-publish")
 	id("me.modmuss50.mod-publish-plugin") version "0.6.3"
 }
-
-/**
- * Borrowed from Distant Horizons
- */
-fun writeBuildGradlePredefine(AvailableVersion: List<String>, versionIndex: Int) {
-	val sb = StringBuilder()
-
-	sb.append("# DON'T TOUCH THIS FILE, This is handled by the build script\n")
-
-	for ((index, s) in AvailableVersion.withIndex()) {
-		val versionString = s.replace(".", "_")
-		sb.append("MC_${versionString}=${index}\n")
-		ext.set("MC_${versionString}", index.toString())
-
-		if (versionIndex == index) {
-			sb.append("MC_VER=${index}\n")
-			ext.set("MC_VER", index.toString())
-		}
-	}
-
-	File(projectDir, "build.properties").writeText(sb.toString())
-}
-
-project.gradle.extra.properties.forEach { prop ->
-	ext.set(prop.key, prop.value)
-}
-
-writeBuildGradlePredefine(properties["available_versions"] as List<String>, properties["version_index"] as Int)
 
 architectury.minecraft = properties["minecraft_version"] as String
 
@@ -157,7 +128,6 @@ subprojects {
 		}
 
 		compileOnly("org.jetbrains:annotations:24.1.0")
-		annotationProcessor("systems.manifold:manifold-preprocessor:${properties["deps_manifold_version"]}")
 	}
 
 	if (isMinecraftSubProject) {
@@ -177,7 +147,6 @@ subprojects {
 	tasks.withType<JavaCompile> {
 		options.encoding = "UTF-8"
 		options.release.set(JavaLanguageVersion.of(properties["java_version"] as String).asInt())
-		options.compilerArgs.add("-Xplugin:Manifold")
 	}
 
 	tasks.processResources {
@@ -243,18 +212,6 @@ subprojects {
 		}
 
 		repositories {
-		}
-	}
-}
-
-tasks.register("publishLocallyAll") {
-	val availableVersions = properties["available_versions"] as List<String>
-
-	availableVersions.forEach { version ->
-		doLast {
-			exec {
-				commandLine = listOf("gradlew.bat", "-Pminecraft_version=$version", "publishToMavenLocal")
-			}
 		}
 	}
 }

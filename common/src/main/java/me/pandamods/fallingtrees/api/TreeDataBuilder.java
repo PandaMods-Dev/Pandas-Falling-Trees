@@ -14,11 +14,6 @@ package me.pandamods.fallingtrees.api;
 
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import net.minecraft.core.BlockPos;
-#if MC_VER <= MC_1_19_2
-import me.pandamods.joml.Math;
-#else
-import org.joml.Math;
-#endif
 
 import java.util.Collection;
 import java.util.HashSet;

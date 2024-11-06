@@ -10,15 +10,14 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.pandamods.fallingtrees.compat;
+package me.pandamods.fallingtrees.fabric.client;
 
-import me.pandamods.fallingtrees.registry.EntityRegistry;
-import snownee.jade.api.*;
+import me.pandamods.fallingtrees.client.FallingTreesClient;
+import net.fabricmc.api.ClientModInitializer;
 
-@WailaPlugin
-public class JadePlugin implements IWailaPlugin {
-	@Override
-	public void registerClient(IWailaClientRegistration registration) {
-		registration.hideTarget(EntityRegistry.TREE.get());
-	}
+public class FallingTreesClientFabric implements ClientModInitializer {
+    @Override
+    public void onInitializeClient() {
+        FallingTreesClient.init();
+    }
 }

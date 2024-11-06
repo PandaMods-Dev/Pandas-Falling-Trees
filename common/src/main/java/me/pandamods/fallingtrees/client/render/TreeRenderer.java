@@ -13,9 +13,6 @@
 package me.pandamods.fallingtrees.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-#if MC_VER <= MC_1_19_2
-import com.mojang.math.Quaternion;
-#endif
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
@@ -80,17 +77,9 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		Vector3f vector = new Vector3f(Math.toRadians(animation), 0, 0);
 		vector.rotateY(Math.toRadians(-direction.toYRot()));
 		Quaternionf quaternion = new Quaternionf().identity().rotateX(vector.x).rotateZ(vector.z);
-		#if MC_VER >= MC_1_20
-			poseStack.mulPose(quaternion);
-		#else
-			poseStack.mulPose(new Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w));
-		#endif
+		poseStack.mulPose(quaternion);
 
-		#if MC_VER >= MC_1_20
-			Level level = entity.level();
-		#else
-			Level level = entity.getLevel();
-		#endif
+		Level level = entity.level();
 
 		poseStack.translate(pivot.x, 0, pivot.z);
 

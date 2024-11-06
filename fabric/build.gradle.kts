@@ -1,3 +1,6 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import net.fabricmc.loom.task.RemapJarTask
+
 architectury {
 	platformSetupLoomIde()
 	fabric()
@@ -35,4 +38,9 @@ dependencies {
 
 tasks.remapJar {
 	injectAccessWidener.set(true)
+}
+
+tasks.withType<RemapJarTask> {
+	val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+	inputFile.set(shadowJar.archiveFile)
 }

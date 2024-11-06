@@ -119,14 +119,6 @@ subprojects {
 			parchment("org.parchmentmc.data:parchment-${properties["parchment_minecraft_version"]}:${properties["parchment_version"]}@zip")
 		})
 
-		"modImplementation"("me.pandamods:pandalib-${project.name}:${properties["deps_pandalib_version"]}")
-
-		if (isMinecraftSubProject) {
-			"modApi"("dev.architectury:architectury-${project.name}:${properties["deps_architectury_version"]}")
-		} else {
-			"modApi"("dev.architectury:architectury:${properties["deps_architectury_version"]}")
-		}
-
 		compileOnly("org.jetbrains:annotations:24.1.0")
 	}
 

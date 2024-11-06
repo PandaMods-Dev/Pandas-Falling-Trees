@@ -14,10 +14,11 @@ configurations {
 dependencies {
 	neoForge("net.neoforged:neoforge:${properties["neoforge_version"]}")
 
+	modImplementation("me.pandamods:pandalib-neoforge:${properties["deps_pandalib_version"]}")
 	modApi("dev.architectury:architectury-neoforge:${properties["deps_architectury_version"]}")
 
-	"modCompileOnly"("maven.modrinth:jade:${properties["deps_jade_version"]}+neoforge-neoforge,${properties["deps_jade_mc_version"]}")
-//	"modLocalRuntime"("maven.modrinth:jade:${properties["deps_jade_version"]}+neoforge-neoforge,${properties["deps_jade_mc_version"]}")
+	modCompileOnly("maven.modrinth:jade:${properties["deps_jade_version"]}+neoforge-neoforge,${properties["deps_jade_mc_version"]}")
+//	modLocalRuntime("maven.modrinth:jade:${properties["deps_jade_version"]}+neoforge-neoforge,${properties["deps_jade_mc_version"]}")
 
 	common(project(":common", "namedElements")) { isTransitive = false }
 	shadowBundle(project(":common", "transformProductionNeoForge"))

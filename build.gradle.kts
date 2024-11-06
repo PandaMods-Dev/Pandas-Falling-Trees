@@ -122,17 +122,12 @@ subprojects {
 		compileOnly("org.jetbrains:annotations:24.1.0")
 	}
 
-	if (isMinecraftSubProject) {
-		tasks.withType<ShadowJar> {
-			configurations = listOf(project.configurations.getByName("shadowBundle"), project.configurations.getByName("jarShadow"))
-			archiveClassifier.set("dev-shadow")
+	tasks.withType<ShadowJar> {
+		configurations = listOf(project.configurations.getByName("shadowBundle"), project.configurations.getByName("jarShadow"))
+		archiveClassifier.set("dev-shadow")
 
+		if (isMinecraftSubProject) {
 			exclude("architectury.common.json")
-		}
-
-		tasks.withType<RemapJarTask> {
-			val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
-			inputFile.set(shadowJar.archiveFile)
 		}
 	}
 

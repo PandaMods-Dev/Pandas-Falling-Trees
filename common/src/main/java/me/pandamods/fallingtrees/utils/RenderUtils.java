@@ -18,10 +18,10 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.RenderShape;
@@ -47,7 +47,7 @@ public class RenderUtils {
 					break;
 				case ENTITYBLOCK_ANIMATED:
 					blockEntityRenderDispatcher.renderByItem(new ItemStack(blockState.getBlock()),
-							ItemDisplayContext.NONE,
+							ItemTransforms.TransformType.NONE,
 							poseStack, bufferSource, packedLight, OverlayTexture.NO_OVERLAY);
 			}
 

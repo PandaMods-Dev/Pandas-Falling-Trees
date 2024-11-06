@@ -13,11 +13,14 @@
 package me.pandamods.fallingtrees.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
 import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.config.ClientConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
 import me.pandamods.fallingtrees.utils.RenderUtils;
+import me.pandamods.joml.Quaternionf;
+import me.pandamods.joml.Vector3f;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -28,11 +31,9 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.joml.Math;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 import java.util.Map;
 
@@ -71,15 +72,15 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 		int distance = getDistance(tree, blocks, 0, direction.getOpposite());
 
 		Vector3f pivot =  new Vector3f(0, 0, (.5f + distance) * tree.fallAnimationEdgeDistance());
-		pivot.rotateY(Math.toRadians(-direction.toYRot()));
+		pivot.rotateY((float) Math.toRadians(-direction.toYRot()));
 		poseStack.translate(-pivot.x, 0, -pivot.z);
 
-		Vector3f vector = new Vector3f(Math.toRadians(animation), 0, 0);
-		vector.rotateY(Math.toRadians(-direction.toYRot()));
+		Vector3f vector = new Vector3f((float) Math.toRadians(animation), 0, 0);
+		vector.rotateY((float) Math.toRadians(-direction.toYRot()));
 		Quaternionf quaternion = new Quaternionf().identity().rotateX(vector.x).rotateZ(vector.z);
-		poseStack.mulPose(quaternion);
+		poseStack.mulPose(new Quaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w));
 
-		Level level = entity.level();
+		Level level = entity.getLevel();
 
 		poseStack.translate(pivot.x, 0, pivot.z);
 
@@ -109,10 +110,10 @@ public class TreeRenderer extends EntityRenderer<TreeEntity> {
 	}
 
 	private float bumpCos(float time) {
-		return (float) Math.max(0, Math.cos(Math.clamp(-Math.PI, Math.PI, time)));
+		return (float) Math.max(0, Math.cos(Mth.clamp(time, -Math.PI, Math.PI)));
 	}
 
 	private float bumpSin(float time) {
-		return (float) Math.max(0, Math.sin(Math.clamp(-Math.PI, Math.PI, time)));
+		return (float) Math.max(0, Math.sin(Mth.clamp(time, -Math.PI, Math.PI)));
 	}
 }

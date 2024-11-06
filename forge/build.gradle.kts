@@ -1,3 +1,6 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import net.fabricmc.loom.task.RemapJarTask
+
 architectury {
 	platformSetupLoomIde()
 	forge()
@@ -30,8 +33,8 @@ dependencies {
 	modCompileOnly("maven.modrinth:treechop:${properties["deps_ht_treechop_version"]}-forge,${properties["deps_ht_treechop_mc_version"]}")
 //	modRuntimeOnly("maven.modrinth:treechop:${properties["deps_ht_treechop_version"]}-forge,${properties["deps_ht_treechop_mc_version"]}")
 
-	modCompileOnly("maven.modrinth:jade:${properties["deps_jade_version"]}+forge-forge,${properties["deps_jade_mc_version"]}")
-//	modLocalRuntime("maven.modrinth:jade:${properties["deps_jade_version"]}+forge-forge,${properties["deps_jade_mc_version"]}")
+	modCompileOnly("maven.modrinth:jade:${properties["deps_jade_version"]}-forge,${properties["deps_jade_mc_version"]}")
+//	modLocalRuntime("maven.modrinth:jade:${properties["deps_jade_version"]}-forge,${properties["deps_jade_mc_version"]}")
 
 
 	common(project(":common", "namedElements")) { isTransitive = false }
@@ -41,4 +44,9 @@ dependencies {
 tasks.remapJar {
 	injectAccessWidener = true
 	atAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
+}
+
+tasks.withType<RemapJarTask> {
+	val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
+	inputFile.set(shadowJar.archiveFile)
 }

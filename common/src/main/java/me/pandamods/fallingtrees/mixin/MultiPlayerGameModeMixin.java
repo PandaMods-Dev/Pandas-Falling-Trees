@@ -53,7 +53,7 @@ public abstract class MultiPlayerGameModeMixin {
 		Player player = minecraft.player;
 
 		if (player != null) {
-			Level level = player.level();
+			Level level = player.getLevel();
 
 			BlockState blockState = level.getBlockState(this.destroyBlockPos);
 			if (TreeRegistry.getTree(blockState).isPresent()) {

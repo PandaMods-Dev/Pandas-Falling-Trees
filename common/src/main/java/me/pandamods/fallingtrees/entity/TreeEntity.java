@@ -20,6 +20,8 @@ import me.pandamods.fallingtrees.utils.BlockMapEntityData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -35,8 +37,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Math;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +64,7 @@ public class TreeEntity extends Entity {
 	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, Tree<?> tree, Player player) {
 		if (levelAccessor instanceof ServerLevel level) {
 			TreeEntity treeEntity = new TreeEntity(EntityRegistry.TREE.get(), level);
-			treeEntity.setPos(blockPos.getCenter().add(0, -.5, 0));
+			treeEntity.setPos(Vec3.atCenterOf(blockPos).add(0, -.5, 0));
 			treeEntity.setData(blockPosList, blockPos, tree, player, player.getItemBySlot(EquipmentSlot.MAINHAND));
 
 			BlockState air = Blocks.AIR.defaultBlockState();
@@ -92,7 +94,7 @@ public class TreeEntity extends Entity {
 
 		int height = 0;
 
-		Level level = level();
+		Level level = getLevel();
 
 		Map<BlockPos, BlockState> blockPosMap = new HashMap<>();
 		for (BlockPos pos : blockPosList) {
@@ -136,7 +138,7 @@ public class TreeEntity extends Entity {
 			this.setDeltaMovement(this.getDeltaMovement().add(0.0, -0.04, 0.0));
 		}
 		this.move(MoverType.SELF, this.getDeltaMovement());
-		if (this.onGround()) {
+		if (this.onGround) {
 			this.setDeltaMovement(this.getDeltaMovement().multiply(1, -0.5, 1));
 		}
 
@@ -174,5 +176,10 @@ public class TreeEntity extends Entity {
 	public Tree<?> getTree() {
 		Optional<Tree<?>> treeTypeOptional = TreeRegistry.getTree(ResourceLocation.tryParse(this.getEntityData().get(TREE_TYPE_LOCATION)));
 		return treeTypeOptional.orElse(null);
+	}
+
+	@Override
+	public Packet<?> getAddEntityPacket() {
+		return new ClientboundAddEntityPacket(this);
 	}
 }

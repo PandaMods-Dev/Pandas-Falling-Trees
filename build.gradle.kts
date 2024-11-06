@@ -124,16 +124,13 @@ subprojects {
 
 	if (isMinecraftSubProject) {
 		tasks.withType<ShadowJar> {
-			configurations = listOf(project.configurations.getByName("shadowBundle"), project.configurations.getByName("jarShadow"))
-			archiveClassifier.set("dev-shadow")
-
 			exclude("architectury.common.json")
 		}
+	}
 
-		tasks.withType<RemapJarTask> {
-			val shadowJar = tasks.getByName<ShadowJar>("shadowJar")
-			inputFile.set(shadowJar.archiveFile)
-		}
+	tasks.withType<ShadowJar> {
+		configurations = listOf(project.configurations.getByName("shadowBundle"), project.configurations.getByName("jarShadow"))
+		archiveClassifier.set("dev-shadow")
 	}
 
 	tasks.withType<JavaCompile> {

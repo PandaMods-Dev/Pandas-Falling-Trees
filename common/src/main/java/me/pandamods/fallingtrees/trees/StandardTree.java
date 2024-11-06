@@ -30,7 +30,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import org.joml.Math;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -51,7 +50,7 @@ public class StandardTree implements Tree<StandardTreeConfig> {
 	@Override
 	public void entityTick(TreeEntity entity) {
 		Tree.super.entityTick(entity);
-		Level level = entity.level();
+		Level level = entity.getLevel();
 
 		if (Platform.getEnv() == EnvType.CLIENT) {
 			ClientConfig clientConfig = FallingTreesConfig.getClientConfig();

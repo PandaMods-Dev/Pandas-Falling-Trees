@@ -15,13 +15,13 @@ package me.pandamods.fallingtrees.registry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import me.pandamods.fallingtrees.FallingTrees;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 
 public class SoundRegistry {
 	public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(FallingTrees.MOD_ID,
-			Registries.SOUND_EVENT);
+			Registry.SOUND_EVENT_REGISTRY);
 
 	public static final RegistrySupplier<SoundEvent> TREE_FALL = SOUNDS.register("tree_fall", () ->
 			createFixedRangeEvent(FallingTrees.ID("tree_fall"), 16));
@@ -30,6 +30,6 @@ public class SoundRegistry {
 			createFixedRangeEvent(FallingTrees.ID("tree_impact"), 16));
 
 	private static SoundEvent createFixedRangeEvent(ResourceLocation resourceLocation, int range) {
-		return SoundEvent.createFixedRangeEvent(resourceLocation, range);
+		return new SoundEvent(resourceLocation, range);
 	}
 }

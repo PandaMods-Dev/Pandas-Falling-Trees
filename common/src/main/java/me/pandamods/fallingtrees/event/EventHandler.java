@@ -42,7 +42,7 @@ public class EventHandler {
 	}
 
 	private static EventResult onBlockBreak(Level level, BlockPos blockPos, BlockState blockState, ServerPlayer serverPlayer, IntValue intValue) {
-		if (serverPlayer != null && makeTreeFall(blockPos, level, serverPlayer) && !TreeChopCompat.isChoppable(level, blockPos)) {
+		if (serverPlayer != null && !TreeChopCompat.isChoppable(level, blockPos) && makeTreeFall(blockPos, level, serverPlayer)) {
 			return EventResult.interruptFalse();
 		}
 		return EventResult.pass();

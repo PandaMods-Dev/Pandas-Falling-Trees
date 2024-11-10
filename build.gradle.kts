@@ -107,6 +107,8 @@ subprojects {
 				includeGroup("maven.modrinth")
 			}
 		}
+
+		maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
 	}
 
 	@Suppress("UnstableApiUsage")

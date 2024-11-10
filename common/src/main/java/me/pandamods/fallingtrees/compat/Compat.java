@@ -10,15 +10,14 @@
  *  along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.pandamods.fallingtrees.fabric;
+package me.pandamods.fallingtrees.compat;
 
-import me.pandamods.fallingtrees.FallingTrees;
-import me.pandamods.fallingtrees.fabric.compat.CompatFabric;
-import net.fabricmc.api.ModInitializer;
+import dev.architectury.platform.Platform;
 
-public class FallingTreesFabric implements ModInitializer {
-    @Override
-    public void onInitialize() {
-        FallingTrees.init(new CompatFabric());
-    }
+public interface Compat {
+	static boolean hasTreeChop() {
+		return Platform.isModLoaded("treechop");
+	}
+
+	TreeChopCompat getTreeChopCompat();
 }

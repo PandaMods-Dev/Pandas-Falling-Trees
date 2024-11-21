@@ -26,12 +26,7 @@ public class FallingTreesNeoForge {
 			DeferredRegister.create(NeoForgeRegistries.ENTITY_DATA_SERIALIZERS, FallingTrees.MOD_ID);
 
     public FallingTreesNeoForge(IEventBus eventBus) {
-		eventBus.addListener(FMLCommonSetupEvent.class, event -> commonSetup(event, eventBus));
-    }
-
-	public static void commonSetup(FMLCommonSetupEvent event, IEventBus eventBus) {
 		FallingTrees.init();
-
 		ENTITY_DATA.register(eventBus);
-	}
+    }
 }

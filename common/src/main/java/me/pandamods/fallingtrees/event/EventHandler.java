@@ -19,7 +19,6 @@ import me.pandamods.fallingtrees.api.Tree;
 import me.pandamods.fallingtrees.api.TreeData;
 import me.pandamods.fallingtrees.api.TreeDataBuilder;
 import me.pandamods.fallingtrees.api.TreeRegistry;
-import me.pandamods.fallingtrees.compat.TreeChopCompat;
 import me.pandamods.fallingtrees.config.CommonConfig;
 import me.pandamods.fallingtrees.config.FallingTreesConfig;
 import me.pandamods.fallingtrees.entity.TreeEntity;
@@ -42,7 +41,7 @@ public class EventHandler {
 	}
 
 	private static EventResult onBlockBreak(Level level, BlockPos blockPos, BlockState blockState, ServerPlayer serverPlayer, IntValue intValue) {
-		if (serverPlayer != null && !TreeChopCompat.isChoppable(level, blockPos) && makeTreeFall(blockPos, level, serverPlayer)) {
+		if (serverPlayer != null && makeTreeFall(blockPos, level, serverPlayer)) {
 			return EventResult.interruptFalse();
 		}
 		return EventResult.pass();

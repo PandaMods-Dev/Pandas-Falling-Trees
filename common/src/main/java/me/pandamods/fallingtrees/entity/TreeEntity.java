@@ -25,6 +25,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -56,7 +57,6 @@ public class TreeEntity extends Entity {
 
 	public TreeEntity(EntityType<?> entityType, Level level) {
 		super(entityType, level);
-		this.noCulling = true;
 	}
 
 	public static void destroyTree(Set<BlockPos> blockPosList, BlockPos blockPos, LevelAccessor levelAccessor, Tree<?> tree, Player player) {
@@ -141,6 +141,11 @@ public class TreeEntity extends Entity {
 		}
 
 		this.getTree().entityTick(this);
+	}
+
+	@Override
+	public boolean hurtServer(ServerLevel serverLevel, DamageSource damageSource, float f) {
+		return false;
 	}
 
 	public Map<BlockPos, BlockState> getBlocks() {

@@ -67,7 +67,7 @@ public class ChorusTree implements Tree<TreeConfig> {
 			if (this.mineableBlock(blockState)) {
 				for (Direction direction : Direction.values()) {
 					if (blockState.getValue(ChorusPlantBlock.PROPERTY_BY_DIRECTION.get(direction))) {
-						BlockPos neighborPos = originPos.offset(direction.getNormal());
+						BlockPos neighborPos = originPos.offset(direction.getUnitVec3i());
 						loopBlocks(level, neighborPos, builder, loopedBlocks);
 					}
 				}

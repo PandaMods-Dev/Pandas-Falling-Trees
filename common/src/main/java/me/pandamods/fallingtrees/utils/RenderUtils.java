@@ -42,7 +42,7 @@ public class RenderUtils {
 					float g = (float)(i >> 8 & 0xFF) / 255.0f;
 					float h = (float)(i & 0xFF) / 255.0f;
 					blockRenderDispatcher.getModelRenderer().renderModel(poseStack.last(),
-							bufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(blockState, false)), blockState,
+							bufferSource.getBuffer(ItemBlockRenderTypes.getRenderType(blockState)), blockState,
 							bakedModel, f, g, h, packedLight, OverlayTexture.NO_OVERLAY);
 					break;
 				case ENTITYBLOCK_ANIMATED:

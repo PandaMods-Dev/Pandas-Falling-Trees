@@ -91,7 +91,7 @@ public class StandardTree implements Tree<StandardTreeConfig> {
 		logBlocks.forEach(logPos -> {
 			Set<BlockPos> loopedLeavesBlocks = new HashSet<>();
 			for (Direction direction : Direction.values()) {
-				BlockPos neighborPos = logPos.offset(direction.getNormal());
+				BlockPos neighborPos = logPos.offset(direction.getUnitVec3i());
 				loopLeaves(level, neighborPos, leavesBlocks, loopedLeavesBlocks, 1);
 			}
 		});
@@ -103,7 +103,7 @@ public class StandardTree implements Tree<StandardTreeConfig> {
 
 		treeBlocks.forEach(pos -> {
 			for (Direction direction : Direction.values()) {
-				BlockPos neighborPos = pos.offset(direction.getNormal());
+				BlockPos neighborPos = pos.offset(direction.getUnitVec3i());
 				loopExtraBlocks(level, neighborPos, decorationBlocks, loopedDecorationBlocks);
 			}
 		});
@@ -145,7 +145,7 @@ public class StandardTree implements Tree<StandardTreeConfig> {
 			blocks.add(blockPos);
 
 			for (Direction direction : Direction.values()) {
-				BlockPos neighborPos = blockPos.offset(direction.getNormal());
+				BlockPos neighborPos = blockPos.offset(direction.getUnitVec3i());
 				loopLeaves(level, neighborPos, blocks, loopedBlocks, recursionDistance + 1);
 			}
 		}
@@ -161,7 +161,7 @@ public class StandardTree implements Tree<StandardTreeConfig> {
 		if (getConfig().extraBlockFilter.isValid(blockState)) {
 			blocks.add(blockPos);
 
-			loopExtraBlocks(level, blockPos.offset(Direction.DOWN.getNormal()), blocks, loopedBlocks);
+			loopExtraBlocks(level, blockPos.offset(Direction.DOWN.getUnitVec3i()), blocks, loopedBlocks);
 		}
 	}
 

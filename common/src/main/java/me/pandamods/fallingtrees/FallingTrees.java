@@ -28,7 +28,7 @@ public class FallingTrees {
 	public static final FallingTreesConfig CONFIG = new FallingTreesConfig();
 
     public static void init() {
-		TreeTypeRegistry.register();
+		TreeTypeRegistry.TREES.register();
 		SoundRegistry.SOUNDS.register();
 		EntityRegistry.ENTITIES.register();
 		EventHandler.register();
